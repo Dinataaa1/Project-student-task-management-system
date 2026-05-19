@@ -117,9 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                     <tr>
                                         <td>
-                                            <label for="role">Role / Status</label><br>
+                                            <label for="role">Status</label><br>
                                             <select name="role" id="role" required>
-                                                <option value="">-- Pilih Role --</option>
+                                                <option value="">-- Pilih Status --</option>
                                                 <option value="mahasiswa">Mahasiswa</option>
                                                 <option value="dosen">Dosen</option>
                                             </select>
