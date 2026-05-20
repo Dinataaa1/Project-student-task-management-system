@@ -4,7 +4,7 @@ $conn = mysqli_connect(
     "localhost",
     "root",
     "",
-    "data_login"
+    "lol_db"
 );
 
 if (!$conn) {
