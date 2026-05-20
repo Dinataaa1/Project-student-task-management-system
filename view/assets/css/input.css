@@ -1,0 +1,59 @@
+/* Ini untuk membatasi lebar kotak form login agar tidak memanjang */
+.kotak-login {
+    width: 100%; 
+    max-width: 420px; 
+    padding: 20px;
+}
+
+/* Ini untuk teks judul / Logo (LOL) */
+.teks-logo {
+    color: #8b5cf6; 
+    font-weight: 800; 
+    letter-spacing: 1px; 
+    font-size: 2.5rem;
+}
+
+/* Ini untuk teks kecil di bawah judul dan teks lainnya */
+.teks-kecil {
+    font-size: 0.9rem;
+}
+
+/* Ini untuk teks "Sign in with email" di tengah garis */
+.teks-garis {
+    font-size: 0.85rem;
+}
+
+/* Ini untuk kolom input email agar garisnya warna hijau tosca */
+.input-email {
+    border-color: #69b3a2; 
+    outline: none; 
+    box-shadow: none;
+}
+
+/* Ini untuk kolom input password (garis kanannya dihilangkan agar menyatu dengan ikon mata) */
+.input-password {
+    border-right: none; 
+    box-shadow: none;
+}
+
+/* Ini untuk kotak ikon mata (garis kirinya dihilangkan) */
+.ikon-mata {
+    border-left: none; 
+    cursor: pointer;
+}
+
+/* Ini untuk tombol ungu Sign In */
+.tombol-ungu {
+    background-color: #8b5cf6; 
+    padding: 10px; 
+    border-radius: 6px;
+}
+/* Efek saat tombol ungu disorot mouse */
+.tombol-ungu:hover {
+    background-color: #7c4dff;
+}
+
+/* Ini untuk link "Create an account" */
+.link-daftar {
+    color: #2a9d8f;
+}
