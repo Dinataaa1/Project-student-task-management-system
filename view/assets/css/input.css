@@ -113,7 +113,8 @@
 
 /* Card Matkul */
 .matkul-card {
-    width: 160px;
+    flex: 1;
+    width: 140px;
     height: 120px;
     background-color: #ffffff;
     border-radius: 16px;
@@ -186,6 +187,9 @@
     text-align: center;
     margin-top: 20px;
 }
+/* =========================================
+   WIDGET KALENDER STYLES
+   ========================================= */
 .date-circle {
     width: 35px;
     height: 35px;
@@ -194,6 +198,102 @@
     justify-content: center;
     border-radius: 50%;
     margin: 0 auto;
+    transition: 0.2s; /* Efek halus saat ganti bulan */
 }
-.date-circle.outline { border: 1px solid white; }
-.date-circle.filled-pink { background-color: #fa8c96; }
+
+/* PRIORITAS 1: Penanda Hari Ini (Hijau Pastel) */
+.date-circle.hari-ini {
+    background-color: #a8e6cf;
+    color: #1a4a38; /* Warna teks hijau sangat gelap agar kontras & terbaca */
+    font-weight: 900;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Efek melayang sedikit */
+}
+
+/* PRIORITAS 2: Penanda Hari Libur / Minggu (Pink Coral) */
+.date-circle.hari-libur {
+    background-color: #fa8c96;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* PRIORITAS 3: Penanda DL Tugas (Garis Putih Solid) */
+/* Garis ini bisa menumpuk di kotak biru, pink, maupun hijau! */
+.date-circle.ada-tugas {
+    border: 2px solid #ffffff;
+}
+
+/* HALAMAN DAFTAR TUGAS STYLES
+/* Card Tugas (Ukuran lebih besar dan teks di tengah) */
+.tugas-card {
+    width: 280px; 
+    height: 180px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    align-items: center; /* Membuat teks berada di tengah secara vertikal */
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #333;
+    border: none;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.tugas-card:hover {
+    transform: translateY(-5px); /* Efek melayang saat disorot mouse */
+    color: #333;
+}
+
+/* =========================================
+   HALAMAN DAFTAR MATA KULIAH STYLES
+   ========================================= */
+
+/* Card Matkul Besar (3 Kolom) */
+.matkul-card-lg {
+    width: calc(33.333% - 1.5rem); /* Membagi layar jadi 3 kolom rata */
+    min-width: 260px; /* Batas aman layar sempit */
+    height: 180px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    align-items: flex-end; /* Memaksa konten turun ke bawah */
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.2s;
+}
+
+.matkul-card-lg:hover {
+    transform: translateY(-5px);
+    color: #333;
+}
+
+/* Memperbesar ukuran hiasan khusus card besar */
+.blob-hiasan-lg {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+
+/* Styling teks judul matkul */
+.judul-matkul {
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+/* Styling teks see detail */
+.see-detail {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #333;
+}

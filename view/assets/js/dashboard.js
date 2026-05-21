@@ -19,11 +19,8 @@ const dataLibur = [
     "2026-5-23"  
 ]; 
 
-const dataTugas = [
-    "2026-5-10", 
-    "2026-5-15", 
-    "2026-5-23"  
-];
+// Membaca data array dari PHP (database) atau kosong jika belum ada tugas
+const dataTugas = typeof dataTugasDB !== 'undefined' ? dataTugasDB : [];
 
 const wadahTanggal = document.getElementById('wadahTanggal');
 const displayBulanTahun = document.getElementById('displayBulanTahun');
@@ -47,30 +44,26 @@ function renderKalender(bulan, tahun) {
 
     // 2. Cetak tanggal aktif
     for (let i = 1; i <= totalHari; i++) {
-        let kelasCSS = "date-circle";
+        let kelasCSS = "date-circle"; // Class dasar
         let formatCek = `${tahun}-${bulan + 1}-${i}`;
         let hariDalamSeminggu = new Date(tahun, bulan, i).getDay();
-        let styleInline = ""; // Variabel khusus untuk warna kustom
 
         // ATURAN 1: Cek Hari Ini (Prioritas Utama)
-        // Jika tanggal, bulan, dan tahun persis sama dengan hari ini
         if (i === tanggalReal.getDate() && bulan === tanggalReal.getMonth() && tahun === tanggalReal.getFullYear()) {
-            kelasCSS += " text-dark font-weight-bold";
-            styleInline = "background-color: #a8e6cf;"; // Hijau Pastel
+            kelasCSS += " hari-ini"; 
         } 
-        // ATURAN 2: Cek Hari Libur / Hari Minggu (Warna Pink)
+        // ATURAN 2: Cek Hari Libur atau Hari Minggu
         else if (hariDalamSeminggu === 0 || dataLibur.includes(formatCek)) {
-            kelasCSS += " filled-pink text-white border-0";
+            kelasCSS += " hari-libur";
         }
 
-        // ATURAN 3: Cek Tugas (Garis Putih luar)
-        // Ini tidak ditaruh di if/else supaya hari libur atau hari ini TETAP bisa ada tugasnya
+        // ATURAN 3: Cek Ada Tugas (Bisa digabung dengan aturan 1 & 2)
         if (dataTugas.includes(formatCek)) {
-            kelasCSS += " outline";
+            kelasCSS += " ada-tugas";
         }
 
-        // Cetak elemen beserta kelas CSS dan style inline-nya
-        wadahTanggal.innerHTML += `<div class="${kelasCSS}" style="${styleInline}">${i}</div>`;
+        // Cetak ke layar HTML (Sudah bersih tanpa inline style!)
+        wadahTanggal.innerHTML += `<div class="${kelasCSS}">${i}</div>`;
         slotTerhitung++;
     }
 
