@@ -42,6 +42,17 @@ CREATE TABLE tugas (
     FOREIGN KEY (matkul_id) REFERENCES mata_kuliah(id) ON DELETE CASCADE
 );
 
+-- TRANSACTION TABLE
+
+CREATE TABLE krs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    mahasiswa_id INT NOT NULL,
+    mata_kuliah_id INT NOT NULL,
+    semester VARCHAR(5),
+    FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id) ON DELETE CASCADE,
+    FOREIGN KEY (mata_kuliah_id) REFERENCES mata_kuliah(id) ON DELETE CASCADE
+);
+
 CREATE TABLE pengumpulan_tugas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tugas_id INT NOT NULL,
