@@ -1,80 +1,87 @@
-// ==============================================================
-// LOGIKA KALENDER DENGAN UKURAN UTUH & PENANDA HARI INI
-// ==============================================================
-
+// ==========================================================================
+// INISIALISASI VARIABEL WAKTU DASAR
+// ==========================================================================
 const namaBulan = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-// Mengambil waktu real-time dari sistem
 let tanggalReal = new Date();
 let bulanIni = tanggalReal.getMonth(); 
 let tahunIni = tanggalReal.getFullYear();
 
-// Pembatasan navigasi waktu (Maksimal maju/mundur 1 Tahun)
+// Membatasi jangkauan navigasi kalender (Maksimal 1 tahun mundur/maju)
 const batasTahunBawah = tahunIni - 1;
 const batasTahunAtas = tahunIni + 1;
 
-// Data Simulasi Hari Libur & Tugas (Format: YYYY-M-D)
+// ==========================================================================
+// PENERIMAAN DATA DARI DATABASE (VIA PHP)
+// ==========================================================================
 const dataLibur = [
     "2026-5-1",  
     "2026-5-14", 
     "2026-5-23"  
 ]; 
 
-// Membaca data array dari PHP (database) atau kosong jika belum ada tugas
+// Mengambil variabel global berisi array tanggal tugas dari file PHP
 const dataTugas = typeof dataTugasDB !== 'undefined' ? dataTugasDB : [];
 
 const wadahTanggal = document.getElementById('wadahTanggal');
 const displayBulanTahun = document.getElementById('displayBulanTahun');
 
+// ==========================================================================
+// FUNGSI RENDER KALENDER
+// ==========================================================================
 function renderKalender(bulan, tahun) {
     wadahTanggal.innerHTML = ''; 
     
+    // Menampilkan informasi bulan dan tahun di bagian tengah header kalender
     displayBulanTahun.innerHTML = `${namaBulan[bulan]}<br><small>${tahun}</small>`;
 
+    // Mencari indeks hari permulaan bulan dan total hari dalam bulan tersebut
     const hariPertama = new Date(tahun, bulan, 1).getDay();
     const totalHari = new Date(tahun, bulan + 1, 0).getDate();
 
+    // Menentukan total slot grid agar struktur kalender selalu konsisten (7 kolom x 6 baris)
     const totalSlotKalender = 42;
     let slotTerhitung = 0;
 
-    // 1. Cetak slot kosong awal
+    // Mencetak slot kosong untuk penyesuaian hari pertama
     for (let i = 0; i < hariPertama; i++) {
         wadahTanggal.innerHTML += `<div></div>`;
         slotTerhitung++;
     }
 
-    // 2. Cetak tanggal aktif
+    // Mencetak elemen blok tanggal beserta aturan penanda warnanya
     for (let i = 1; i <= totalHari; i++) {
-        let kelasCSS = "date-circle"; // Class dasar
+        let kelasCSS = "date-circle"; 
         let formatCek = `${tahun}-${bulan + 1}-${i}`;
         let hariDalamSeminggu = new Date(tahun, bulan, i).getDay();
 
-        // ATURAN 1: Cek Hari Ini (Prioritas Utama)
+        // Aturan 1: Memberikan penanda jika tanggal bertepatan dengan waktu saat ini
         if (i === tanggalReal.getDate() && bulan === tanggalReal.getMonth() && tahun === tanggalReal.getFullYear()) {
             kelasCSS += " hari-ini"; 
         } 
-        // ATURAN 2: Cek Hari Libur atau Hari Minggu
+        // Aturan 2: Memberikan penanda jika bertepatan dengan hari libur nasional atau akhir pekan (Minggu)
         else if (hariDalamSeminggu === 0 || dataLibur.includes(formatCek)) {
             kelasCSS += " hari-libur";
         }
 
-        // ATURAN 3: Cek Ada Tugas (Bisa digabung dengan aturan 1 & 2)
+        // Aturan 3: Memberikan garis luar putih jika mahasiswa memiliki batas waktu tugas pada tanggal tersebut
         if (dataTugas.includes(formatCek)) {
             kelasCSS += " ada-tugas";
         }
 
-        // Cetak ke layar HTML (Sudah bersih tanpa inline style!)
         wadahTanggal.innerHTML += `<div class="${kelasCSS}">${i}</div>`;
         slotTerhitung++;
     }
 
-    // 3. Cetak slot kosong akhir supaya tetap 42 kotak
+    // Menggenapkan sisa slot matriks agar tinggi kalender tidak berubah dinamis
     while (slotTerhitung < totalSlotKalender) {
         wadahTanggal.innerHTML += `<div></div>`;
         slotTerhitung++;
     }
 }
 
-// Navigasi Tombol Mundur (Prev)
+// ==========================================================================
+// KONTROL NAVIGASI KALENDER MUNDUR DAN MAJU
+// ==========================================================================
 document.getElementById('btnPrev').addEventListener('click', () => {
     if (tahunIni > batasTahunBawah || (tahunIni === batasTahunBawah && bulanIni > 0)) {
         bulanIni--;
@@ -88,7 +95,6 @@ document.getElementById('btnPrev').addEventListener('click', () => {
     }
 });
 
-// Navigasi Tombol Maju (Next)
 document.getElementById('btnNext').addEventListener('click', () => {
     if (tahunIni < batasTahunAtas || (tahunIni === batasTahunAtas && bulanIni < 11)) {
         bulanIni++;
@@ -102,14 +108,5 @@ document.getElementById('btnNext').addEventListener('click', () => {
     }
 });
 
-// Eksekusi render pertama kali
+// Menjalankan fungsi penyusunan kalender pertama kali saat DOM dimuat
 renderKalender(bulanIni, tahunIni);
-
-// Logika Sidebar Interaktif
-const menuItems = document.querySelectorAll('.menu-item');
-menuItems.forEach(item => {
-    item.addEventListener('click', function() {
-        menuItems.forEach(m => m.classList.remove('active'));
-        this.classList.add('active');
-    });
-});

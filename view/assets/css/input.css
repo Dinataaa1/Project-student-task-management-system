@@ -1,11 +1,15 @@
-/* Ini untuk membatasi lebar kotak form login agar tidak memanjang */
+/* ==========================================================================
+   1. PENGATURAN UMUM & LOGIN
+   ========================================================================== */
+
+/* Membatasi lebar maksimal kotak form login */
 .kotak-login {
     width: 100%; 
     max-width: 420px; 
     padding: 20px;
 }
 
-/* Ini untuk teks judul / Logo (LOL) */
+/* Mengatur gaya teks judul logo */
 .teks-logo {
     color: #8b5cf6; 
     font-weight: 800; 
@@ -13,61 +17,65 @@
     font-size: 2.5rem;
 }
 
-/* Ini untuk teks kecil di bawah judul dan teks lainnya */
+/* Mengatur ukuran font standar untuk elemen teks kecil */
 .teks-kecil {
     font-size: 0.9rem;
 }
 
-/* Ini untuk teks "Sign in with email" di tengah garis */
+/* Mengatur ukuran font untuk teks pembatas form */
 .teks-garis {
     font-size: 0.85rem;
 }
 
-/* Ini untuk kolom input email agar garisnya warna hijau tosca */
+/* Menghilangkan border bawaan dan mengubah warna garis input email */
 .input-email {
     border-color: #69b3a2; 
     outline: none; 
     box-shadow: none;
 }
 
-/* Ini untuk kolom input password (garis kanannya dihilangkan agar menyatu dengan ikon mata) */
+/* Menghilangkan garis kanan pada input password untuk menyatu dengan ikon mata */
 .input-password {
     border-right: none; 
     box-shadow: none;
 }
 
-/* Ini untuk kotak ikon mata (garis kirinya dihilangkan) */
+/* Menghilangkan garis kiri pada ikon mata pembuka password */
 .ikon-mata {
     border-left: none; 
     cursor: pointer;
 }
 
-/* Ini untuk tombol ungu Sign In */
+/* Mengatur gaya dasar tombol utama */
 .tombol-ungu {
     background-color: #8b5cf6; 
     padding: 10px; 
     border-radius: 6px;
 }
-/* Efek saat tombol ungu disorot mouse */
+
+/* Mengubah warna latar tombol saat kursor diarahkan */
 .tombol-ungu:hover {
     background-color: #7c4dff;
 }
 
-/* Ini untuk link "Create an account" */
+/* Mengatur warna teks tautan pendaftaran */
 .link-daftar {
     color: #2a9d8f;
 }
 
-/* ------------------------------------------------------------------------------------------------------------------------------------------- */
-/* DASBOARD MAHASISWA STYLES */
-/* Layout Utama */
+
+/* ==========================================================================
+   2. LAYOUT UTAMA DASHBOARD & SIDEBAR
+   ========================================================================== */
+
+/* Mengatur kontainer utama agar memenuhi tinggi layar penuh */
 .dashboard-wrapper {
     display: flex;
     min-height: 100vh;
     background-color: #f8f9fa;
 }
 
-/* Sidebar Kiri */
+/* Mengatur tata letak dan ukuran sidebar navigasi kiri */
 .sidebar {
     width: 80px;
     background-color: #ffffff;
@@ -78,6 +86,8 @@
     padding-top: 20px;
     z-index: 10;
 }
+
+/* Mengatur gaya item menu di dalam sidebar */
 .sidebar-item {
     width: 100%;
     padding: 15px 0;
@@ -86,12 +96,14 @@
     cursor: pointer;
     transition: 0.3s;
 }
+
+/* Penanda visual untuk menu yang sedang aktif dibuka */
 .sidebar-item.active {
-    background-color: #00a0e3; /* Warna biru aktif */
+    background-color: #00a0e3; 
     color: white;
 }
 
-/* Header Atas (Topbar) */
+/* Mengatur tata letak header atas aplikasi */
 .topbar {
     background-color: #c4c4c4;
     height: 70px;
@@ -101,20 +113,42 @@
     padding: 0 30px;
 }
 
-/* Konten Utama */
+/* Mengatur area konten utama agar mengambil sisa ruang layar yang tersedia */
 .main-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
+
+/* Memberikan jarak (padding) pada area isi konten */
 .content-area {
     padding: 30px;
 }
 
-/* Card Matkul */
+
+/* ==========================================================================
+   3. KOMPONEN REUSABLE (BLOB HIASAN)
+   ========================================================================== */
+
+/* Warna gradient dasar untuk hiasan oranye */
+.blob-orange {
+    background: linear-gradient(135deg, #ffcf9e 0%, #ffe0b2 100%) !important;
+}
+
+/* Warna gradient dasar untuk hiasan biru */
+.blob-blue {
+    background: linear-gradient(135deg, #99ddff 0%, #e6f7ff 100%) !important;
+}
+
+
+/* ==========================================================================
+   4. HALAMAN BERANDA (DASHBOARD KECIL)
+   ========================================================================== */
+
+/* Mengatur ukuran dan tata letak kartu mata kuliah ukuran kecil */
 .matkul-card {
     flex: 1;
-    width: 140px;
+    min-width: 140px; 
     height: 120px;
     background-color: #ffffff;
     border-radius: 16px;
@@ -127,8 +161,18 @@
     font-weight: bold;
     color: #333;
     border: none;
+    cursor: pointer; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-/* Hiasan Lengkungan di Card */
+
+/* Menambahkan efek elevasi saat kartu matkul disorot kursor */
+.matkul-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1); 
+    color: #333;
+}
+
+/* Mengatur posisi ornamen blob di dalam kartu ukuran kecil */
 .blob-hiasan {
     position: absolute;
     top: -20px;
@@ -137,10 +181,8 @@
     height: 80px;
     border-radius: 50%;
 }
-.blob-orange { background: linear-gradient(135deg, #ffcc99, #ffe6cc); }
-.blob-blue { background: linear-gradient(135deg, #99ccff, #cce5ff); }
 
-/* Widget Kalender */
+/* Mengatur kontainer utama widget kalender */
 .calendar-widget {
     display: flex;
     border-radius: 12px;
@@ -148,20 +190,24 @@
     margin-top: 30px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
+/* Mengatur gaya area kalender sebelah kiri (informasi deadline) */
 .cal-left {
-    background-color: #fa8c96; /* Warna pink */
+    background-color: #fa8c96; 
     color: white;
     padding: 25px;
     width: 300px;
 }
+
+/* Mengatur gaya area kalender sebelah kanan (grid penanggalan) */
 .cal-right {
-    background-color: #00a0e3; /* Warna biru kalender */
+    background-color: #00a0e3; 
     color: white;
     padding: 25px;
     flex-grow: 1;
 }
 
-/* Elemen di dalam Kalender Kiri */
+/* Mengatur gaya tombol pembuat catatan di kalender */
 .btn-notes {
     background-color: #ffb3b9;
     color: #333;
@@ -172,6 +218,8 @@
     padding: 8px;
     margin-top: 20px;
 }
+
+/* Mengatur kotak indikator deadline terdekat */
 .dl-box {
     background-color: #ffb3b9;
     height: 25px;
@@ -179,7 +227,7 @@
     margin-bottom: 8px;
 }
 
-/* Elemen di dalam Kalender Kanan */
+/* Mengatur grid susunan penanggalan menjadi 7 kolom rata */
 .cal-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -187,9 +235,8 @@
     text-align: center;
     margin-top: 20px;
 }
-/* =========================================
-   WIDGET KALENDER STYLES
-   ========================================= */
+
+/* Mengatur bentuk dasar lingkaran tanggal pada kalender */
 .date-circle {
     width: 35px;
     height: 35px;
@@ -198,32 +245,87 @@
     justify-content: center;
     border-radius: 50%;
     margin: 0 auto;
-    transition: 0.2s; /* Efek halus saat ganti bulan */
+    transition: 0.2s; 
 }
 
-/* PRIORITAS 1: Penanda Hari Ini (Hijau Pastel) */
+/* Indikator penanda tanggal hari ini */
 .date-circle.hari-ini {
     background-color: #a8e6cf;
-    color: #1a4a38; /* Warna teks hijau sangat gelap agar kontras & terbaca */
+    color: #1a4a38; 
     font-weight: 900;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Efek melayang sedikit */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
 }
 
-/* PRIORITAS 2: Penanda Hari Libur / Minggu (Pink Coral) */
+/* Indikator penanda hari libur atau akhir pekan */
 .date-circle.hari-libur {
     background-color: #fa8c96;
     color: #ffffff;
     font-weight: bold;
 }
 
-/* PRIORITAS 3: Penanda DL Tugas (Garis Putih Solid) */
-/* Garis ini bisa menumpuk di kotak biru, pink, maupun hijau! */
+/* Indikator penanda garis outline putih untuk tanggal dengan tugas */
 .date-circle.ada-tugas {
     border: 2px solid #ffffff;
 }
 
-/* HALAMAN DAFTAR TUGAS STYLES
-/* Card Tugas (Ukuran lebih besar dan teks di tengah) */
+
+/* ==========================================================================
+   5. HALAMAN DAFTAR MATA KULIAH (GRID 3 KOLOM)
+   ========================================================================== */
+
+/* Mengatur ukuran kartu mata kuliah skala besar (membagi 3 kolom layar) */
+.matkul-card-lg {
+    width: calc(33.333% - 1.5rem); 
+    min-width: 260px; 
+    height: 180px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    align-items: flex-end; 
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.2s;
+}
+
+/* Efek elevasi pada kartu besar saat disorot kursor */
+.matkul-card-lg:hover {
+    transform: translateY(-5px);
+    color: #333;
+}
+
+/* Mengatur posisi ornamen blob di dalam kartu skala besar */
+.blob-hiasan-lg {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+
+/* Mengatur tipografi judul mata kuliah */
+.judul-matkul {
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+/* Mengatur tipografi teks navigasi detail */
+.see-detail {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #333;
+}
+
+
+/* ==========================================================================
+   6. HALAMAN DAFTAR TUGAS
+   ========================================================================== */
+
+/* Mengatur bentuk kartu daftar tugas spesifik */
 .tugas-card {
     width: 280px; 
     height: 180px;
@@ -234,7 +336,7 @@
     overflow: hidden;
     padding: 20px;
     display: flex;
-    align-items: center; /* Membuat teks berada di tengah secara vertikal */
+    align-items: center;
     font-size: 1.2rem;
     font-weight: 800;
     color: #333;
@@ -243,57 +345,63 @@
     transition: transform 0.2s;
 }
 
+/* Efek elevasi pada kartu tugas saat disorot kursor */
 .tugas-card:hover {
-    transform: translateY(-5px); /* Efek melayang saat disorot mouse */
-    color: #333;
-}
-
-/* =========================================
-   HALAMAN DAFTAR MATA KULIAH STYLES
-   ========================================= */
-
-/* Card Matkul Besar (3 Kolom) */
-.matkul-card-lg {
-    width: calc(33.333% - 1.5rem); /* Membagi layar jadi 3 kolom rata */
-    min-width: 260px; /* Batas aman layar sempit */
-    height: 180px;
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    position: relative;
-    overflow: hidden;
-    padding: 20px;
-    display: flex;
-    align-items: flex-end; /* Memaksa konten turun ke bawah */
-    text-decoration: none;
-    color: #333;
-    transition: transform 0.2s;
-}
-
-.matkul-card-lg:hover {
     transform: translateY(-5px);
     color: #333;
 }
 
-/* Memperbesar ukuran hiasan khusus card besar */
-.blob-hiasan-lg {
+
+/* ==========================================================================
+   7. HALAMAN DETAIL TUGAS & MODAL
+   ========================================================================== */
+
+/* Mengatur layout kontainer utama rincian tugas agar melebar penuh */
+.detail-tugas-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden; 
+    padding: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+    border: none;
+}
+
+/* Mengatur posisi dan ukuran blob sudut kanan atas pada rincian tugas */
+.blob-hiasan-detail {
     position: absolute;
-    top: -30px;
-    right: -30px;
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
+    width: 250px; 
+    height: 250px;
+    top: -100px; 
+    right: -100px; 
+    border-radius: 50%; 
+    z-index: 1;
+    opacity: 0.9;
 }
 
-/* Styling teks judul matkul */
-.judul-matkul {
-    font-size: 1.3rem;
-    font-weight: 800;
+/* Menaikkan z-index konten agar tidak tertutup blob latar belakang */
+.detail-card-content {
+    position: relative;
+    z-index: 2; 
 }
 
-/* Styling teks see detail */
-.see-detail {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #333;
+/* Mengatur tampilan label status berkas lampiran */
+.badge-lampiran {
+    background-color: #e6f9f2;
+    color: #00d284;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 0.85rem;
+}
+
+/* Modifikasi antarmuka kotak modal unggah berkas bawaan Bootstrap */
+.custom-modal-content {
+    background-color: #d1d3d4; 
+    border-radius: 16px;
+    border: none;
+    padding: 20px;
 }

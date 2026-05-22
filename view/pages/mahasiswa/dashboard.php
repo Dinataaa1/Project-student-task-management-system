@@ -1,14 +1,26 @@
 <?php
+// ==========================================================================
+// 1. OTENTIKASI & KONEKSI BASIS DATA
+// ==========================================================================
+// session_start();
+// if (!isset($_SESSION['mahasiswa_id'])) {
+//     header("Location: ../../login.php"); 
+//     exit();
+// }
 
-// 1. MEMANGGIL HEADER & KONEKSI DATABASE
 include '../../components/header.php';
 include '../../../config/koneksi.php'; 
 
+// Data simulasi pengguna login.
 $mahasiswa_id = 1; 
 $nama_user = "Luthfi Bahrur R."; 
 
+// ==========================================================================
+// 2. LOGIKA PENGAMBILAN DATA (QUERY)
+// ==========================================================================
+// Menarik data nama mata kuliah (SUDAH TERMASUK ID UNTUK LINK)
 $query_matkul = mysqli_query($conn, "
-    SELECT mk.nama_matkul 
+    SELECT mk.id, mk.nama_matkul 
     FROM mata_kuliah mk
     JOIN krs k ON mk.id = k.mata_kuliah_id
     WHERE k.mahasiswa_id = $mahasiswa_id
@@ -21,12 +33,14 @@ $index_warna = 0;
 
 while ($row = mysqli_fetch_assoc($query_matkul)) {
     $data_matkul[] = [
+        "id" => $row['id'], // ID disimpan untuk link
         "nama" => $row['nama_matkul'],
         "warna" => $pilihan_warna[$index_warna % 2] 
     ];
     $index_warna++;
 }
 
+// Menarik seluruh data batas waktu tugas
 $query_tugas = mysqli_query($conn, "
     SELECT DATE(t.deadline) as tgl_deadline 
     FROM tugas t
@@ -41,6 +55,7 @@ while ($row = mysqli_fetch_assoc($query_tugas)) {
     $array_deadline[] = $tanggal_mentah;
 }
 
+// Menarik dua data tugas dengan tenggat waktu terdekat
 $query_dl_terdekat = mysqli_query($conn, "
     SELECT t.judul_tugas, t.deadline 
     FROM tugas t
@@ -61,6 +76,7 @@ $tahun_sekarang = date('Y');
 </script>
 
 <div class="dashboard-wrapper">
+    
     <div class="sidebar">
         <div class="mb-4">
             <h4 style="color: #fa8c96; font-weight: 900;">V</h4>
@@ -85,6 +101,7 @@ $tahun_sekarang = date('Y');
     </div>
 
     <div class="main-content">
+        
         <div class="topbar">
             <h2 class="m-0 fw-bold" style="color: #555;">LOL</h2>
             <div class="position-relative" style="cursor: pointer;" onclick="alert('Belum ada notifikasi baru.')">
@@ -98,12 +115,12 @@ $tahun_sekarang = date('Y');
 
             <div class="d-flex gap-3 align-items-center flex-wrap">
                 <?php foreach($data_matkul as $matkul) : ?>
-                    <div class="matkul-card">
+                    <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card text-decoration-none">
                         <div class="blob-hiasan <?= $matkul['warna'] ?>"></div>
                         <span><?= $matkul['nama'] ?></span>
-                    </div>
+                    </a>
                 <?php endforeach; ?>
-                <a href="daftar_matkul.php" class="ms-3 fw-bold text-decoration-none" style="color: #00a0e3;">See all ></a>
+                <a href="daftar_tugas.php" class="ms-3 fw-bold text-decoration-none" style="color: #00a0e3;">See all ></a>
             </div>
 
             <div class="calendar-widget">
@@ -120,6 +137,7 @@ $tahun_sekarang = date('Y');
                     
                     <div class="mt-4">
                         <div class="bg-light text-dark fw-bold px-2 py-1 mb-2 text-center" style="border-radius: 4px; font-size: 0.85rem;">DL Terdekat</div>
+                        
                         <?php if (mysqli_num_rows($query_dl_terdekat) > 0) : ?>
                             <?php while($dl = mysqli_fetch_assoc($query_dl_terdekat)) : ?>
                                 <?php $tgl_format = date('d M', strtotime($dl['deadline'])); ?>

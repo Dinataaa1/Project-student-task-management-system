@@ -1,12 +1,27 @@
 <?php
-include '../../components/header.php';
-include '../../../config/koneksi.php'; 
+// ==========================================================================
+// 1. OTENTIKASI & KONEKSI BASIS DATA
+// ==========================================================================
+// session_start();
+// if (!isset($_SESSION['mahasiswa_id'])) {
+//     header("Location: ../../login.php"); 
+//     exit();
+// }
 
+include '../../components/header.php';
+include '../../../config/koneksi.php';
+
+// Data simulasi pengguna login. Akan diubah menjadi data dinamis melalui $_SESSION.
 $mahasiswa_id = 1; 
 $nama_user = "Luthfi Bahrur R."; 
 
+// ==========================================================================
+// 2. LOGIKA PENYARINGAN DATA (FILTER) & PENGAMBILAN DATA TUGAS
+// ==========================================================================
+// Menangkap parameter pemilihan kategori mata kuliah pada URL (melalui parameter GET)
 $matkul_aktif = isset($_GET['matkul']) ? $_GET['matkul'] : '';
 
+// Mengambil seluruh entitas mata kuliah untuk keperluan pengisian struktur form select (dropdown)
 $query_matkul = mysqli_query($conn, "
     SELECT mk.id, mk.nama_matkul 
     FROM mata_kuliah mk
@@ -14,6 +29,7 @@ $query_matkul = mysqli_query($conn, "
     WHERE k.mahasiswa_id = $mahasiswa_id
 ");
 
+// Melakukan pemetaan string judul header berdasarkan kondisi pemilihan pengguna
 $nama_matkul_terpilih = "Semua";
 if ($matkul_aktif != '') {
     $cari_nama = mysqli_query($conn, "SELECT nama_matkul FROM mata_kuliah WHERE id = '$matkul_aktif'");
@@ -22,6 +38,7 @@ if ($matkul_aktif != '') {
     }
 }
 
+// Menjalankan evaluasi pengambilan tugas berdasarkan parameter filter bersyarat
 $kondisi_filter = $matkul_aktif != '' ? "AND t.matkul_id = '$matkul_aktif'" : "";
 $query_tugas = mysqli_query($conn, "
     SELECT t.id, t.judul_tugas 
@@ -33,6 +50,7 @@ $query_tugas = mysqli_query($conn, "
 ?>
 
 <div class="dashboard-wrapper">
+    
     <div class="sidebar">
         <div class="mb-4">
             <h4 style="color: #fa8c96; font-weight: 900;">V</h4>
@@ -45,13 +63,15 @@ $query_tugas = mysqli_query($conn, "
         <a href="dashboard.php" class="sidebar-item text-decoration-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16"><path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/></svg>
         </a>
-        
         <a href="daftar_matkul.php" class="sidebar-item text-decoration-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-journal-bookmark-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8V1z"/><path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/></svg>
         </a>
         
         <a href="daftar_tugas.php" class="sidebar-item active text-decoration-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16"><path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708Z"/></svg>
+        </a>
+        <a href="#" class="sidebar-item text-decoration-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16"><path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/></svg>
         </a>
     </div>
 
