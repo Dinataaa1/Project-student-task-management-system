@@ -1,3 +1,4 @@
+CREATE DATABASE lol_db;
 USE lol_db;
 
 CREATE TABLE users (
