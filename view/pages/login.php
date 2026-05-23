@@ -1,6 +1,6 @@
 <?php
 // Pemanggilan Header
-include 'components/header.php';
+include '../components/header.php';
 ?>
 
 <div class="d-flex justify-content-center align-items-center vh-100 bg-white">
@@ -87,5 +87,5 @@ include 'components/header.php';
 
 <?php
 // Pemanggilan Footer
-include 'components/footer.php';
+include '../components/footer.php';
 ?>
