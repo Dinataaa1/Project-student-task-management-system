@@ -3,7 +3,7 @@
 require_once '../../../controllers/mahasiswa/daftar_matkul.php';
 // Menyiapkan variabel untuk komponen Header & Sidebar
 $active_page = 'matkul'; // (atau 'tugas', 'matkul')
-include '../../components/header.php';
+include_once '../../components/header.php';
 ?>
 
 <div class="dashboard-wrapper">
