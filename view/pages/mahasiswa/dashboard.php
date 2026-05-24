@@ -1,13 +1,8 @@
 <?php
-// ==========================================================================
-// MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
-// ==========================================================================
 require_once '../../../controllers/mahasiswa/dashboard.php';
 
 // Menyiapkan variabel untuk komponen Header & Sidebar
-$active_page = 'dashboard'; // Memberi tahu sidebar untuk menyalakan ikon Home
-$jalur_css = "../../assets/css/input.css"; 
-
+$active_page = 'dashboard';
 include '../../components/header.php';
 ?>
 

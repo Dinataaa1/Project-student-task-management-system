@@ -1,12 +1,9 @@
 <?php
-// ==========================================================================
-// MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
-// ==========================================================================
 require_once '../../../controllers/mahasiswa/daftar_tugas.php';
 
 // Setup variabel untuk komponen
-$active_page = 'tugas'; // Sidebar akan menyorot ikon Papan Jalan (Clipboard)
-$jalur_css = "../../assets/css/input.css"; 
+$active_page = 'tugas';
+include '../../components/header.php';
 
 include '../../components/header.php';
 ?>

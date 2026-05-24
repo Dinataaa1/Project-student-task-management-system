@@ -12,11 +12,10 @@
         // Jika halaman yang memanggil header ini belum menentukan arah, 
         // maka gunakan default mundur 2 langkah (untuk dashboard, dll)
         if (!isset($jalur_css)) {
-            $jalur_css = "../../assets/css/input.css";
+            $jalur_css = "../../assets/css/index.css"; 
         }
     ?>
     
     <link href="<?= $jalur_css ?>" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>view/assets/css/index.cs" rel="stylesheet">
 </head>
 <body class="bg-light">
