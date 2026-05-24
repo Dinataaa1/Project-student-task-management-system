@@ -7,10 +7,9 @@
 //     header("Location: ../../login.php"); 
 //     exit();
 // }
-
-include '../../components/header.php';
 include '../../../config/koneksi.php'; 
 
+include '../../components/header.php';
 // Data simulasi pengguna login.
 $mahasiswa_id = 1; 
 $nama_user = "Luthfi Bahrur R."; 

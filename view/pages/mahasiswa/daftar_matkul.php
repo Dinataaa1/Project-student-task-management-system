@@ -8,8 +8,9 @@
 //     exit();
 // }
 
-include '../../components/header.php';
 include '../../../config/koneksi.php';
+
+include '../../components/header.php';
 
 // Data simulasi pengguna login. Akan diubah menjadi data dinamis melalui $_SESSION.
 $mahasiswa_id = 1; 
