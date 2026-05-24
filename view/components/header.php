@@ -7,6 +7,6 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <link href="../../assets/css/input.css?v=1.1" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>view/assets/css/index.cs" rel="stylesheet">
 </head>
 <body class="bg-light">
