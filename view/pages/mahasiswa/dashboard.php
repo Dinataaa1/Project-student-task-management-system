@@ -2,11 +2,11 @@
 // ==========================================================================
 // MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
 // ==========================================================================
-require_once '../../../controllers/mahasiswa/dashboard.php';
+require_once __DIR__ . '/../../../controllers/mahasiswa/dashboard.php';
 
 // Menyiapkan variabel untuk komponen Header & Sidebar
 $active_page = 'dashboard'; // Memberi tahu sidebar untuk menyalakan ikon Home
-include '../../components/header.php';
+include_once __DIR__ . '/../../components/header.php';
 ?>
 
 <script>
@@ -15,7 +15,7 @@ include '../../components/header.php';
 
 <div class="dashboard-wrapper">
     
-    <?php include '../../components/sidebar.php'; ?>
+    <?php include __DIR__ . '/../../components/sidebar.php'; ?>
 
     <div class="main-content">
         
