@@ -1,10 +1,17 @@
-
-/* 2. Import CSS Spesifik Halaman */
+/* memanggil semua file css pecahan agar terkumpul jadi satu kesatuan */
+@import 'components/layout.css';
+@import 'components/blob.css';
+@import 'components/modal.css';
 @import 'auth/login.css';
+/* import css spesifik halaman mahasiswa */
+@import 'pages/mahasiswa/dashboard.css';
+@import 'pages/mahasiswa/daftar_matkul.css';
+@import 'pages/mahasiswa/daftar_tugas.css';
+@import 'pages/mahasiswa/detail_tugas.css';
 
-/* 3. Utility / Custom Styling Tambahan */
+/* atur font, warna latar dasar, dan reset margin bawaan browser */
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'inter', sans-serif;
     background-color: #f8f9fa;
     margin: 0;
     padding: 0;

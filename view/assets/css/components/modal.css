@@ -1,0 +1,62 @@
+/* kotak putih utama pop-up dengan sudut sangat melengkung dan bayangan */
+.custom-modal-figma {
+    background-color: #ffffff;
+    border-radius: 40px;
+    border: none;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+/* tombol pilih file yang diubah gayanya menyerupai pil ungu pucat */
+.btn-file-figma {
+    background-color: #d2cddc;
+    color: #000000;
+    font-weight: 800;
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-size: 1rem;
+    display: inline-block;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+/* efek saat tombol pilih file disorot mouse */
+.btn-file-figma:hover {
+    background-color: #c0b9ce;
+}
+
+/* teks penjelasan kecil di bagian tengah pop-up */
+.modal-desc-figma {
+    font-size: 0.9rem;
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* garis bawah tempat munculnya nama file tugas yang baru saja dipilih */
+.file-name-line {
+    border-bottom: 1.5px solid #666666;
+    padding-bottom: 5px;
+    font-size: 0.85rem;
+    color: #666666;
+    width: 90%;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* tombol aksi utama (merah) untuk mengirim file ke server */
+.btn-submit-figma {
+    background-color: #c62828;
+    color: #ffffff;
+    font-weight: 800;
+    border-radius: 25px;
+    padding: 12px 50px;
+    font-size: 1rem;
+    border: none;
+    transition: 0.2s;
+}
+
+/* efek merah gelap saat tombol kirim disorot mouse */
+.btn-submit-figma:hover {
+    background-color: #b71c1c;
+}

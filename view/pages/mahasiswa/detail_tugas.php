@@ -1,14 +1,9 @@
 <?php
-// ==========================================================================
-// MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
-// ==========================================================================
-// Memanggil logika dan query dari file controller
+// Memanggil logika dari file controller
 require_once '../../../controllers/mahasiswa/detail_tugas.php';
 
-// Menyiapkan variabel untuk komponen Header & Sidebar
 $active_page = 'tugas'; 
-$jalur_css = "../../assets/css/input.css"; 
-
+$jalur_css = "../../assets/css/index.css"; 
 include '../../components/header.php'; 
 ?>
 
@@ -20,7 +15,7 @@ include '../../components/header.php';
         
         <div class="topbar">
             <h2 class="m-0 fw-bold" style="color: #555;">LOL</h2>
-            <div class="position-relative" style="cursor: pointer;" onclick="alert('Belum ada notifikasi baru.')">
+            <div class="position-relative" style="cursor: pointer;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#888" class="bi bi-bell-fill" viewBox="0 0 16 16"><path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/></svg>
                 <span class="position-absolute top-0 start-100 translate-middle p-1 bg-info border border-light rounded-circle"></span>
             </div>
@@ -40,9 +35,12 @@ include '../../components/header.php';
                         </p>
                         
                         <div class="mt-auto">
-                            <div class="mb-3">
-                                <span class="badge-pink-figma">Lampiran</span>
-                            </div>
+                            <?php if (!empty($tugas['file_lampiran'])) : ?>
+                                <div class="mb-3">
+                                    <span class="badge-pink-figma">Lampiran Soal</span>
+                                </div>
+                            <?php endif; ?>
+                            
                             <p class="text-deadline-figma mb-0">Deadline: <?= $deadline_format ?></p>
                         </div>
                     </div>
@@ -58,7 +56,7 @@ include '../../components/header.php';
                         
                         <div>
                             <span class="badge-orange-figma">
-                                <?= $pengumpulan ? htmlspecialchars($pengumpulan['berkas']) : 'Lampiran Tugas' ?>
+                                <?= $pengumpulan ? htmlspecialchars($pengumpulan['berkas']) : 'Belum ada lampiran' ?>
                             </span>
                         </div>
                         
@@ -66,7 +64,7 @@ include '../../components/header.php';
                             <p class="<?= $status_color ?> m-0"><?= $teks_status ?></p>
                             
                             <button class="btn-edit-figma" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                                <?= $pengumpulan ? '^ Edit Tugas' : '^ Upload Tugas' ?>
+                                <?= $pengumpulan ? '^ Edit Tugas' : 'Upload Tugas' ?>
                             </button>
                         </div>
                     </div>
@@ -89,13 +87,16 @@ include '../../components/header.php';
         <div class="modal-content custom-modal-figma p-4"> 
             <div class="modal-body text-center">
                 <form method="POST" action="../../../controllers/mahasiswa/proses_upload.php" enctype="multipart/form-data">
+                    
                     <label class="btn-file-figma mb-4">
-                        ^ File Tugas
+                        File Tugas
                         <input type="file" name="file_tugas" class="d-none" required id="fileInput">
                     </label>
+                    
                     <p class="modal-desc-figma mb-3">
                         Pilih file tugas yang akan diunggah. Pastikan format sesuai dengan ketentuan dosen.
                     </p>
+                    
                     <div id="fileNameDisplay" class="file-name-line mb-5"></div>
                     
                     <input type="hidden" name="tugas_id" value="<?= $id_tugas ?>">
@@ -103,6 +104,7 @@ include '../../components/header.php';
                     <button type="submit" name="submit_tugas" class="btn-submit-figma">
                         SUBMIT
                     </button>
+                    
                 </form>
             </div>
         </div>
@@ -110,7 +112,7 @@ include '../../components/header.php';
 </div>
 
 <script>
-    // Script Interaktif Modal
+    // Menangkap nama file dan menampilkannya di atas garis saat user selesai memilih file di pop-up
     document.getElementById('fileInput').addEventListener('change', function(e) {
         var fileName = e.target.files[0] ? e.target.files[0].name : "";
         document.getElementById('fileNameDisplay').textContent = fileName;

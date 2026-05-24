@@ -1,0 +1,25 @@
+/* kotak persegi panjang untuk mendaftar tugas-tugas suatu matkul spesifik */
+.tugas-card {
+    width: 280px;
+    height: 180px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #333;
+    border: none;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+/* efek kartu melayang ke atas saat pointer mouse menyentuhnya */
+.tugas-card:hover {
+    transform: translateY(-5px);
+    color: #333;
+}
