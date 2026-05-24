@@ -163,6 +163,53 @@
         .btn-submit:hover {
             background-color: #b71c1c;
         }
+
+        /* --- Menu Titik Tiga --- */
+        .menu-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 5; /* Agar berada di atas dekorasi blob */
+        }
+        .menu-icon {
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            padding: 5px;
+            transition: 0.2s;
+        }
+        .menu-icon:hover {
+            color: #000;
+        }
+        .dropdown-menu {
+            display: none; /* Disembunyikan secara default */
+            position: absolute;
+            right: 0;
+            top: 25px;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            width: 100px;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .dropdown-menu.show { 
+            display: block; 
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .dropdown-menu a:hover { 
+            background: #f4f5f7; 
+        }
+        .dropdown-menu a.text-danger { 
+            color: #c62828; 
+        }
     </style>
 </head>
 <body>
@@ -187,57 +234,111 @@
             <h2 class="greeting">Hai, Lulu</h2>
             
             <div class="grid-container">
-                <div class="card" onclick="window.location.href='tugas/detail.php?matkul=1'" style="cursor: pointer;">
+                <div class="card" onclick="window.location.href='tugas/detail.php'" style="cursor: pointer;">
                     <div class="blob orange"></div>
-                    <div class="card-info">
-                        <p>Kelas</p>
-                        <p>Jadwal</p>
+                    
+                    <div class="menu-container">
+                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="#" onclick="editCard(event, this)">Edit</a>
+                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                        </div>
                     </div>
-                    <div class="card-title">Matkul</div>
+                    
+                    <div class="card-info">
+                        <p class="kelas-text">Kelas</p>
+                        <p class="jadwal-text">Jadwal</p>
+                    </div>
+                    <div class="card-title matkul-text">Matkul</div>
                 </div>
-                <div class="card" onclick="window.location.href='tugas/detail.php?matkul=1'" style="cursor: pointer;">
+                <div class="card" onclick="window.location.href='tugas/detail.php'" style="cursor: pointer;">
                     <div class="blob blue"></div>
-                    <div class="card-info">
-                        <p>&nbsp;</p> 
-                        <p>&nbsp;</p>
+                    
+                    <div class="menu-container">
+                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="#" onclick="editCard(event, this)">Edit</a>
+                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                        </div>
                     </div>
-                    <div class="card-title">Matkul</div>
+                    
+                    <div class="card-info">
+                        <p class="kelas-text">Kelas</p>
+                        <p class="jadwal-text">Jadwal</p>
+                    </div>
+                    <div class="card-title matkul-text">Matkul</div>
                 </div>
-                <div class="card" onclick="window.location.href='tugas/detail.php?matkul=1'" style="cursor: pointer;">
+                <div class="card" onclick="window.location.href='tugas/detail.php'" style="cursor: pointer;">
                     <div class="blob orange"></div>
-                    <div class="card-info">
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
+                    
+                    <div class="menu-container">
+                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="#" onclick="editCard(event, this)">Edit</a>
+                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                        </div>
                     </div>
-                    <div class="card-title">Matkul</div>
+                    
+                    <div class="card-info">
+                        <p class="kelas-text">Kelas</p>
+                        <p class="jadwal-text">Jadwal</p>
+                    </div>
+                    <div class="card-title matkul-text">Matkul</div>
                 </div>
-                <div class="card" onclick="window.location.href='tugas/detail.php?matkul=1'" style="cursor: pointer;">
+                <div class="card" onclick="window.location.href='tugas/detail.php'" style="cursor: pointer;">
                     <div class="blob blue"></div>
-                    <div class="card-info">
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
+                    
+                    <div class="menu-container">
+                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="#" onclick="editCard(event, this)">Edit</a>
+                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                        </div>
                     </div>
-                    <div class="card-title">Matkul</div>
+                    
+                    <div class="card-info">
+                        <p class="kelas-text">Kelas</p>
+                        <p class="jadwal-text">Jadwal</p>
+                    </div>
+                    <div class="card-title matkul-text">Matkul</div>
                 </div>
-                <div class="card" onclick="window.location.href='tugas/detail.php?matkul=1'" style="cursor: pointer;">
+                <div class="card" onclick="window.location.href='tugas/detail.php'" style="cursor: pointer;">
                     <div class="blob orange"></div>
-                    <div class="card-info">
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
+                    
+                    <div class="menu-container">
+                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="#" onclick="editCard(event, this)">Edit</a>
+                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                        </div>
                     </div>
-                    <div class="card-title">Matkul</div>
+                    
+                    <div class="card-info">
+                        <p class="kelas-text">Kelas</p>
+                        <p class="jadwal-text">Jadwal</p>
+                    </div>
+                    <div class="card-title matkul-text">Matkul</div>
                 </div>
-                <div class="card" onclick="window.location.href='tugas/detail.php?matkul=1'" style="cursor: pointer;">
+                <div class="card" onclick="window.location.href='tugas/detail.php'" style="cursor: pointer;">
                     <div class="blob blue"></div>
-                    <div class="card-info">
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
+                    
+                    <div class="menu-container">
+                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="#" onclick="editCard(event, this)">Edit</a>
+                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                        </div>
                     </div>
-                    <div class="card-title">Matkul</div>
+                    
+                    <div class="card-info">
+                        <p class="kelas-text">Kelas</p>
+                        <p class="jadwal-text">Jadwal</p>
+                    </div>
+                    <div class="card-title matkul-text">Matkul</div>
                 </div>
             </div>
 
-            <button class="fab" onclick="bukaModal()">
+            <button class="fab" onclick="bukaModalAdd()">
                 <i class="fa-solid fa-plus"></i>
             </button>
         </div>
@@ -265,56 +366,109 @@
         const modal = document.getElementById('modalMatkul');
         const form = document.getElementById('formMatkul');
         const gridContainer = document.querySelector('.grid-container');
+        
+        let editingCard = null; // Variabel penanda apakah sedang mode edit atau tidak
 
-        // Fungsi membuka modal
-        function bukaModal() {
+        // 1. Fungsi buka modal untuk TAMBAH matkul
+        function bukaModalAdd() {
+            editingCard = null; // Reset penanda edit
+            form.reset(); // Kosongkan isi form
             modal.style.display = 'flex';
         }
 
-        // Fungsi menutup modal jika user mengklik area gelap di luar form
+        // 2. Fungsi buka/tutup dropdown menu titik tiga
+        function toggleMenu(event, element) {
+            event.stopPropagation(); // MENCEGAH agar kartu tidak diklik (tidak pindah halaman)
+            
+            // Tutup semua menu lain yang mungkin sedang terbuka
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                if (menu !== element.nextElementSibling) menu.classList.remove('show');
+            });
+            
+            // Munculkan menu pada titik tiga yang diklik
+            element.nextElementSibling.classList.toggle('show');
+        }
+
+        // 3. Fungsi Hapus
+        function hapusCard(event, element) {
+            event.stopPropagation();
+            // Munculkan pesan verifikasi
+            if (confirm("Apakah Anda yakin ingin menghapus mata kuliah ini?")) {
+                element.closest('.card').remove(); // Hapus elemen kartu dari layar
+            }
+        }
+
+        // 4. Fungsi Edit
+        function editCard(event, element) {
+            event.stopPropagation();
+            
+            // Tandai kartu mana yang sedang mau diedit
+            editingCard = element.closest('.card');
+            
+            // Ambil teks dari kartu dan masukkan ke dalam form modal
+            document.getElementById('inputMatkul').value = editingCard.querySelector('.matkul-text').innerText;
+            document.getElementById('inputKelas').value = editingCard.querySelector('.kelas-text').innerText;
+            document.getElementById('inputJadwal').value = editingCard.querySelector('.jadwal-text').innerText;
+            
+            // Sembunyikan menu titik tiga, lalu buka modal
+            element.parentElement.classList.remove('show');
+            modal.style.display = 'flex';
+        }
+
+        // 5. Menutup modal jika klik di area gelap atau menutup menu jika klik di sembarang tempat
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
+            // Tutup dropdown jika mengklik area lain di layar
+            if (!event.target.matches('.menu-icon')) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+            }
         }
 
-        // Simulasi Frontend: Menambah kartu matkul saat form disubmit
+        // 6. Aksi saat tombol SUBMIT ditekan
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Mencegah halaman reload
+            e.preventDefault(); 
 
-            // Ambil nilai dari inputan
             const matkulVal = document.getElementById('inputMatkul').value;
             const kelasVal = document.getElementById('inputKelas').value;
             const jadwalVal = document.getElementById('inputJadwal').value;
 
-            // Menentukan warna blob secara acak (orange atau blue)
-            const isOrange = gridContainer.children.length % 2 === 0;
-            const blobClass = isOrange ? 'orange' : 'blue';
+            if (editingCard !== null) {
+                // JIKA MODE EDIT: Update teks di kartu yang sedang diedit
+                editingCard.querySelector('.matkul-text').innerText = matkulVal;
+                editingCard.querySelector('.kelas-text').innerText = kelasVal;
+                editingCard.querySelector('.jadwal-text').innerText = jadwalVal;
+            } else {
+                // JIKA MODE TAMBAH BARU: Buat elemen kartu baru dari nol
+                const isOrange = gridContainer.children.length % 2 === 0;
+                const blobClass = isOrange ? 'orange' : 'blue';
 
-            // Membuat elemen kartu baru
-            const kartuBaru = document.createElement('div');
-            kartuBaru.className = 'card';
-            
-            // --- TAMBAHKAN DUA BARIS INI ---
-            kartuBaru.style.cursor = 'pointer'; 
-            kartuBaru.onclick = function() {
-                window.location.href = 'tugas/detail.php'; 
-            };
-            // -------------------------------
+                const kartuBaru = document.createElement('div');
+                kartuBaru.className = 'card';
+                kartuBaru.style.cursor = 'pointer';
+                kartuBaru.onclick = function() { window.location.href = 'tugas/detail.php'; };
 
-            kartuBaru.innerHTML = `
-                <div class="blob ${blobClass}"></div>
-                <div class="card-info">
-                    <p>${kelasVal}</p>
-                    <p>${jadwalVal}</p>
-                </div>
-                <div class="card-title">${matkulVal}</div>
-            `;
+                // Struktur HTML kartu baru harus sama persis dengan yang asli (termasuk titik tiga)
+                kartuBaru.innerHTML = `
+                    <div class="blob ${blobClass}"></div>
+                    <div class="menu-container">
+                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="#" onclick="editCard(event, this)">Edit</a>
+                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <p class="kelas-text">${kelasVal}</p>
+                        <p class="jadwal-text">${jadwalVal}</p>
+                    </div>
+                    <div class="card-title matkul-text">${matkulVal}</div>
+                `;
 
-            // Tambahkan kartu ke dalam grid
-            gridContainer.appendChild(kartuBaru);
+                gridContainer.appendChild(kartuBaru);
+            }
 
-            // Tutup modal dan reset isi form
             modal.style.display = 'none';
             form.reset();
         });
