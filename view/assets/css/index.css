@@ -1,0 +1,11 @@
+
+/* 2. Import CSS Spesifik Halaman */
+@import 'auth/login.css';
+
+/* 3. Utility / Custom Styling Tambahan */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}

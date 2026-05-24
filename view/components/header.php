@@ -17,5 +17,6 @@
     ?>
     
     <link href="<?= $jalur_css ?>" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>view/assets/css/index.cs" rel="stylesheet">
 </head>
 <body class="bg-light">

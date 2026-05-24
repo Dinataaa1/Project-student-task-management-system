@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-require_once '../config/koneksi.php';
+require_once '../../config/koneksi.php';
 
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['role'] == 'dosen') {
@@ -93,7 +93,7 @@ include '../components/header.php';
 
             <div class="text-center teks-kecil">
                 <span class="text-muted">Dont have an account yet?</span> 
-                <a href="#" class="text-decoration-none fw-semibold link-daftar">Creat an account</a>
+                <a href="register.php" class="text-decoration-none fw-semibold link-daftar">Create an account</a>
             </div>
             
         </form>
