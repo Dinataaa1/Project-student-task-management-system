@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // ==========================================================================
 // MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
 // ==========================================================================
@@ -20,10 +22,10 @@ include_once __DIR__ . '/../../components/header.php';
     <div class="main-content">
         
         <div class="topbar">
-            <h2 class="m-0 fw-bold" style="color: #555;">LOL</h2>
+            <h2 class="m-0 fw-bold" style="color: #666; font-size: 1.8rem;">LOL</h2>
             <div class="position-relative" style="cursor: pointer;" onclick="alert('Belum ada notifikasi baru.')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#888" class="bi bi-bell-fill" viewBox="0 0 16 16"><path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/></svg>
-                <span class="position-absolute top-0 start-100 translate-middle p-1 bg-info border border-light rounded-circle"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#999" class="bi bi-bell-fill" viewBox="0 0 16 16"><path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/></svg>
+                <span class="position-absolute top-0 start-100 translate-middle p-1 bg-info border border-light rounded-circle" style="width: 12px; height: 12px; transform: translate(-30%, -30%) !important;"></span>
             </div>
         </div>
 
@@ -45,18 +47,20 @@ include_once __DIR__ . '/../../components/header.php';
 
             <div class="calendar-widget mt-4">
                 <div class="cal-left">
-                    <div class="d-flex align-items-center gap-2">
-                        <h1 class="display-4 fw-bold m-0 text-white"><?= $tanggal_sekarang ?></h1>
-                        <div class="lh-sm">
-                            <div class="fw-bold fs-5"><?= strtoupper($bulan_sekarang) ?></div>
-                            <div class="fs-6"><?= $tahun_sekarang ?></div>
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div class="big-date-circle">
+                            <?= $tanggal_sekarang ?>
+                        </div>
+                        <div class="lh-sm text-white">
+                            <div class="fw-bold" style="font-size: 1.2rem;"><?= ucfirst($bulan_sekarang) ?></div>
+                            <div style="font-size: 1rem; opacity: 0.9;"><?= $tahun_sekarang ?></div>
                         </div>
                     </div>
                     
                     <button class="btn-notes" onclick="alert('Fitur tambah catatan tugas sedang disiapkan!')">NOTES TO BE MADE</button>
                     
                     <div class="mt-4">
-                        <div class="bg-light text-dark fw-bold px-2 py-1 mb-2 text-center" style="border-radius: 4px; font-size: 0.85rem;">DL Terdekat</div>
+                        <div class="dl-box fw-bold text-center mb-2">DL Terdekat</div>
                         
                         <?php if (!empty($data_dl_terdekat)) : ?>
                             <?php foreach($data_dl_terdekat as $dl) : ?>
@@ -67,24 +71,40 @@ include_once __DIR__ . '/../../components/header.php';
                                 </div>
                             <?php endforeach; ?>
                         <?php else : ?>
-                            <div class="dl-box d-flex justify-content-center align-items-center px-2" style="font-size: 0.75rem; color: #b02a37;">
-                                <span class="fw-bold">Hore! Tidak ada DL</span>
-                            </div>
+                            <div class="dl-empty-box"></div>
+                            <div class="dl-empty-box"></div>
+                            <div class="dl-empty-box"></div>
+                            <div class="dl-empty-box"></div>
                         <?php endif; ?>
                     </div>
                 </div>
 
-                <div class="cal-right">
-                    <div class="fw-bold mb-3" style="font-size: 0.8rem;">CALENDAR</div>
+                <div class="cal-right position-relative">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="d-flex position-relative me-2">
+                            <div class="avatar-circle bg-success text-white">G</div>
+                            <div class="avatar-circle bg-danger text-white" style="margin-left: -10px;">L</div>
+                        </div>
+                        <div class="fw-bold text-white" style="font-size: 0.9rem; letter-spacing: 1px;">ALENDAR</div>
+                    </div>
                     
-                    <div class="d-flex justify-content-center gap-4 mb-4 text-center align-items-center">
-                        <div id="btnPrev" class="fw-bold" style="cursor: pointer; opacity: 0.7; font-size: 1.2rem;">&lt;</div>
-                        <div class="fw-bold" id="displayBulanTahun" style="min-width: 80px;"></div>
-                        <div id="btnNext" class="fw-bold" style="cursor: pointer; opacity: 0.7; font-size: 1.2rem;">&gt;</div>
+                    <div class="d-flex justify-content-center gap-5 mb-4 text-center align-items-end text-white">
+                        <div class="d-flex flex-column align-items-center" style="opacity: 0.7; cursor: pointer;" id="btnPrev">
+                            <div style="font-size: 0.9rem;">Oct</div>
+                            <div class="fw-bold" style="font-size: 0.8rem;">2021</div>
+                        </div>
+                        <div class="d-flex flex-column align-items-center fw-bold" id="displayBulanTahun" style="cursor: pointer; transform: scale(1.2);">
+                            <div style="font-size: 1rem;">Nov</div>
+                            <div style="font-size: 0.8rem;">2021</div>
+                        </div>
+                        <div class="d-flex flex-column align-items-center" style="opacity: 0.7; cursor: pointer;" id="btnNext">
+                            <div style="font-size: 0.9rem;">Dec</div>
+                            <div class="fw-bold" style="font-size: 0.8rem;">2021</div>
+                        </div>
                     </div>
 
-                    <div class="cal-grid fw-bold" style="font-size: 0.85rem; padding-bottom: 10px;">
-                        <div class="text-danger">SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
+                    <div class="cal-grid text-white fw-bold" style="font-size: 0.8rem; padding-bottom: 10px;">
+                        <div>SUN</div><div>MON</div><div>TUS</div><div>WED</div><div>THUR</div><div>FRI</div><div>SAT</div>
                     </div>
 
                     <div class="cal-grid" id="wadahTanggal"></div>
@@ -95,6 +115,6 @@ include_once __DIR__ . '/../../components/header.php';
     </div>
 </div>
 
-<script src="/Project-student-task-management-system/view/assets/js/dashboard.js"></script>
+<script src="../../assets/js/dashboard.js"></script>
 
 <?php include '../../components/footer.php'; ?>
