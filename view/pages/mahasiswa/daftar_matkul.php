@@ -4,11 +4,8 @@
 // ==========================================================================
 // Memanggil logika dan query dari file controller
 require_once '../../../controllers/mahasiswa/daftar_matkul.php';
-
 // Menyiapkan variabel untuk komponen Header & Sidebar
 $active_page = 'matkul'; // Memberi tahu sidebar untuk menyalakan ikon mata kuliah
-$jalur_css = "../../assets/css/input.css"; // Mengatur jalur CSS secara dinamis
-
 // Memanggil Header
 include '../../components/header.php';
 ?>
