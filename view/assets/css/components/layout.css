@@ -1,0 +1,56 @@
+/* bungkus layar penuh untuk tata letak menu kiri dan konten kanan sejajar */
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+/* atur kotak menu navigasi kiri agar menempel dari atas ke bawah */
+.sidebar {
+    width: 80px;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 10;
+}
+
+/* gaya setiap kotak tombol ikon di dalam menu navigasi */
+.sidebar-item {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    color: #6c757d;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* penanda visual khusus warna biru untuk menu yang sedang dibuka */
+.sidebar-item.active {
+    background-color: #00a0e3;
+    color: white;
+}
+
+/* palang atas untuk menempatkan logo dan ikon notifikasi */
+.topbar {
+    background-color: #c4c4c4;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+/* area utama agar mengisi seluruh sisa ruang layar di sebelah menu navigasi */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* beri jarak aman (padding) untuk semua isi konten layar */
+.content-area {
+    padding: 30px;
+}

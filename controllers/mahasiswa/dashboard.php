@@ -11,7 +11,7 @@
 // Wajib ditambahkan agar PHP menggunakan jam Indonesia (WIB)
 date_default_timezone_set('Asia/Jakarta');
 
-include_once '../../../config/koneksi.php'; 
+include_once __DIR__ . '/../../config/koneksi.php'; 
 
 session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {

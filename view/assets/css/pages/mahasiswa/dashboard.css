@@ -1,0 +1,122 @@
+/* kotak info mata kuliah berukuran kecil khusus di halaman beranda */
+.matkul-card {
+    flex: 1;
+    min-width: 140px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+    padding: 15px;
+    display: flex;
+    align-items: flex-end;
+    font-weight: bold;
+    color: #333;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* efek kartu sedikit terangkat saat disorot mouse */
+.matkul-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    color: #333;
+}
+
+/* hiasan lengkungan kecil di pojok kanan atas kartu matkul */
+.blob-hiasan {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+/* bungkus utama yang menyatukan widget kalender dan info deadline */
+.calendar-widget {
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* sisi kiri kalender warna pink untuk tanggal hari ini dan deadline terdekat */
+.cal-left {
+    background-color: #fa8c96;
+    color: white;
+    padding: 25px;
+    width: 300px;
+}
+
+/* sisi kanan kalender warna biru untuk angka tabel tanggalan */
+.cal-right {
+    background-color: #00a0e3;
+    color: white;
+    padding: 25px;
+    flex-grow: 1;
+}
+
+/* tombol khusus untuk membuat catatan tugas baru */
+.btn-notes {
+    background-color: #ffb3b9;
+    color: #333;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    padding: 8px;
+    margin-top: 20px;
+}
+
+/* kotak merah muda penyimpan list nama tugas yang mau tenggat */
+.dl-box {
+    background-color: #ffb3b9;
+    height: 25px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+/* susun deretan angka tanggalan menjadi baris dan kolom rapi (7 hari) */
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* bentuk dasar bulatan untuk tempat angka tanggal pada kalender */
+.date-circle {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto;
+    transition: 0.2s;
+}
+
+/* penanda spesial warna stabilo untuk lingkaran tanggal hari ini */
+.date-circle.hari-ini {
+    background-color: #a8e6cf;
+    color: #1a4a38;
+    font-weight: 900;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* penanda spesial warna merah muda untuk lingkaran hari minggu */
+.date-circle.hari-libur {
+    background-color: #fa8c96;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* garis tepi putih melingkar khusus tanggal yang memiliki tenggat tugas */
+.date-circle.ada-tugas {
+    border: 2px solid #ffffff;
+}

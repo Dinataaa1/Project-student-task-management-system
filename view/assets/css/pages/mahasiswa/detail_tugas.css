@@ -1,0 +1,114 @@
+/* bungkus ruang konten khusus halaman detail agar lebih lebar dan lega */
+.content-area-detail {
+    padding: 40px;
+    position: relative;
+    flex-grow: 1;
+    background-color: #f8f9fa;
+}
+
+/* susun dua kartu besar agar duduk sejajar kiri-kanan dan menyamakan tinggi */
+.card-container {
+    display: flex;
+    gap: 30px;
+    align-items: stretch;
+    width: 100%;
+}
+
+/* bentuk dasar kartu putih detail dengan sudut lengkung sempurna ala figma */
+.custom-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 35px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: none;
+}
+
+/* atur kartu sebelah kiri (deskripsi tugas) agar memakan porsi rasio lebar 60% */
+.card-left {
+    flex: 1.5;
+}
+
+/* atur kartu sebelah kanan (status nilai) agar memakan sisa porsi rasio 40% */
+.card-right {
+    flex: 1;
+}
+
+/* hiasan warna pelan-pelan transparan berukuran raksasa di pojok kanan kartu */
+.blob-hiasan-detail-large {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fcdcb1 0%, rgba(255,255,255,0) 70%);
+    z-index: 1;
+}
+
+/* penampung agar seluruh isi teks dan tombol tidak tertutup oleh hiasan blob */
+.card-content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* kapsul penanda info berwarna merah muda keputihan */
+.badge-pink-figma {
+    background-color: #f2e1e1;
+    color: #000;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: inline-block;
+}
+
+/* kapsul penanda info berisi nama file berwarna oranye */
+.badge-orange-figma {
+    background-color: #f7b787;
+    color: #000;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: inline-block;
+}
+
+/* peringatan tebal berwarna merah untuk tulisan tanggal deadline */
+.text-deadline-figma {
+    color: #f23d4e;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+/* ukuran jumbo tebal berwarna hijau terang untuk mencetak angka nilai */
+.text-nilai-figma {
+    color: #3eb55c;
+    font-weight: 800;
+    font-size: 2rem;
+}
+
+/* penanda teks di bawah kalau file sudah berhasil terkumpul */
+.text-status-figma {
+    color: #3eb55c;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+/* tombol berwarna abu-abu mati khusus untuk menimpa/edit file lama */
+.btn-edit-figma {
+    background-color: #d2cddc;
+    color: #000;
+    font-weight: 800;
+    border-radius: 20px;
+    padding: 8px 24px;
+    border: none;
+    font-size: 0.95rem;
+    cursor: pointer;
+}

@@ -1,0 +1,46 @@
+/* kotak mata kuliah berukuran besar, disetel agar muat 3 kolom di layar */
+.matkul-card-lg {
+    width: calc(33.333% - 1.5rem);
+    min-width: 260px;
+    height: 180px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.2s;
+}
+
+/* efek terangkat saat kotak mata kuliah disorot mouse */
+.matkul-card-lg:hover {
+    transform: translateY(-5px);
+    color: #333;
+}
+
+/* ornamen lengkungan raksasa untuk sudut kanan atas kartu besar */
+.blob-hiasan-lg {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+
+/* pengaturan gaya dan ukuran teks judul nama mata kuliah */
+.judul-matkul {
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+/* pengaturan teks link kecil "see detail" di pojok kanan kartu */
+.see-detail {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #333;
+}

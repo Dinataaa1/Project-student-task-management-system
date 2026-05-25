@@ -11,6 +11,9 @@ $error = isset($_GET['error']) ? 'Email atau password salah!' : '';
 ?>
 
 <?php
+// Mencegat default header.php dan memberitahu jalur CSS yang benar dari folder auth
+$jalur_css = "../assets/css/index.css";
+
 // Pemanggilan Header
 include '../components/header.php';
 ?>
@@ -105,5 +108,5 @@ include '../components/header.php';
 
 <?php
 // Pemanggilan Footer
-include __DIR__ . '/../view/pages/components/footer.php';
+include __DIR__ . '/../components/footer.php';
 ?>

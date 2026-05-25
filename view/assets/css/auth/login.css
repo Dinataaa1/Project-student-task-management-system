@@ -1,0 +1,60 @@
+/* batasi ukuran dan posisi form login agar ada di tengah */
+.kotak-login {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+/* gaya teks untuk judul/logo utama */
+.teks-logo {
+    color: #8b5cf6;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 2.5rem;
+}
+
+/* standar ukuran font teks kecil */
+.teks-kecil {
+    font-size: 0.9rem;
+}
+
+/* teks abu-abu pembatas di tengah garis */
+.teks-garis {
+    font-size: 0.85rem;
+}
+
+/* kustomisasi input email tanpa border tebal */
+.input-email {
+    border-color: #69b3a2;
+    outline: none;
+    box-shadow: none;
+}
+
+/* hapus garis kanan input password agar menyatu dengan ikon mata */
+.input-password {
+    border-right: none;
+    box-shadow: none;
+}
+
+/* kustomisasi ikon mata pembuka password agar menyatu dengan kolom */
+.ikon-mata {
+    border-left: none;
+    cursor: pointer;
+}
+
+/* gaya tombol submit utama warna ungu */
+.tombol-ungu {
+    background-color: #8b5cf6;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+/* efek warna lebih gelap saat tombol ungu disorot mouse */
+.tombol-ungu:hover {
+    background-color: #7c4dff;
+}
+
+/* warna tautan untuk mendaftar akun baru */
+.link-daftar {
+    color: #2a9d8f;
+}

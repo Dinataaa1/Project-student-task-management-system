@@ -1,15 +1,11 @@
 <?php
-// ==========================================================================
-// MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
-// ==========================================================================
 // Memanggil logika dan query dari file controller
 require_once '../../../controllers/mahasiswa/daftar_matkul.php';
-
 // Menyiapkan variabel untuk komponen Header & Sidebar
-$active_page = 'matkul'; // Memberi tahu sidebar untuk menyalakan ikon mata kuliah
 
-// Memanggil Header
-include '../../components/header.php';
+$active_page = 'matkul'; // (atau 'tugas', 'matkul')
+include_once '../../components/header.php';
+
 ?>
 
 <div class="dashboard-wrapper">
@@ -38,7 +34,7 @@ include '../../components/header.php';
                             <div class="blob-hiasan-lg <?= $pilihan_warna[$index % 2] ?>"></div>
                             <div class="d-flex justify-content-between align-items-end w-100" style="z-index: 2;">
                                 <span class="judul-matkul"><?= htmlspecialchars($matkul['nama_matkul']) ?></span>
-                                <span class="see-detail">See Detail &rarr;</span>
+                                <span class="see-detail"></span>
                             </div>
                         </a>
                         

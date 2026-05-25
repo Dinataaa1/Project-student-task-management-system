@@ -4,76 +4,12 @@ ini_set('display_errors', 1);
 // ==========================================================================
 // MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
 // ==========================================================================
-require_once '../../../controllers/mahasiswa/dashboard.php';
+
+require_once __DIR__ . '/../../../controllers/mahasiswa/dashboard.php';
 
 // Menyiapkan variabel untuk komponen Header & Sidebar
 $active_page = 'dashboard'; // Memberi tahu sidebar untuk menyalakan ikon Home
-
-include '../../components/header.php';
-include '../../../config/koneksi.php'; 
-
-// Data simulasi pengguna login.
-$user_id = $_SESSION['user_id']; 
-$nama_user = $_SESSION['nama'];
-
-$result_mhs = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id");
-$row_mhs = mysqli_fetch_assoc($result_mhs);
-$mahasiswa_id = $row_mhs['id'];
-
-// ==========================================================================
-// 2. LOGIKA PENGAMBILAN DATA (QUERY)
-// ==========================================================================
-// Menarik data nama mata kuliah (SUDAH TERMASUK ID UNTUK LINK)
-$query_matkul = mysqli_query($conn, "
-    SELECT mk.id, mk.nama_matkul 
-    FROM mata_kuliah mk
-    JOIN krs k ON mk.id = k.mata_kuliah_id
-    WHERE k.mahasiswa_id = $mahasiswa_id
-    LIMIT 4
-");
-
-$data_matkul = [];
-$pilihan_warna = ["blob-orange", "blob-blue"];
-$index_warna = 0;
-
-while ($row = mysqli_fetch_assoc($query_matkul)) {
-    $data_matkul[] = [
-        "id" => $row['id'], // ID disimpan untuk link
-        "nama" => $row['nama_matkul'],
-        "warna" => $pilihan_warna[$index_warna % 2] 
-    ];
-    $index_warna++;
-}
-
-// Menarik seluruh data batas waktu tugas
-$query_tugas = mysqli_query($conn, "
-    SELECT DATE(t.deadline) as tgl_deadline 
-    FROM tugas t
-    JOIN mata_kuliah mk ON t.matkul_id = mk.id
-    JOIN krs k ON mk.id = k.mata_kuliah_id
-    WHERE k.mahasiswa_id = $mahasiswa_id
-");
-
-$array_deadline = [];
-while ($row = mysqli_fetch_assoc($query_tugas)) {
-    $tanggal_mentah = date("Y-n-j", strtotime($row['tgl_deadline'])); 
-    $array_deadline[] = $tanggal_mentah;
-}
-
-// Menarik dua data tugas dengan tenggat waktu terdekat
-$query_dl_terdekat = mysqli_query($conn, "
-    SELECT t.judul_tugas, t.deadline 
-    FROM tugas t
-    JOIN mata_kuliah mk ON t.matkul_id = mk.id
-    JOIN krs k ON mk.id = k.mata_kuliah_id
-    WHERE k.mahasiswa_id = $mahasiswa_id AND t.deadline >= NOW()
-    ORDER BY t.deadline ASC
-    LIMIT 2
-");
-
-$tanggal_sekarang = date('d'); 
-$bulan_sekarang = date('M');   
-$tahun_sekarang = date('Y');   
+include_once __DIR__ . '/../../components/header.php';
 ?>
 
 <script>
@@ -82,7 +18,8 @@ $tahun_sekarang = date('Y');
 
 <div class="dashboard-wrapper">
     
-    <?php include '../../components/sidebar.php'; ?>
+
+    <?php include __DIR__ . '/../../components/sidebar.php'; ?>
 
     <div class="main-content">
         
@@ -95,11 +32,8 @@ $tahun_sekarang = date('Y');
         </div>
 
         <div class="content-area">
-            <?php 
-                // Pencegahan error null jika session nama kosong
-                $tampil_nama = $nama_user ?? 'Mahasiswa'; 
-            ?>
-            <h4 class="fw-bold mb-4" style="font-size: 1.4rem;">Hai, <?= htmlspecialchars($tampil_nama) ?></h4>
+
+            <h4 class="fw-bold mb-4">Hai, <?= htmlspecialchars($nama_user) ?></h4>
 
             <div class="d-flex gap-3 align-items-center flex-wrap mb-4">
                 <?php if (!empty($data_matkul)) : ?>
@@ -111,7 +45,8 @@ $tahun_sekarang = date('Y');
                     <?php endforeach; ?>
                 <?php endif; ?>
                 
-                <a href="daftar_tugas.php" class="ms-3 fw-bold text-decoration-none see-all-link">See all <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg></a>
+<
+                <a href="daftar_matkul.php" class="ms-3 fw-bold text-decoration-none" style="color: #00a0e3;">See all ></a>
             </div>
 
             <div class="calendar-widget mt-4">
@@ -134,9 +69,10 @@ $tahun_sekarang = date('Y');
                         <?php if (!empty($data_dl_terdekat)) : ?>
                             <?php foreach($data_dl_terdekat as $dl) : ?>
                                 <?php $tgl_format = date('d M', strtotime($dl['deadline'])); ?>
-                                <div class="dl-empty-box d-flex justify-content-between px-2 align-items-center">
-                                    <span class="text-truncate fw-bold text-dark" style="max-width: 65%; font-size: 0.75rem; line-height: 25px;"><?= htmlspecialchars($dl['judul_tugas']) ?></span>
-                                    <span class="fw-bold text-danger" style="font-size: 0.75rem;"><?= $tgl_format ?></span>
+
+                                <div class="dl-box d-flex justify-content-between align-items-center px-2" style="font-size: 0.75rem; color: #b02a37;">
+                                    <span class="text-truncate fw-bold" style="max-width: 65%;"><?= htmlspecialchars($dl['judul_tugas']) ?></span>
+                                    <span class="fw-bold"><?= $tgl_format ?></span>
                                 </div>
                             <?php endforeach; ?>
                         <?php else : ?>
