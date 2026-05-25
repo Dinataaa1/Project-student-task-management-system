@@ -397,55 +397,138 @@
 
 
 /* ==========================================================================
-   7. HALAMAN DETAIL TUGAS & MODAL
+   7. HALAMAN DETAIL TUGAS & MODAL (FIGMA STYLE)
    ========================================================================== */
 
-/* Mengatur layout kontainer utama rincian tugas agar melebar penuh */
-.detail-tugas-card {
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+/* Layout Utama */
+.content-area-detail {
+    padding: 40px;
     position: relative;
-    overflow: hidden; 
-    padding: 30px;
-    margin-bottom: 20px;
+    flex-grow: 1;
+    background-color: #f8f9fa; 
+}
+
+/* Pembungkus 2 Kartu Berdampingan */
+.card-container {
+    display: flex;
+    gap: 30px;
+    align-items: stretch;
     width: 100%;
-    border: none;
 }
 
-/* Mengatur posisi dan ukuran blob sudut kanan atas pada rincian tugas */
-.blob-hiasan-detail {
-    position: absolute;
-    width: 250px; 
-    height: 250px;
-    top: -100px; 
-    right: -100px; 
-    border-radius: 50%; 
-    z-index: 1;
-    opacity: 0.9;
-}
-
-/* Menaikkan z-index konten agar tidak tertutup blob latar belakang */
-.detail-card-content {
+/* Spesifikasi Dasar Kartu */
+.custom-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 35px;
     position: relative;
-    z-index: 2; 
-}
-
-/* Mengatur tampilan label status berkas lampiran */
-.badge-lampiran {
-    background-color: #e6f9f2;
-    color: #00d284;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: bold;
-    display: inline-block;
-    font-size: 0.85rem;
-}
-
-/* Modifikasi antarmuka kotak modal unggah berkas bawaan Bootstrap */
-.custom-modal-content {
-    background-color: #d1d3d4; 
-    border-radius: 16px;
+    overflow: hidden; /* Mencegah blob bocor */
+    display: flex;
+    flex-direction: column;
     border: none;
-    padding: 20px;
+}
+
+/* Proporsi Kartu (60:40) */
+.card-left { flex: 1.5; }
+.card-right { flex: 1; }
+
+/* Hiasan Blob Melengkung */
+.blob-hiasan-detail-large {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fcdcb1 0%, rgba(255,255,255,0) 70%);
+    z-index: 1;
+}
+
+/* Pembungkus Teks agar di atas Blob */
+.card-content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* Tipografi & Badge */
+.badge-pink-figma { background-color: #f2e1e1; color: #000; padding: 8px 24px; border-radius: 20px; font-weight: 800; font-size: 0.95rem; display: inline-block; }
+.badge-orange-figma { background-color: #f7b787; color: #000; padding: 8px 24px; border-radius: 20px; font-weight: 800; font-size: 0.95rem; display: inline-block; }
+.text-deadline-figma { color: #f23d4e; font-weight: 800; font-size: 0.95rem; }
+.text-nilai-figma { color: #3eb55c; font-weight: 800; font-size: 2rem; }
+.text-status-figma { color: #3eb55c; font-weight: 800; font-size: 0.95rem; }
+.btn-edit-figma { background-color: #d2cddc; color: #000; font-weight: 800; border-radius: 20px; padding: 8px 24px; border: none; font-size: 0.95rem; cursor: pointer; }
+
+/* --- STYLE MODAL POP-UP --- */
+.custom-modal-figma { background-color: #ffffff; border-radius: 40px; border: none; box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+.btn-file-figma { background-color: #d2cddc; color: #000000; font-weight: 800; border-radius: 25px; padding: 10px 30px; font-size: 1rem; display: inline-block; transition: 0.2s; cursor: pointer; }
+.btn-file-figma:hover { background-color: #c0b9ce; }
+.modal-desc-figma { font-size: 0.9rem; color: #333333; line-height: 1.6; }
+.file-name-line { border-bottom: 1.5px solid #666666; padding-bottom: 5px; font-size: 0.85rem; color: #666666; width: 90%; margin: 0 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn-submit-figma { background-color: #c62828; color: #ffffff; font-weight: 800; border-radius: 25px; padding: 12px 50px; font-size: 1rem; border: none; transition: 0.2s; }
+.btn-submit-figma:hover { background-color: #b71c1c; }
+
+/* ==========================================================================
+   8. MODAL UPLOAD TUGAS (FIGMA STYLE)
+   ========================================================================== */
+
+/* Mengatur bentuk kotak pop-up utama */
+.custom-modal-figma {
+    background-color: #ffffff;
+    border-radius: 40px; /* Sudut sangat membulat sesuai desain */
+    border: none;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15); /* Bayangan lembut agar mengambang */
+}
+
+/* Mengatur tombol "File Tugas" sebagai label input */
+.btn-file-figma {
+    background-color: #d2cddc; /* Warna ungu keabu-abuan pucat */
+    color: #000000;
+    font-weight: 800;
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-size: 1rem;
+    display: inline-block;
+    transition: 0.2s;
+}
+.btn-file-figma:hover {
+    background-color: #c0b9ce;
+}
+
+/* Mengatur teks lorem ipsum */
+.modal-desc-figma {
+    font-size: 0.9rem;
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* Garis bawah penanda nama file */
+.file-name-line {
+    border-bottom: 1.5px solid #666666;
+    padding-bottom: 5px;
+    font-size: 0.85rem;
+    color: #666666;
+    width: 90%;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Jika nama file terlalu panjang, akan jadi '...' */
+}
+
+/* Tombol Submit merah tebal */
+.btn-submit-figma {
+    background-color: #c62828; /* Merah pekat */
+    color: #ffffff;
+    font-weight: 800;
+    border-radius: 25px;
+    padding: 12px 50px;
+    font-size: 1rem;
+    border: none;
+    transition: 0.2s;
+}
+.btn-submit-figma:hover {
+    background-color: #b71c1c;
 }

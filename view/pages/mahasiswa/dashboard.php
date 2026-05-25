@@ -2,18 +2,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 // ==========================================================================
-// 1. OTENTIKASI & KONEKSI BASIS DATA
+// MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
 // ==========================================================================
-// session_start();
-// if (!isset($_SESSION['mahasiswa_id'])) {
-//     header("Location: ../../login.php"); 
-//     exit();
-// }
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'mahasiswa') {
-    header("Location: ../../auth/login.php"); 
-    exit(); 
-}
+require_once '../../../controllers/mahasiswa/dashboard.php';
+
+// Menyiapkan variabel untuk komponen Header & Sidebar
+$active_page = 'dashboard'; // Memberi tahu sidebar untuk menyalakan ikon Home
 
 include '../../components/header.php';
 include '../../../config/koneksi.php'; 
@@ -88,28 +82,7 @@ $tahun_sekarang = date('Y');
 
 <div class="dashboard-wrapper">
     
-    <div class="sidebar">
-        <div class="mb-4 mt-3">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 22L2 6L12 2L22 6L12 22Z" fill="#ff6b6b"/>
-                <path d="M12 18L6 8L12 5L18 8L12 18Z" fill="#ffa06b"/>
-            </svg>
-        </div>
-        <div class="mb-5 text-center">
-            <img src="https://ui-avatars.com/api/?name=<?= urlencode($nama_user) ?>&background=random&rounded=true" alt="Profile" width="40" class="rounded-circle shadow-sm">
-            <div style="font-size: 0.75rem; font-weight: 800; margin-top: 8px;">NAMA</div>
-        </div>
-        
-        <a href="dashboard.php" class="sidebar-item active text-decoration-none mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16"><path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/></svg>
-        </a>
-        <a href="daftar_matkul.php" class="sidebar-item text-decoration-none mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-journal-text" viewBox="0 0 16 16"><path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/><path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/></svg>
-        </a>
-        <a href="#" class="sidebar-item text-decoration-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16"><path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/></svg>
-        </a>
-    </div>
+    <?php include '../../components/sidebar.php'; ?>
 
     <div class="main-content">
         
@@ -122,19 +95,26 @@ $tahun_sekarang = date('Y');
         </div>
 
         <div class="content-area">
-            <h4 class="fw-bold mb-4" style="font-size: 1.4rem;">Hai, <?= $nama_user ?></h4>
+            <?php 
+                // Pencegahan error null jika session nama kosong
+                $tampil_nama = $nama_user ?? 'Mahasiswa'; 
+            ?>
+            <h4 class="fw-bold mb-4" style="font-size: 1.4rem;">Hai, <?= htmlspecialchars($tampil_nama) ?></h4>
 
             <div class="d-flex gap-3 align-items-center flex-wrap mb-4">
-                <?php foreach($data_matkul as $matkul) : ?>
-                    <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card text-decoration-none">
-                        <div class="blob-hiasan <?= $matkul['warna'] ?>"></div>
-                        <span>Matkul</span>
-                    </a>
-                <?php endforeach; ?>
+                <?php if (!empty($data_matkul)) : ?>
+                    <?php foreach($data_matkul as $matkul) : ?>
+                        <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card text-decoration-none">
+                            <div class="blob-hiasan <?= $matkul['warna'] ?>"></div>
+                            <span><?= htmlspecialchars($matkul['nama']) ?></span>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                
                 <a href="daftar_tugas.php" class="ms-3 fw-bold text-decoration-none see-all-link">See all <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg></a>
             </div>
 
-            <div class="calendar-widget">
+            <div class="calendar-widget mt-4">
                 <div class="cal-left">
                     <div class="d-flex align-items-center gap-3 mb-4">
                         <div class="big-date-circle">
@@ -151,13 +131,14 @@ $tahun_sekarang = date('Y');
                     <div class="mt-4">
                         <div class="dl-box fw-bold text-center mb-2">DL Terdekat</div>
                         
-                        <?php if (mysqli_num_rows($query_dl_terdekat) > 0) : ?>
-                            <?php while($dl = mysqli_fetch_assoc($query_dl_terdekat)) : ?>
+                        <?php if (!empty($data_dl_terdekat)) : ?>
+                            <?php foreach($data_dl_terdekat as $dl) : ?>
                                 <?php $tgl_format = date('d M', strtotime($dl['deadline'])); ?>
-                                <div class="dl-empty-box d-flex justify-content-between px-2">
-                                    <span class="text-truncate fw-bold text-dark" style="max-width: 65%; font-size: 0.75rem; line-height: 25px;"><?= $dl['judul_tugas'] ?></span>
+                                <div class="dl-empty-box d-flex justify-content-between px-2 align-items-center">
+                                    <span class="text-truncate fw-bold text-dark" style="max-width: 65%; font-size: 0.75rem; line-height: 25px;"><?= htmlspecialchars($dl['judul_tugas']) ?></span>
+                                    <span class="fw-bold text-danger" style="font-size: 0.75rem;"><?= $tgl_format ?></span>
                                 </div>
-                            <?php endwhile; ?>
+                            <?php endforeach; ?>
                         <?php else : ?>
                             <div class="dl-empty-box"></div>
                             <div class="dl-empty-box"></div>
@@ -198,6 +179,7 @@ $tahun_sekarang = date('Y');
                     <div class="cal-grid" id="wadahTanggal"></div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
