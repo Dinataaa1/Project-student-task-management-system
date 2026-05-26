@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Tugas & Penilaian</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../../assets/css/pages/admin/detail_tugas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="sidebar">
@@ -16,7 +16,7 @@
         <div class="nav-menu">
             <a href="../dashboard.php" class="nav-item"><i class="fa-solid fa-house"></i></a>
             <a href="detail.php" class="nav-item active"><i class="fa-solid fa-address-card"></i></a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i></a>
+            <a href="../setting.php" class="nav-item"><i class="fa-solid fa-gear"></i></a>
         </div>
     </div>
 
@@ -63,30 +63,6 @@
                                 </td>
                                 <td><span class="status-badge status-terlambat">Terlambat</span></td>
                             </tr>
-                            
-                            <tr>
-                                <td>3125600076</td>
-                                <td>Izzal Maula Al Faqiih</td>
-                                <td><a href="#" class="btn-lihat"><i class="fa-regular fa-eye"></i> Lihat</a></td>
-                                <td>
-                                    <div class="nilai-wrapper">
-                                        <input type="text" name="nilai[]" class="input-nilai" maxlength="3"> / 100
-                                    </div>
-                                </td>
-                                <td><span class="status-badge status-tepat">Tepat Waktu</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>3125600077</td>
-                                <td>Budi Santoso</td>
-                                <td>-</td>
-                                <td>
-                                    <div class="nilai-wrapper">
-                                        <input type="text" name="nilai[]" class="input-nilai" maxlength="3" disabled> / 100
-                                    </div>
-                                </td>
-                                <td><span class="status-badge status-kosong">Belum Mengumpulkan</span></td>
-                            </tr>
                         </tbody>
                     </table>
                 </form>
@@ -95,7 +71,6 @@
             <a href="detail.php" class="btn-back">
                 <i class="fa-solid fa-chevron-left"></i>
             </a>
-
         </div>
     </div>
 </body>
