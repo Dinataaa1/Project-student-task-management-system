@@ -1,0 +1,204 @@
+/* Reset Dasar */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden; }
+
+        /* Sidebar Kiri */
+        .sidebar { 
+            width: 80px; 
+            background-color: #fff; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding-top: 20px; 
+            border-right: 1px solid #eee;
+            z-index: 10; 
+        }
+        .profile-area { text-align: center; margin-bottom: 30px; }
+        .profile-area img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .profile-area p { font-size: 11px; font-weight: bold; margin-top: 5px; text-transform: uppercase; color: #000; }
+        
+        .nav-menu { display: flex; flex-direction: column; width: 100%; }
+        .nav-item { 
+            width: 100%; height: 60px; 
+            display: flex; justify-content: center; align-items: center; 
+            text-decoration: none; color: #009ef7; font-size: 22px; 
+            transition: 0.2s; 
+        }
+        .nav-item.active { background-color: #009ef7; color: #fff; }
+        .nav-item:hover:not(.active) { background-color: #f0f8ff; }
+
+        /* Area Konten Utama */
+        .main-content { flex: 1; display: flex; flex-direction: column; }
+        
+        /* Header Atas */
+        .header { 
+            height: 60px; 
+            background-color: #d8d8d8; 
+            display: flex; align-items: center; 
+            padding: 0 30px; 
+        }
+        .header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
+
+        /* Area Scroll Konten */
+        .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; }
+        .greeting { font-size: 20px; font-weight: 700; margin-bottom: 30px; color: #222; }
+
+        /* Grid Kartu Mata Kuliah */
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 30px; 
+        }
+        .card { 
+            background: #fff; 
+            border-radius: 20px; 
+            padding: 25px; 
+            position: relative; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06); 
+            min-height: 160px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        }
+        
+        .card-info p { font-size: 13px; color: #333; margin-bottom: 5px; }
+        .card-title { font-size: 24px; font-weight: bold; color: #000; margin-top: 15px; }
+
+        /* Dekorasi Sudut Kartu (Blob) */
+        .blob { 
+            position: absolute; 
+            top: 0; right: 0; 
+            width: 110px; height: 110px; 
+            border-bottom-left-radius: 100%; 
+        }
+        .blob.orange { background: linear-gradient(135deg, #fde4c3 0%, #fad19b 100%); }
+        .blob.blue { background: linear-gradient(135deg, #cde9fc 0%, #8acff3 100%); }
+
+        /* Tombol Tambah Mengambang (FAB) */
+        .fab { 
+            position: fixed; 
+            bottom: 40px; right: 40px; 
+            width: 55px; height: 55px; 
+            background-color: #0088ff; 
+            color: white; 
+            border-radius: 12px; 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 24px; 
+            box-shadow: 0 4px 10px rgba(0, 136, 255, 0.4); 
+            cursor: pointer; border: none; 
+            transition: 0.2s; 
+        }
+        .fab:hover { background-color: #0066cc; transform: translateY(-3px); }
+
+        /* --- Modal Styling --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Efek gelap transparan */
+            display: none; /* Sembunyikan secara default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #f4f5f7;
+            width: 500px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* Form Input Styling */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: #000;
+        }
+
+        .form-group input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #333; /* Hanya garis bawah */
+            background-color: transparent;
+            font-size: 16px;
+            padding: 5px 0;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-bottom: 2px solid #009ef7;
+        }
+
+        .btn-submit {
+            background-color: #c62828; /* Merah sesuai desain */
+            color: #fff;
+            border: none;
+            padding: 10px 40px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 35px auto 0;
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #b71c1c;
+        }
+
+        /* --- Menu Titik Tiga --- */
+        .menu-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 5; /* Agar berada di atas dekorasi blob */
+        }
+        .menu-icon {
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            padding: 5px;
+            transition: 0.2s;
+        }
+        .menu-icon:hover {
+            color: #000;
+        }
+        .dropdown-menu {
+            display: none; /* Disembunyikan secara default */
+            position: absolute;
+            right: 0;
+            top: 25px;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            width: 100px;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .dropdown-menu.show { 
+            display: block; 
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .dropdown-menu a:hover { 
+            background: #f4f5f7; 
+        }
+        .dropdown-menu a.text-danger { 
+            color: #c62828; 
+        }
