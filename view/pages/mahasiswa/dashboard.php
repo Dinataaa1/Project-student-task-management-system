@@ -33,7 +33,10 @@ include_once __DIR__ . '/../../components/header.php';
 
         <div class="content-area">
 
-            <h4 class="fw-bold mb-4">Hai, <?= htmlspecialchars($nama_user) ?></h4>
+            <?php 
+                $tampil_nama = !empty($nama_user) ? $nama_user : 'Mahasiswa'; 
+            ?>
+            <h4 class="fw-bold mb-4">Hai, <?= htmlspecialchars($tampil_nama) ?></h4>
 
             <div class="d-flex gap-3 align-items-center flex-wrap mb-4">
                 <?php if (!empty($data_matkul)) : ?>
@@ -43,9 +46,9 @@ include_once __DIR__ . '/../../components/header.php';
                             <span><?= htmlspecialchars($matkul['nama']) ?></span>
                         </a>
                     <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-muted fst-italic">Belum ada mata kuliah yang diambil.</p>
                 <?php endif; ?>
-                
-<
                 <a href="daftar_matkul.php" class="ms-3 fw-bold text-decoration-none" style="color: #00a0e3;">See all ></a>
             </div>
 

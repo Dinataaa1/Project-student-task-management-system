@@ -11,6 +11,5 @@
     
     <!-- Pemanggilan CSS Absolut berbasis BASE_URL -->
     <link href="<?= BASE_URL ?>view/assets/css/index.css" rel="stylesheet">
-
 </head>
 <body class="bg-light">

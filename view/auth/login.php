@@ -6,6 +6,9 @@ ini_set('display_errors', 1);
 require_once '../../controllers/auth/session_check.php';
 larangJikaSudahLogin();
 
+// Pastikan BASE_URL terdefinisi sebelum header ditampilkan
+require_once '../../config/koneksi.php';
+
 // Tangkap pesan error dari auth_process jika login gagal
 $error = isset($_GET['error']) ? 'Email atau password salah!' : '';
 ?>
