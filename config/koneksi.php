@@ -1,6 +1,6 @@
 <?php
 
-define('BASE_URL', '/LOLUAS/');
+define('BASE_URL', '/Project-student-task-management-system/');
 
 $conn = mysqli_connect(
     "localhost",
