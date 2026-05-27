@@ -1,0 +1,106 @@
+/* --- Base Styling --- */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden; }
+
+/* --- Sidebar (Sama dengan Dashboard) --- */
+.sidebar { 
+    width: 80px; background-color: #fff; display: flex; 
+    flex-direction: column; align-items: center; padding-top: 20px; 
+    border-right: 1px solid #eee; z-index: 10; 
+}
+.profile-area { text-align: center; margin-bottom: 30px; }
+.profile-area img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.profile-area p { font-size: 11px; font-weight: bold; margin-top: 5px; text-transform: uppercase; color: #000; }
+
+.nav-menu { display: flex; flex-direction: column; width: 100%; }
+.nav-item { 
+    width: 100%; height: 60px; display: flex; justify-content: center; align-items: center; 
+    text-decoration: none; color: #009ef7; font-size: 22px; transition: 0.2s; 
+}
+.nav-item.active { background-color: #009ef7; color: #fff; }
+
+/* --- Main Content Layout --- */
+.main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
+.header { height: 60px; background-color: #d8d8d8; display: flex; align-items: center; padding: 0 30px; }
+.header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
+
+.content-area { padding: 40px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+.page-title { align-self: flex-start; font-size: 20px; font-weight: 700; margin-bottom: 30px; color: #222; }
+
+/* --- Profile Card (Tema Blob & Rounded) --- */
+.profile-card {
+    background: #fff;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 28px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #f0f0f0;
+}
+
+/* Blob Dekorasi (Sama dengan Dashboard Card) */
+.blob-decoration {
+    position: absolute;
+    top: 0; right: 0;
+    width: 250px; height: 180px;
+    border-bottom-left-radius: 100%;
+    z-index: 1;
+}
+.blob-decoration.orange { background: linear-gradient(135deg, #fde4c3 0%, #fad19b 100%); }
+
+/* Profile Header */
+.profile-header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.avatar-container {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 15px;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.avatar-container img { width: 100%; height: 100%; object-fit: cover; }
+.profile-name-tag h3 { font-size: 18px; font-weight: 800; color: #000; letter-spacing: 1px; }
+.profile-name-tag p { font-size: 13px; color: #666; }
+
+/* Info Grid */
+.profile-info-grid {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+.info-item { margin-bottom: 18px; }
+.info-item label { display: block; font-size: 12px; font-weight: 700; color: #888; margin-bottom: 4px; }
+.info-item span { display: block; font-size: 15px; color: #333; font-weight: 500; }
+
+/* Action Button */
+.btn-edit-profile {
+    margin-top: 20px;
+    background-color: #c62828; /* Merah konsisten */
+    color: #fff; border: none;
+    padding: 10px 35px; border-radius: 25px;
+    font-size: 14px; font-weight: bold;
+    cursor: pointer; transition: 0.2s;
+    z-index: 2;
+}
+.btn-edit-profile:hover { background-color: #b71c1c; transform: translateY(-2px); }
+
+/* Tombol Kembali (Sama dengan Tugas Page) */
+.btn-back {
+    position: fixed; bottom: 40px; left: 120px;
+    width: 40px; height: 40px;
+    background-color: #3b505c; color: white;
+    border-radius: 50%; display: flex; 
+    justify-content: center; align-items: center;
+    font-size: 16px; text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
