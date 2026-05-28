@@ -88,7 +88,7 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
     font-size: 16px;
 }
 
-/* Dekorasi Blob Oranye di Kartu Detail */
+/* Dekorasi di Kartu Detail */
 .blob-large { 
     position: absolute; 
     top: 0; right: 0; 
@@ -106,10 +106,10 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
 table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 8px; /* Memberikan jarak antar baris */
+    border-spacing: 0 8px; 
 }
 th {
-    background-color: #8b5cf6; /* Warna ungu header */
+    background-color: #8b5cf6; 
     color: white;
     padding: 12px 20px;
     text-align: left;
@@ -120,7 +120,7 @@ th:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; 
 th:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
 
 td {
-    background-color: #c4b5fd; /* Warna ungu muda untuk baris */
+    background-color: #c4b5fd; 
     padding: 12px 20px;
     color: #333;
     font-size: 14px;
@@ -167,7 +167,7 @@ td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;
 .status-tepat { background-color: #d1fae5; color: #059669; }
 .status-kosong { background-color: #e5e7eb; color: #4b5563; }
 
-/* Tombol Kembali (Back) */
+/* Tombol Back */
 .btn-back {
     position: fixed;
     bottom: 40px;
@@ -186,20 +186,16 @@ td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;
 }
 .btn-back:hover { background-color: #2a3a44; transform: scale(1.05); color: white; }
 
-/* =========================================
-   ANIMASI & INTERAKSI DINAMIS 
-   ========================================= */
-
-/* 1. Efek Hover Tombol Logout */
+/* Efek Hover Tombol Logout */
 .logout-btn {
     transition: 0.3s ease;
 }
 .logout-btn:hover {
-    background-color: #ffe8e8 !important; /* Latar merah pudar */
-    color: #c62828 !important; /* Merah tegas */
+    background-color: #ffe8e8 !important; 
+    color: #c62828 !important; 
 }
 
-/* 2. Animasi Masuk (Fade & Slide Up) */
+/* Animasi Masuk */
 @keyframes fadeSlideUp {
     from { 
         opacity: 0; 
@@ -211,13 +207,12 @@ td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;
     }
 }
 
-/* Terapkan animasi masuk ke Card dan Baris Tabel */
 .card, .profile-card, .task-detail-card, tbody tr {
     animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     opacity: 0; /* Sembunyikan elemen sebelum animasi dimulai */
 }
 
-/* Staggered Effect: Memberi jeda (delay) berurutan agar muncul satu per satu */
+/* Staggered Effect */
 .card:nth-child(1), tbody tr:nth-child(1) { animation-delay: 0.1s; }
 .card:nth-child(2), tbody tr:nth-child(2) { animation-delay: 0.2s; }
 .card:nth-child(3), tbody tr:nth-child(3) { animation-delay: 0.3s; }
@@ -226,7 +221,7 @@ td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;
 .card:nth-child(6) { animation-delay: 0.6s; }
 .card:nth-child(7) { animation-delay: 0.7s; }
 
-/* 3. Efek Hover pada Kartu (Mengangkat dan Membesar) */
+/* Efek Hover pada Kartu */
 .card {
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -235,7 +230,7 @@ td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* 4. Animasi Modal / Pop-up Form (Scale In) */
+/* Animasi Modal Scale In */
 @keyframes modalScaleIn {
     from { 
         opacity: 0; 
@@ -251,7 +246,7 @@ td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;
     animation: modalScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* 5. Efek Rotasi Kecil pada Ikon Menu Titik Tiga */
+/* Efek Rotasi Kecil pada Ikon Menu Titik Tiga */
 .menu-icon {
     transition: transform 0.2s ease, color 0.2s ease;
 }
