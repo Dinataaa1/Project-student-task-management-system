@@ -1,64 +1,84 @@
-/* ==========================================================================
-   KOMPONEN: TOPBAR & REMINDERS OFFCANVAS
-   ========================================================================== */
-
-.topbar {
+/* bungkus layar penuh untuk tata letak menu kiri dan konten kanan sejajar */
+.dashboard-wrapper {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background-color: #e4e6e9; /* Warna abu-abu background topbar */
-    width: 100%;
+    min-height: 100vh;
+    background-color: #f8f9fa;
 }
 
-/* Mengatur lebar panel yang meluncur dari kanan */
-.custom-offcanvas {
-    width: 400px !important;
-    border-left: none;
-    box-shadow: -5px 0 25px rgba(0,0,0,0.05);
-}
-
-.reminders-divider {
-    border-top: 3px solid #7dd3fc;
-    opacity: 1;
-    margin-top: 5px;
-    margin-bottom: 25px;
-    width: 100%;
-}
-
-/* Kerangka dasar kartu reminder */
-.rem-card {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 15px;
-    position: relative;
-    overflow: hidden;
-    color: #333;
-    text-decoration: none;
-    display: block;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    min-height: 120px;
-    border: none;
-}
-
-.rem-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    color: #333;
-}
-
-/* Hiasan blob menggunakan ukuran yang disesuaikan */
-.rem-blob {
-    position: absolute;
-    top: -20px;
-    right: -20px;
+/* ==========================================================================
+   SIDEBAR (MENU NAVIGASI KIRI)
+   ========================================================================== */
+.sidebar {
     width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 10;
+    /* UPDATE: Memastikan sidebar setinggi layar penuh & menempel saat scroll */
+    height: 100vh;
+    position: sticky;
+    top: 0;
 }
 
-.rem-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; }
-.rem-subtitle { font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; }
-.rem-info { font-size: 0.75rem; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; opacity: 0.8; }
+/* UPDATE: Pembungkus menu utama agar rapi di atas */
+.sidebar-menu-top {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* UPDATE: Pembungkus tombol logout agar otomatis terdorong ke bawah */
+.sidebar-menu-bottom {
+    width: 100%;
+    margin-top: auto; /* INI KUNCI RAHASIANYA! */
+    margin-bottom: 20px;
+}
+
+/* gaya setiap kotak tombol ikon di dalam menu navigasi */
+.sidebar-item {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    color: #6c757d;
+    cursor: pointer;
+    transition: 0.3s;
+    /* UPDATE: Agar ikon benar-benar berada di tengah kotak */
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-item:hover { 
+    color: #00a0e3; 
+}
+
+/* penanda visual khusus warna biru untuk menu yang sedang dibuka */
+.sidebar-item.active {
+    background-color: #00a0e3;
+    color: white;
+}
+
+/* UPDATE: Gaya khusus untuk icon logout di bawah */
+.sidebar-item.logout-icon { 
+    color: #00a0e3; 
+}
+.sidebar-item.logout-icon:hover { 
+    background-color: rgba(0, 160, 227, 0.1); 
+}
+
+/* ==========================================================================
+   AREA KONTEN UTAMA KANAN
+   ========================================================================== */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* beri jarak aman (padding) untuk semua isi konten layar */
+.content-area {
+    padding: 30px;
+}
