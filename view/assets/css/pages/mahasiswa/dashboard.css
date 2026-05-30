@@ -35,88 +35,185 @@
     border-radius: 50%;
 }
 
-/* bungkus utama yang menyatukan widget kalender dan info deadline */
+/* bungkus utama yang menyatukan widget kalender baru ala figma */
 .calendar-widget {
     display: flex;
-    border-radius: 12px;
+    border-radius: 25px;
     overflow: hidden;
     margin-top: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-/* sisi kiri kalender warna pink untuk tanggal hari ini dan deadline terdekat */
+/* sisi kiri kalender warna ungu untuk tanggal hari ini dan deadline terdekat */
 .cal-left {
-    background-color: #fa8c96;
+    background-color: #bfa1f7;
     color: white;
-    padding: 25px;
-    width: 300px;
+    padding: 35px;
+    width: 320px;
+    position: relative;
 }
 
-/* sisi kanan kalender warna biru untuk angka tabel tanggalan */
-.cal-right {
-    background-color: #00a0e3;
-    color: white;
+/* pengaturan teks angka tanggal super besar di panel kiri */
+.cal-left-date h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 0.9;
+}
+
+/* pengaturan teks bulan dan tahun di bawah angka tanggal besar */
+.cal-left-date span {
+    font-size: 1.2rem;
+    display: block;
+    margin-top: 5px;
+    opacity: 0.9;
+}
+
+/* posisi ikon kalender kecil di pojok kanan atas panel ungu */
+.cal-icon {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    opacity: 0.8;
+}
+
+/* kotak ungu agak gelap untuk membungkus daftar tugas (notes) */
+.notes-box {
+    background-color: #9a73e6;
+    border-radius: 20px;
     padding: 25px;
+    margin-top: 40px;
+    min-height: 200px;
+}
+
+/* judul "notes to be made" di dalam kotak tugas */
+.notes-box h6 {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* gaya untuk masing-masing baris daftar tugas di kotak ungu */
+.dl-item {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* efek transparan lebih terang saat baris tugas disorot */
+.dl-item:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+    color: white;
+}
+
+/* titik merah kecil di sebelah kiri nama tugas */
+.dl-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+}
+
+/* sisi kanan kalender warna putih untuk tabel tanggalan kotak-kotak */
+.cal-right {
+    background-color: #ffffff;
+    color: #333;
+    padding: 30px 40px;
     flex-grow: 1;
 }
 
-/* tombol khusus untuk membuat catatan tugas baru */
-.btn-notes {
-    background-color: #ffb3b9;
-    color: #333;
+/* bagian kontrol bulan dan tahun di atas tabel (ada panah kiri kanan) */
+.cal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 25px;
     font-weight: bold;
-    border: none;
-    border-radius: 4px;
-    width: 100%;
-    padding: 8px;
-    margin-top: 20px;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
 }
 
-/* kotak merah muda penyimpan list nama tugas yang mau tenggat */
-.dl-box {
-    background-color: #ffb3b9;
-    height: 25px;
-    border-radius: 4px;
-    margin-bottom: 8px;
+/* panah pengubah bulan yang bisa diklik */
+.cal-header span {
+    cursor: pointer;
+    user-select: none;
 }
 
-/* susun deretan angka tanggalan menjadi baris dan kolom rapi (7 hari) */
+/* kerangka tabel tanggalan menggunakan sistem grid 7 kolom */
 .cal-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 15px;
-    text-align: center;
-    margin-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
 }
 
-/* bentuk dasar bulatan untuk tempat angka tanggal pada kalender */
-.date-circle {
-    width: 35px;
-    height: 35px;
+/* gaya khusus untuk baris nama-nama hari (sun, mon, tue, dst) */
+.cal-cell-header {
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    margin: 0 auto;
-    transition: 0.2s;
-}
-
-/* penanda spesial warna stabilo untuk lingkaran tanggal hari ini */
-.date-circle.hari-ini {
-    background-color: #a8e6cf;
-    color: #1a4a38;
-    font-weight: 900;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* penanda spesial warna merah muda untuk lingkaran hari minggu */
-.date-circle.hari-libur {
-    background-color: #fa8c96;
-    color: #ffffff;
     font-weight: bold;
+    font-size: 0.95rem;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-/* garis tepi putih melingkar khusus tanggal yang memiliki tenggat tugas */
-.date-circle.ada-tugas {
-    border: 2px solid #ffffff;
+/* gaya kotak untuk masing-masing angka tanggal */
+.cal-cell {
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+    position: relative;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+/* paksa warna merah untuk hari minggu (sun) */
+.text-sun {
+    color: #ff4d4d !important;
+}
+
+/* paksa warna biru untuk hari sabtu (sat) */
+.text-sat {
+    color: #3399ff !important;
+}
+
+/* penampung untuk titik merah penanda deadline di bawah angka tanggal */
+.dots-container {
+    display: flex;
+    gap: 4px;
+    position: absolute;
+    bottom: 12px;
+}
+
+/* bentuk titik merah penanda ada tugas di tanggal tersebut */
+.dot {
+    width: 6px;
+    height: 6px;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+}
+
+/* Warna tulisan hijau terang khusus untuk penanda tanggal hari ini */
+.text-today {
+    color: #3eb55c !important;
+    font-weight: 900 !important;
 }

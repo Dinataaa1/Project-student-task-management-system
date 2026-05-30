@@ -2,19 +2,29 @@
 // ==========================================================================
 // 1. OTENTIKASI & KONEKSI BASIS DATA (CONTROLLER)
 // ==========================================================================
-// session_start();
-// if (!isset($_SESSION['mahasiswa_id'])) {
-//     header("Location: ../../view/auth/login.php"); 
-//     exit();
-// }
-
-// Wajib ditambahkan agar PHP menggunakan jam Indonesia (WIB)
 date_default_timezone_set('Asia/Jakarta');
+include_once '../../../config/koneksi.php'; 
 
-include_once __DIR__ . '/../../config/koneksi.php'; 
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
+    header("Location: ../../view/auth/login.php");
+    exit();
+}
 
-$mahasiswa_id = 1; 
-$nama_user = "Luthfi Bahrur R."; 
+if (isset($_SESSION['mahasiswa_id'])) {
+    $mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
+} else {
+    $user_id = (int) $_SESSION['user_id'];
+    $res = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id LIMIT 1");
+    $row = mysqli_fetch_assoc($res);
+    if (!$row) {
+        header("Location: ../../view/auth/login.php");
+        exit();
+    }
+    $mahasiswa_id = (int) $row['id'];
+}
+
+$nama_user = $_SESSION['nama'] ?? '';
 
 // ==========================================================================
 // 2. LOGIKA PENGAMBILAN DATA (QUERY)
@@ -44,7 +54,7 @@ if ($query_matkul) {
     }
 }
 
-// B. Menarik seluruh data batas waktu tugas (Untuk Calendar Widget di JS)
+// B. Menarik data tanggal batas waktu tugas (Untuk Titik Merah di Kalender)
 $query_tugas = mysqli_query($conn, "
     SELECT DATE(t.deadline) as tgl_deadline 
     FROM tugas t
@@ -56,20 +66,23 @@ $query_tugas = mysqli_query($conn, "
 $array_deadline = [];
 if ($query_tugas) {
     while ($row = mysqli_fetch_assoc($query_tugas)) {
-        $tanggal_mentah = date("Y-n-j", strtotime($row['tgl_deadline'])); 
-        $array_deadline[] = $tanggal_mentah;
+        // Disimpan dalam format Y-n-j (Contoh: 2026-5-13)
+        $array_deadline[] = date("Y-n-j", strtotime($row['tgl_deadline'])); 
     }
 }
 
-// C. Menarik dua data tugas dengan tenggat waktu terdekat
+// C. Menarik data deadline terdekat (Hanya tugas yang BELUM dikumpulkan)
 $query_dl_terdekat = mysqli_query($conn, "
-    SELECT t.judul_tugas, t.deadline 
+    SELECT t.id, mk.nama_matkul, t.deadline 
     FROM tugas t
     JOIN mata_kuliah mk ON t.matkul_id = mk.id
     JOIN krs k ON mk.id = k.mata_kuliah_id
-    WHERE k.mahasiswa_id = $mahasiswa_id AND t.deadline >= NOW()
+    -- Melakukan relasi ke tabel pengumpulan untuk mengecek status
+    LEFT JOIN pengumpulan_tugas pt ON pt.tugas_id = t.id AND pt.mahasiswa_id = k.mahasiswa_id
+    WHERE k.mahasiswa_id = $mahasiswa_id 
+    AND pt.id IS NULL -- LOGIKA INTI: Hanya ambil yang data pengumpulannya KOSONG (Belum kumpul)
     ORDER BY t.deadline ASC
-    LIMIT 2
+    LIMIT 4
 ");
 
 $data_dl_terdekat = [];
@@ -79,8 +92,68 @@ if ($query_dl_terdekat) {
     }
 }
 
+// D. Menarik ringkasan tugas dan nilai untuk dashboard
+$query_tugas_nilai = mysqli_query($conn, "
+    SELECT
+        t.id,
+        t.judul_tugas,
+        t.deadline,
+        mk.nama_matkul,
+        p.nilai,
+        p.file_tugas,
+        p.waktu_kumpul
+    FROM tugas t
+    JOIN mata_kuliah mk ON t.matkul_id = mk.id
+    JOIN krs k ON mk.id = k.mata_kuliah_id
+    LEFT JOIN pengumpulan_tugas p ON p.tugas_id = t.id AND p.mahasiswa_id = $mahasiswa_id
+    WHERE k.mahasiswa_id = $mahasiswa_id
+    ORDER BY t.deadline ASC
+    LIMIT 6
+");
+
+$data_tugas_nilai = [];
+if ($query_tugas_nilai) {
+    while ($row = mysqli_fetch_assoc($query_tugas_nilai)) {
+        $status = 'Belum Mengumpulkan';
+        if (!empty($row['waktu_kumpul'])) {
+            $status = (strtotime($row['waktu_kumpul']) > strtotime($row['deadline'])) ? 'Diserahkan Terlambat' : 'Dikumpulkan';
+        }
+        $data_tugas_nilai[] = [
+            'id' => $row['id'],
+            'judul_tugas' => $row['judul_tugas'],
+            'deadline' => $row['deadline'],
+            'nama_matkul' => $row['nama_matkul'],
+            'nilai' => $row['nilai'],
+            'file_tugas' => $row['file_tugas'],
+            'waktu_kumpul' => $row['waktu_kumpul'],
+            'status' => $status,
+        ];
+    }
+}
+
 // Menyiapkan variabel tanggal untuk UI
 $tanggal_sekarang = date('d'); 
 $bulan_sekarang = date('M');   
 $tahun_sekarang = date('Y');   
+
+// D. Menarik data untuk Panel Reminders (Tugas belum kumpul, urut terdekat, beserta nama Dosen)
+$query_reminders = mysqli_query($conn, "
+    SELECT t.id, mk.nama_matkul, t.judul_tugas, t.deadline, d.nama_dosen
+    FROM tugas t
+    JOIN mata_kuliah mk ON t.matkul_id = mk.id
+    JOIN krs k ON mk.id = k.mata_kuliah_id
+    JOIN dosen d ON mk.dosen_id = d.id
+    LEFT JOIN pengumpulan_tugas pt ON pt.tugas_id = t.id AND pt.mahasiswa_id = k.mahasiswa_id
+    WHERE k.mahasiswa_id = $mahasiswa_id 
+    AND pt.id IS NULL
+    ORDER BY t.deadline ASC
+    LIMIT 3
+");
+
+$data_reminders = [];
+if ($query_reminders) {
+    while ($row = mysqli_fetch_assoc($query_reminders)) {
+        $data_reminders[] = $row;
+    }
+}
 ?>

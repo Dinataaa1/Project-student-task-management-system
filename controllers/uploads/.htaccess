@@ -1,0 +1,7 @@
+# Disable directory listing
+Options -Indexes
+
+# Deny execution of PHP scripts and similar
+<FilesMatch "\.(php|php5|phtml|phar)$">
+  Require all denied
+</FilesMatch>
