@@ -1,8 +1,8 @@
-/* --- Base Styling --- */
+/* Base Styling */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden; }
 
-/* --- Sidebar (Sama dengan Dashboard) --- */
+/* Sidebar */
 .sidebar { 
     width: 80px; background-color: #fff; display: flex; 
     flex-direction: column; align-items: center; padding-top: 20px; 
@@ -19,7 +19,7 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
 }
 .nav-item.active { background-color: #009ef7; color: #fff; }
 
-/* --- Main Content Layout --- */
+/* Main Content Layout */
 .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
 .header { height: 60px; background-color: #d8d8d8; display: flex; align-items: center; padding: 0 30px; }
 .header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
@@ -27,7 +27,7 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
 .content-area { padding: 40px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
 .page-title { align-self: flex-start; font-size: 20px; font-weight: 700; margin-bottom: 30px; color: #222; }
 
-/* --- Profile Card (Tema Blob & Rounded) --- */
+/* Profile Card */
 .profile-card {
     background: #fff;
     width: 100%;
@@ -43,7 +43,7 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
     border: 1px solid #f0f0f0;
 }
 
-/* Blob Dekorasi (Sama dengan Dashboard Card) */
+/* Blob Dekorasi */
 .blob-decoration {
     position: absolute;
     top: 0; right: 0;
@@ -85,7 +85,7 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
 /* Action Button */
 .btn-edit-profile {
     margin-top: 20px;
-    background-color: #c62828; /* Merah konsisten */
+    background-color: #c62828; 
     color: #fff; border: none;
     padding: 10px 35px; border-radius: 25px;
     font-size: 14px; font-weight: bold;
@@ -94,7 +94,7 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
 }
 .btn-edit-profile:hover { background-color: #b71c1c; transform: translateY(-2px); }
 
-/* Tombol Kembali (Sama dengan Tugas Page) */
+/* Tombol Back */
 .btn-back {
     position: fixed; bottom: 40px; left: 120px;
     width: 40px; height: 40px;
@@ -103,4 +103,73 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
     justify-content: center; align-items: center;
     font-size: 16px; text-decoration: none;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+
+/* Efek Hover Tombol Logout */
+.logout-btn {
+    transition: 0.3s ease;
+}
+.logout-btn:hover {
+    background-color: #ffe8e8 !important;
+    color: #c62828 !important; 
+}
+
+/* Animasi Masuk */
+@keyframes fadeSlideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.card, .profile-card, .task-detail-card, tbody tr {
+    animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0; 
+}
+
+/* Staggered Effect */
+.card:nth-child(1), tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2), tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3), tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4), tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+.card:nth-child(7) { animation-delay: 0.7s; }
+
+/* Efek Hover pada Kartu */
+.card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+/* Animasi Modal Scale In */
+@keyframes modalScaleIn {
+    from { 
+        opacity: 0; 
+        transform: scale(0.9); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+.modal-content {
+    animation: modalScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Efek Rotasi Kecil pada Ikon Menu Titik Tiga */
+.menu-icon {
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+.menu-icon:hover {
+    transform: rotate(90deg);
 }
