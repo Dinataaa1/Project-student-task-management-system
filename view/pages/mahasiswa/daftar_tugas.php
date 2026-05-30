@@ -5,8 +5,6 @@ require_once '../../../controllers/mahasiswa/daftar_tugas.php';
 
 $active_page = 'tugas';
 include '../../components/header.php';
-
-include '../../components/header.php';
 ?>
 
 <div class="dashboard-wrapper">

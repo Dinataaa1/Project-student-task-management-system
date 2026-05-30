@@ -1,6 +1,7 @@
 /* Reset Dasar */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden; }
+/* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } */
+/* body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden; } */ 
+
 
 /* Sidebar Kiri */
 .sidebar { 
