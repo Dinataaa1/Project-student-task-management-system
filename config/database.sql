@@ -39,7 +39,7 @@ CREATE TABLE tugas (
     matkul_id INT NOT NULL,
     judul_tugas VARCHAR(150) NOT NULL,
     deskripsi TEXT,
-    file_lampiran VARCHAR(255) NULL, -- INI TAMBAHANNYA
+    file_lampiran VARCHAR(255) NULL, 
     deadline DATETIME NOT NULL,
     FOREIGN KEY (matkul_id) REFERENCES mata_kuliah(id) ON DELETE CASCADE
 );
