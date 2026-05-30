@@ -41,8 +41,48 @@ body { display: flex; height: 100vh; background-color: #fdfdfd; overflow: hidden
 .header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
 
 /* Area Scroll Konten */
+/* Area Scroll Konten */
 .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; }
-.greeting { font-size: 18px; font-weight: 700; margin-bottom: 30px; color: #333; }
+
+/* Header Konten & Dropdown Filter */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.greeting { 
+    font-size: 18px; 
+    font-weight: 700; 
+    color: #333; 
+    margin: 0; /* Margin bawah dihapus, diatur oleh content-header */
+}
+
+.greeting span {
+    color: #009ef7; /* Highlight warna biru */
+}
+
+.matkul-dropdown {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    background-color: #fff;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+    min-width: 220px;
+}
+
+.matkul-dropdown:focus, .matkul-dropdown:hover {
+    border-color: #009ef7;
+    box-shadow: 0 4px 10px rgba(0, 158, 247, 0.15);
+}
 
 /* Grid Kartu Tugas */
 .grid-container { 
