@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Tugas Mata Kuliah</title>
-    <link rel="stylesheet" href="../../../assets/css/pages/admin/detail.css">
+    <link rel="stylesheet" href="../../../assets/css/pages/admin/detail.css?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
 
-                <textarea id="inputDeskripsi" class="input-desc" rows="3" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..." required></textarea>
+                <textarea id="inputDeskripsi" class="input-desc" rows="3" placeholder="Deskripsi" required></textarea>
 
                 <button type="submit" class="btn-submit">SUBMIT</button>
             </form>
