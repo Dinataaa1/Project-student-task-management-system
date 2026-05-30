@@ -12,10 +12,10 @@
 @import 'pages/mahasiswa/pengaturan.css';
 
 /* import css spesifik halaman admin */
-/* @import 'pages/admin/dashboard.css';
-/* @import 'pages/admin/detail.css'; */
-/* @import 'pages/admin/detail_tugas.css'; */
-/* @import 'pages/admin/setting.css'; */  
+@import 'pages/admin/dashboard.css';
+@import 'pages/admin/detail.css'; 
+@import 'pages/admin/detail_tugas.css'; 
+@import 'pages/admin/setting.css';    
 
 /* atur font, warna latar dasar, dan reset margin bawaan browser */
 body {

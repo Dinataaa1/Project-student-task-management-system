@@ -1,5 +1,6 @@
 <?php
     // $active_page = 'dashboard';
+    include_once '../../../config/koneksi.php'; 
     include '../../components/header.php';
 ?>
 

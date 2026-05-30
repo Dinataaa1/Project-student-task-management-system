@@ -4,7 +4,7 @@
 
 
 /* Sidebar Kiri */
-.sidebar { 
+/* .sidebar { 
     width: 80px; 
     background-color: #fff; 
     display: flex; 
@@ -26,22 +26,22 @@
     transition: 0.2s; 
 }
 .nav-item.active { background-color: #009ef7; color: #fff; }
-.nav-item:hover:not(.active) { background-color: #f0f8ff; }
+.nav-item:hover:not(.active) { background-color: #f0f8ff; } */
 
 /* Area Konten Utama */
-.main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
+/* .main-content { flex: 1; display: flex; flex-direction: column; position: relative; } */
 
 /* Header Atas */
-.header { 
+/* .header { 
     height: 60px; 
     background-color: #d8d8d8; 
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
-.header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
+.header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; } */
 
 /* Area Scroll Konten */
-.content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; padding-bottom: 100px; }
+/* .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; padding-bottom: 100px; } */
 
 .page-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: #333; }
 

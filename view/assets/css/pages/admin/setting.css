@@ -4,7 +4,7 @@
 
 
 /* Sidebar */
-.sidebar { 
+/* .sidebar { 
     width: 80px; background-color: #fff; display: flex; 
     flex-direction: column; align-items: center; padding-top: 20px; 
     border-right: 1px solid #eee; z-index: 10; 
@@ -21,11 +21,11 @@
 .nav-item.active { background-color: #009ef7; color: #fff; }
 
 /* Main Content Layout */
-.main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
+/* .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
 .header { height: 60px; background-color: #d8d8d8; display: flex; align-items: center; padding: 0 30px; }
 .header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
 
-.content-area { padding: 40px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+.content-area { padding: 40px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; } */
 .page-title { align-self: flex-start; font-size: 20px; font-weight: 700; margin-bottom: 30px; color: #222; }
 
 /* Profile Card */

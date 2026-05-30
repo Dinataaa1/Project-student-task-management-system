@@ -6,6 +6,7 @@
 }
 
 /* atur kotak menu navigasi kiri agar menempel dari atas ke bawah */
+
 .sidebar {
     width: 80px;
     background-color: #ffffff;
@@ -17,7 +18,6 @@
     z-index: 10;
 }
 
-/* gaya setiap kotak tombol ikon di dalam menu navigasi */
 .sidebar-item {
     width: 100%;
     padding: 15px 0;
