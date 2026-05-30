@@ -3,11 +3,13 @@
 @import 'components/blob.css';
 @import 'components/modal.css';
 @import 'auth/login.css';
+@import 'components/topbar.css';
 /* import css spesifik halaman mahasiswa */
 @import 'pages/mahasiswa/dashboard.css';
 @import 'pages/mahasiswa/daftar_matkul.css';
 @import 'pages/mahasiswa/daftar_tugas.css';
 @import 'pages/mahasiswa/detail_tugas.css';
+@import 'pages/mahasiswa/pengaturan.css';
 
 /* atur font, warna latar dasar, dan reset margin bawaan browser */
 body {
