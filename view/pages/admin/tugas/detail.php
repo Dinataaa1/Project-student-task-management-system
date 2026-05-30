@@ -29,7 +29,20 @@
         </div>
 
         <div class="content-area">
-            <h2 class="greeting">Hai, Lulu! Ini adalah kelas 1 D4 IT C</h2>
+            <div class="content-header">
+                <h2 class="greeting">Hai, Lulu! Ini adalah tugas mata kuliah <span id="namaMatkulText">Semua Mata Kuliah</span></h2>
+                
+                <div class="filter-container">
+                    <select id="matkulFilter" class="matkul-dropdown">
+                        <option value="semua">Semua Mata Kuliah</option>
+                        <option value="prak_web">Praktikum Pemrograman Web</option>
+                        <option value="basis_data">Basis Data Lanjut</option>
+                        <option value="pbo">Pemrograman Berorientasi Objek</option>
+                        <option value="ai">Kecerdasan Buatan (AI)</option>
+                        <option value="so">Sistem Operasi</option>
+                    </select>
+                </div>
+            </div>
             
             <div class="grid-container">
                 <div class="card" onclick="window.location.href='detail_tugas.php'" style="cursor: pointer;">
@@ -79,6 +92,6 @@
         </div>
     </div>
 
-    <script src="../../../../assets/js/admin/detail.js"></script>
+    <script src="../../../assets/js/admin/detail.js?v=1"></script>
 </body>
 </html>
