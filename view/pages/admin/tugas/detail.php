@@ -17,6 +17,9 @@
             <a href="../dashboard.php" class="nav-item"><i class="fa-solid fa-house"></i></a>
             <a href="detail.php" class="nav-item active"><i class="fa-solid fa-address-card"></i></a>
             <a href="../setting.php" class="nav-item"><i class="fa-solid fa-gear"></i></a>
+            <a href="../../../../controllers/logout.php" class="nav-item logout-btn" onclick="return confirm('Apakah Anda yakin ingin keluar dari aplikasi?');">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
         </div>
     </div>
 
