@@ -1,6 +1,13 @@
 <?php
 // Memanggil logika dari file controller
 require_once '../../../controllers/mahasiswa/dashboard.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+// ==========================================================================
+// MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
+// ==========================================================================
+
+require_once __DIR__ . '/../../../controllers/mahasiswa/dashboard.php';
 
 $active_page = 'dashboard';
 include '../../components/header.php';
@@ -14,14 +21,20 @@ include '../../components/header.php';
     
     <?php include '../../components/sidebar.php'; ?>
 
+    <?php include __DIR__ . '/../../components/sidebar.php'; ?>
+
     <div class="main-content">
 
     <?php include '../../components/topbar.php'; ?>
         
         <div class="content-area">
-            <h4 class="fw-bold mb-4">Hai, <?= htmlspecialchars($nama_user) ?></h4>
 
-            <div class="d-flex gap-3 align-items-center flex-wrap">
+            <?php 
+                $tampil_nama = !empty($nama_user) ? $nama_user : 'Mahasiswa'; 
+            ?>
+            <h4 class="fw-bold mb-4">Hai, <?= htmlspecialchars($tampil_nama) ?></h4>
+
+            <div class="d-flex gap-3 align-items-center flex-wrap mb-4">
                 <?php if (!empty($data_matkul)) : ?>
                     <?php foreach($data_matkul as $matkul) : ?>
                         <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card text-decoration-none">
@@ -29,8 +42,9 @@ include '../../components/header.php';
                             <span><?= htmlspecialchars($matkul['nama']) ?></span>
                         </a>
                     <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-muted fst-italic">Belum ada mata kuliah yang diambil.</p>
                 <?php endif; ?>
-                
                 <a href="daftar_matkul.php" class="ms-3 fw-bold text-decoration-none" style="color: #00a0e3;">See all ></a>
             </div>
 
@@ -60,6 +74,12 @@ include '../../components/header.php';
                                         <?= date('d M', strtotime($dl['deadline'])) ?>
                                     </span>
                                 </a>
+                                <?php $tgl_format = date('d M', strtotime($dl['deadline'])); ?>
+
+                                <div class="dl-box d-flex justify-content-between align-items-center px-2" style="font-size: 0.75rem; color: #b02a37;">
+                                    <span class="text-truncate fw-bold" style="max-width: 65%;"><?= htmlspecialchars($dl['judul_tugas']) ?></span>
+                                    <span class="fw-bold"><?= $tgl_format ?></span>
+                                </div>
                             <?php endforeach; ?>
                         <?php else : ?>
                             <div class="text-white opacity-75 small">Yeay! Tidak ada deadline terdekat.</div>

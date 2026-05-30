@@ -2,6 +2,7 @@
 require_once '../../../controllers/mahasiswa/daftar_tugas.php';
 
 // Setup variabel untuk komponen
+
 $active_page = 'tugas';
 include '../../components/header.php';
 

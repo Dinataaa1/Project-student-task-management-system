@@ -9,10 +9,27 @@
 // }
 
 // Mengatur zona waktu agar perhitungan deadline akurat (WIB)
+
 date_default_timezone_set('Asia/Jakarta');
 
 // Path disesuaikan dari controllers ke config
 include_once '../../../config/koneksi.php'; 
+
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
+    header("Location: ../../view/auth/login.php");
+    exit();
+}
+
+if (isset($_SESSION['mahasiswa_id'])) {
+    $mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
+} else {
+    $user_id = (int) $_SESSION['user_id'];
+    $res = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id LIMIT 1");
+    $row = mysqli_fetch_assoc($res);
+    if (!$row) { header("Location: ../../view/auth/login.php"); exit(); }
+    $mahasiswa_id = (int) $row['id'];
+}
 
 $id_tugas = isset($_GET['id']) ? $_GET['id'] : 0;
 

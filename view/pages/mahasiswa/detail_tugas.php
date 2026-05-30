@@ -3,9 +3,11 @@
 require_once '../../../controllers/mahasiswa/detail_tugas.php';
 
 $active_page = 'tugas'; 
+
 $jalur_css = "../../assets/css/index.css"; 
 include '../../components/header.php'; 
 ?>
+
 
 <div class="dashboard-wrapper">
     

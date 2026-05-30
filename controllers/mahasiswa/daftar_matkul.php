@@ -11,9 +11,23 @@
 // Menyesuaikan jalur path dari folder controllers ke folder config
 include_once '../../../config/koneksi.php';
 
-// Data simulasi pengguna login. Akan diubah menjadi data dinamis melalui $_SESSION.
-$mahasiswa_id = 1; 
-$nama_user = "Luthfi Bahrur R."; 
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
+    header("Location: ../../view/auth/login.php");
+    exit();
+}
+
+if (isset($_SESSION['mahasiswa_id'])) {
+    $mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
+} else {
+    $user_id = (int) $_SESSION['user_id'];
+    $res = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id LIMIT 1");
+    $row = mysqli_fetch_assoc($res);
+    if (!$row) { header("Location: ../../view/auth/login.php"); exit(); }
+    $mahasiswa_id = (int) $row['id'];
+}
+
+$nama_user = $_SESSION['nama'] ?? '';
 
 // ==========================================================================
 // 2. LOGIKA PENGAMBILAN DATA (QUERY)

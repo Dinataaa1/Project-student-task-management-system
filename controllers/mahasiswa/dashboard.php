@@ -5,8 +5,26 @@
 date_default_timezone_set('Asia/Jakarta');
 include_once '../../../config/koneksi.php'; 
 
-$mahasiswa_id = 1; 
-$nama_user = "Luthfi Bahrur R."; 
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
+    header("Location: ../../view/auth/login.php");
+    exit();
+}
+
+if (isset($_SESSION['mahasiswa_id'])) {
+    $mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
+} else {
+    $user_id = (int) $_SESSION['user_id'];
+    $res = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id LIMIT 1");
+    $row = mysqli_fetch_assoc($res);
+    if (!$row) {
+        header("Location: ../../view/auth/login.php");
+        exit();
+    }
+    $mahasiswa_id = (int) $row['id'];
+}
+
+$nama_user = $_SESSION['nama'] ?? '';
 
 // ==========================================================================
 // 2. LOGIKA PENGAMBILAN DATA (QUERY)
@@ -74,6 +92,46 @@ if ($query_dl_terdekat) {
     }
 }
 
+// D. Menarik ringkasan tugas dan nilai untuk dashboard
+$query_tugas_nilai = mysqli_query($conn, "
+    SELECT
+        t.id,
+        t.judul_tugas,
+        t.deadline,
+        mk.nama_matkul,
+        p.nilai,
+        p.file_tugas,
+        p.waktu_kumpul
+    FROM tugas t
+    JOIN mata_kuliah mk ON t.matkul_id = mk.id
+    JOIN krs k ON mk.id = k.mata_kuliah_id
+    LEFT JOIN pengumpulan_tugas p ON p.tugas_id = t.id AND p.mahasiswa_id = $mahasiswa_id
+    WHERE k.mahasiswa_id = $mahasiswa_id
+    ORDER BY t.deadline ASC
+    LIMIT 6
+");
+
+$data_tugas_nilai = [];
+if ($query_tugas_nilai) {
+    while ($row = mysqli_fetch_assoc($query_tugas_nilai)) {
+        $status = 'Belum Mengumpulkan';
+        if (!empty($row['waktu_kumpul'])) {
+            $status = (strtotime($row['waktu_kumpul']) > strtotime($row['deadline'])) ? 'Diserahkan Terlambat' : 'Dikumpulkan';
+        }
+        $data_tugas_nilai[] = [
+            'id' => $row['id'],
+            'judul_tugas' => $row['judul_tugas'],
+            'deadline' => $row['deadline'],
+            'nama_matkul' => $row['nama_matkul'],
+            'nilai' => $row['nilai'],
+            'file_tugas' => $row['file_tugas'],
+            'waktu_kumpul' => $row['waktu_kumpul'],
+            'status' => $status,
+        ];
+    }
+}
+
+// Menyiapkan variabel tanggal untuk UI
 $tanggal_sekarang = date('d'); 
 $bulan_sekarang = date('M');   
 $tahun_sekarang = date('Y');   

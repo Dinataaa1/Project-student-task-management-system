@@ -2,46 +2,15 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-session_start();
+// Panggil fungsi session
+require_once '../../controllers/auth/session_check.php';
+larangJikaSudahLogin();
+
+// Pastikan BASE_URL terdefinisi sebelum header ditampilkan
 require_once '../../config/koneksi.php';
 
-if (isset($_SESSION['user_id'])) {
-    if ($_SESSION['role'] == 'dosen') {
-        header("Location: dashboard/dosen/dashboard.php");
-    } else {
-        header("Location: dashboard/mahasiswa/dashboard.php");
-    }
-    exit;
-}
-
-$error = '';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email    = trim($_POST['email']);
-    $password = $_POST['password'];
-
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-
-    $result = $stmt->get_result();
-    $user   = $result->fetch_assoc();
-
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['nama']    = $user['username'];
-        $_SESSION['role']    = $user['role'];
-
-        if ($user['role'] == 'dosen') {
-            header("Location: dashboard/dosen/dashboard.php");
-        } else {
-            header("Location: dashboard/mahasiswa/dashboard.php");
-        }
-        exit;
-    } else {
-        $error = "Email atau password salah!";
-    }
-}
+// Tangkap pesan error dari auth_process jika login gagal
+$error = isset($_GET['error']) ? 'Email atau password salah!' : '';
 ?>
 
 <?php
@@ -67,7 +36,13 @@ include '../components/header.php';
             <hr class="flex-grow-1">
         </div>
 
-        <form action="" method="POST">
+        <?php if ($error): ?>
+            <div class="alert alert-danger p-2 teks-kecil text-center">
+                <?= $error ?>
+            </div>
+        <?php endif; ?>
+
+        <form action="../../controllers/auth/auth_process.php" method="POST">
             
             <div class="mb-3">
                 <label class="form-label fw-semibold teks-kecil">E-mail</label>
