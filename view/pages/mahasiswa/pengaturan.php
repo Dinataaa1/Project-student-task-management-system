@@ -45,7 +45,7 @@ include '../../components/header.php';
                         </div>
                     </div>
 
-                    <form action="../../../controllers/auth/logout.php" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin log out dari sistem?');">
+                    <form action="../../../controllers/logout.php" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin log out dari sistem?');">
                         <button type="submit" class="btn-logout">Log out</button>
                     </form>
 
