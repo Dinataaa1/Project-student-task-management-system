@@ -68,11 +68,6 @@ include '../components/header.php';
             </div>
 
             <button type="submit" class="btn w-100 text-white mb-4 fw-medium tombol-ungu">Sign in</button>
-
-            <div class="text-center teks-kecil">
-                <span class="text-muted">Dont have an account yet?</span> 
-                <a href="register.php" class="text-decoration-none fw-semibold link-daftar">Create an account</a>
-            </div>
             
         </form>
     </div>

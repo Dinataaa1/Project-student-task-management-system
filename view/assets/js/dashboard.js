@@ -1,112 +1,116 @@
-// ==========================================================================
-// INISIALISASI VARIABEL WAKTU DASAR
-// ==========================================================================
-const namaBulan = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-let tanggalReal = new Date();
-let bulanIni = tanggalReal.getMonth(); 
-let tahunIni = tanggalReal.getFullYear();
-
-// Membatasi jangkauan navigasi kalender (Maksimal 1 tahun mundur/maju)
-const batasTahunBawah = tahunIni - 1;
-const batasTahunAtas = tahunIni + 1;
-
-// ==========================================================================
-// PENERIMAAN DATA DARI DATABASE (VIA PHP)
-// ==========================================================================
-const dataLibur = [
-    "2026-5-1",  
-    "2026-5-14", 
-    "2026-5-23"  
-]; 
-
-// Mengambil variabel global berisi array tanggal tugas dari file PHP
-const dataTugas = typeof dataTugasDB !== 'undefined' ? dataTugasDB : [];
-
 const wadahTanggal = document.getElementById('wadahTanggal');
 const displayBulanTahun = document.getElementById('displayBulanTahun');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
 
-// ==========================================================================
-// FUNGSI RENDER KALENDER
-// ==========================================================================
-function renderKalender(bulan, tahun) {
-    wadahTanggal.innerHTML = ''; 
-    
-    // Menampilkan informasi bulan dan tahun di bagian tengah header kalender
-    displayBulanTahun.innerHTML = `${namaBulan[bulan]}<br><small>${tahun}</small>`;
+let currentDate = new Date(); 
+let navMonth = currentDate.getMonth();
+let navYear = currentDate.getFullYear();
 
-    // Mencari indeks hari permulaan bulan dan total hari dalam bulan tersebut
-    const hariPertama = new Date(tahun, bulan, 1).getDay();
-    const totalHari = new Date(tahun, bulan + 1, 0).getDate();
+const namaBulan = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
 
-    // Menentukan total slot grid agar struktur kalender selalu konsisten (7 kolom x 6 baris)
-    const totalSlotKalender = 42;
-    let slotTerhitung = 0;
+// =====================================================================
+// KAMUS HARI LIBUR NASIONAL (Format: "Bulan-Tanggal")
+// =====================================================================
+const hariLiburNasional = {
+    "1-1": "Tahun Baru Masehi",
+    "5-1": "Hari Buruh Internasional",
+    "5-14": "Kenaikan Yesus Kristus",
+    "5-27": "Hari Raya Idul Adha",
+    "6-1": "Hari Lahir Pancasila",
+    "8-17": "Hari Kemerdekaan RI",
+    "12-25": "Hari Raya Natal"
+    // Kamu bisa tambahkan tanggal libur lainnya di sini!
+};
 
-    // Mencetak slot kosong untuk penyesuaian hari pertama
-    for (let i = 0; i < hariPertama; i++) {
-        wadahTanggal.innerHTML += `<div></div>`;
-        slotTerhitung++;
+function renderCalendar() {
+    wadahTanggal.innerHTML = '';
+    displayBulanTahun.innerText = `${namaBulan[navMonth]} ${navYear}`;
+
+    const firstDay = new Date(navYear, navMonth, 1).getDay();
+    const daysInMonth = new Date(navYear, navMonth + 1, 0).getDate();
+
+    // 1. Memasukkan kotak kosong di awal (Mundur)
+    for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('cal-cell');
+        wadahTanggal.appendChild(emptyCell);
     }
 
-    // Mencetak elemen blok tanggal beserta aturan penanda warnanya
-    for (let i = 1; i <= totalHari; i++) {
-        let kelasCSS = "date-circle"; 
-        let formatCek = `${tahun}-${bulan + 1}-${i}`;
-        let hariDalamSeminggu = new Date(tahun, bulan, i).getDay();
+    // 2. Memasukkan kotak angka tanggal
+    for (let i = 1; i <= daysInMonth; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cal-cell');
+        
+        const currentDayOfWeek = new Date(navYear, navMonth, i).getDay();
+        const monthDayCheck = (navMonth + 1) + "-" + i; // Contoh hasil: "5-14" atau "6-1"
 
-        // Aturan 1: Memberikan penanda jika tanggal bertepatan dengan waktu saat ini
-        if (i === tanggalReal.getDate() && bulan === tanggalReal.getMonth() && tahun === tanggalReal.getFullYear()) {
-            kelasCSS += " hari-ini"; 
+        // CEK HARI LIBUR & HARI MINGGU (Warna Merah)
+        if (currentDayOfWeek === 0 || hariLiburNasional[monthDayCheck]) {
+            cell.classList.add('text-sun');
+            // Menambahkan tooltip agar nama hari libur muncul saat kursor diarahkan ke tanggal
+            if (hariLiburNasional[monthDayCheck]) {
+                cell.title = hariLiburNasional[monthDayCheck]; 
+            }
         } 
-        // Aturan 2: Memberikan penanda jika bertepatan dengan hari libur nasional atau akhir pekan (Minggu)
-        else if (hariDalamSeminggu === 0 || dataLibur.includes(formatCek)) {
-            kelasCSS += " hari-libur";
+        // CEK HARI SABTU (Warna Biru)
+        else if (currentDayOfWeek === 6) {
+            cell.classList.add('text-sat');
         }
 
-        // Aturan 3: Memberikan garis luar putih jika mahasiswa memiliki batas waktu tugas pada tanggal tersebut
-        if (dataTugas.includes(formatCek)) {
-            kelasCSS += " ada-tugas";
+        // CEK TANGGAL HARI INI (Warna Teks Hijau - Menimpa warna lain)
+        if (navYear === currentDate.getFullYear() && navMonth === currentDate.getMonth() && i === currentDate.getDate()) {
+            cell.classList.remove('text-sun');
+            cell.classList.remove('text-sat');
+            cell.classList.add('text-today');
+            cell.title = "Hari Ini";
         }
 
-        wadahTanggal.innerHTML += `<div class="${kelasCSS}">${i}</div>`;
-        slotTerhitung++;
+        cell.innerText = i;
+
+        // CEK TUGAS DEADLINE (Titik Merah)
+        const dateString = `${navYear}-${navMonth + 1}-${i}`;
+        const deadlinesOnThisDay = dataTugasDB.filter(d => d === dateString).length;
+
+        if (deadlinesOnThisDay > 0) {
+            const dotsContainer = document.createElement('div');
+            dotsContainer.classList.add('dots-container');
+            
+            // Mencetak titik sesuai jumlah tugas di hari tersebut (Contoh: Struktur Data ada 2 tugas = 2 titik merah)
+            for (let d = 0; d < deadlinesOnThisDay; d++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dotsContainer.appendChild(dot);
+            }
+            cell.appendChild(dotsContainer);
+        }
+
+        wadahTanggal.appendChild(cell);
     }
-
-    // Menggenapkan sisa slot matriks agar tinggi kalender tidak berubah dinamis
-    while (slotTerhitung < totalSlotKalender) {
-        wadahTanggal.innerHTML += `<div></div>`;
-        slotTerhitung++;
+    
+    // 3. Memasukkan kotak kosong tambahan di akhir agar formasi bergaris rapi
+    const totalCells = firstDay + daysInMonth;
+    const remainingCells = (totalCells % 7 === 0) ? 0 : 7 - (totalCells % 7);
+    for(let i=0; i < remainingCells; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('cal-cell');
+        wadahTanggal.appendChild(emptyCell);
     }
 }
 
-// ==========================================================================
-// KONTROL NAVIGASI KALENDER MUNDUR DAN MAJU
-// ==========================================================================
-document.getElementById('btnPrev').addEventListener('click', () => {
-    if (tahunIni > batasTahunBawah || (tahunIni === batasTahunBawah && bulanIni > 0)) {
-        bulanIni--;
-        if (bulanIni < 0) {
-            bulanIni = 11;
-            tahunIni--;
-        }
-        renderKalender(bulanIni, tahunIni);
-    } else {
-        alert("Batas maksimal histori kalender adalah 1 tahun ke belakang.");
-    }
+// Navigasi Bulan Mundur
+btnPrev.addEventListener('click', () => {
+    navMonth--;
+    if (navMonth < 0) { navMonth = 11; navYear--; }
+    renderCalendar();
 });
 
-document.getElementById('btnNext').addEventListener('click', () => {
-    if (tahunIni < batasTahunAtas || (tahunIni === batasTahunAtas && bulanIni < 11)) {
-        bulanIni++;
-        if (bulanIni > 11) {
-            bulanIni = 0;
-            tahunIni++;
-        }
-        renderKalender(bulanIni, tahunIni);
-    } else {
-        alert("Batas maksimal jadwal kalender adalah 1 tahun ke depan.");
-    }
+// Navigasi Bulan Maju
+btnNext.addEventListener('click', () => {
+    navMonth++;
+    if (navMonth > 11) { navMonth = 0; navYear++; }
+    renderCalendar();
 });
 
-// Menjalankan fungsi penyusunan kalender pertama kali saat DOM dimuat
-renderKalender(bulanIni, tahunIni);
+// Jalankan saat pertama kali halaman dimuat
+renderCalendar();
