@@ -1,10 +1,14 @@
+<?php
+$nama_sidebar = $_SESSION['nama'] ?? 'User';
+?>
+
 <div class="sidebar">
     <div class="mb-4">
         <h4 style="color: #fa8c96; font-weight: 900;">V</h4>
     </div>
     <div class="mb-4 text-center">
-        <img src="https://ui-avatars.com/api/?name=Luthfi&background=random&rounded=true" alt="Profile" width="40">
-        <div style="font-size: 0.7rem; font-weight: bold; margin-top: 5px;">NAMA</div>
+        <img src="https://ui-avatars.com/api/?name=<?= urlencode($nama_sidebar) ?>&background=random&rounded=true" alt="Profile" width="40">
+        <div style="font-size: 0.7rem; font-weight: bold; margin-top: 5px;"><?= htmlspecialchars($nama_sidebar) ?></div>
     </div>
 
     <a href="dashboard.php" class="sidebar-item <?= ($active_page == 'dashboard') ? 'active' : '' ?> text-decoration-none">

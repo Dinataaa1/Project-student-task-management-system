@@ -1,13 +1,12 @@
 <?php
-session_start();
-
-// Basic auth check
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
-    header("Location: ../../view/auth/login.php");
-    exit();
-}
 
 include_once '../../../config/koneksi.php';
+
+require_once __DIR__ . '/../auth/session_check.php';
+checkRoleMahasiswa(); 
+
+// Sekarang kamu bisa langsung pakai ini tanpa perlu query ulang!
+$mahasiswa_id = $_SESSION['mahasiswa_id'];
 
 // Ensure POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

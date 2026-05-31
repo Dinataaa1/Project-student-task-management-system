@@ -15,6 +15,11 @@ date_default_timezone_set('Asia/Jakarta');
 // Path disesuaikan dari controllers ke config
 include_once '../../../config/koneksi.php'; 
 
+require_once __DIR__ . '/../auth/session_check.php';
+checkRoleMahasiswa(); 
+
+$mahasiswa_id = $_SESSION['mahasiswa_id'];
+
 session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
     header("Location: ../../view/auth/login.php");
