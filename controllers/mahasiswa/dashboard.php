@@ -73,7 +73,7 @@ if ($query_tugas) {
 
 // C. Menarik data deadline terdekat (Hanya tugas yang BELUM dikumpulkan)
 $query_dl_terdekat = mysqli_query($conn, "
-    SELECT t.id, mk.nama_matkul, t.deadline 
+    SELECT t.id, t.judul_tugas, mk.nama_matkul, t.deadline 
     FROM tugas t
     JOIN mata_kuliah mk ON t.matkul_id = mk.id
     JOIN krs k ON mk.id = k.mata_kuliah_id
