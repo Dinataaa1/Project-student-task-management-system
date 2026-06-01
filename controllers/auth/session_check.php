@@ -6,9 +6,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// =========================================================================
-// 1. FUNGSI UNTUK HALAMAN LOGIN (Mencegah user yang sudah login masuk form)
-// =========================================================================
 function larangJikaSudahLogin() {
     if (isset($_SESSION['user_id'])) {
         if ($_SESSION['role'] === 'dosen') {
@@ -21,11 +18,8 @@ function larangJikaSudahLogin() {
     }
 }
 
-// =========================================================================
-// 2. FUNGSI PROTEKSI HALAMAN MAHASISWA (Integrasi dengan Kodemu)
-// =========================================================================
 function checkRoleMahasiswa() {
-    global $conn; // Wajib agar mysqli_query bisa mengenali koneksi database
+    global $conn; 
 
     // A. Cek apakah belum login atau rolenya bukan mahasiswa
     if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
@@ -40,20 +34,15 @@ function checkRoleMahasiswa() {
         $row = mysqli_fetch_assoc($res);
         
         if (!$row) {
-            // Tindakan preventif: Jika relasi data di DB rusak/hilang, paksa logout
             session_destroy();
             header("Location: " . BASE_URL . "view/auth/login.php?error=data_corrupt");
             exit();
         }
         
-        // Simpan ke sesi global agar controller lain tinggal pakai $_SESSION['mahasiswa_id']
         $_SESSION['mahasiswa_id'] = (int) $row['id'];
     }
 }
 
-// =========================================================================
-// 3. FUNGSI PROTEKSI HALAMAN DOSEN (Admin)
-// =========================================================================
 function checkRoleDosen() {
     global $conn;
 
