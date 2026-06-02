@@ -6,7 +6,7 @@ require_once __DIR__ . '/../auth/session_check.php';
 checkRoleMahasiswa(); 
 
 // Sekarang kamu bisa langsung pakai ini tanpa perlu query ulang!
-$mahasiswa_id = $_SESSION['mahasiswa_id'];
+
 
 // Ensure POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -14,15 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-$mahasiswa_id = null;
-if (isset($_SESSION['mahasiswa_id'])) {
-    $mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
-} else {
-    $user_id = (int) $_SESSION['user_id'];
-    $r = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id LIMIT 1");
-    $row = mysqli_fetch_assoc($r);
-    $mahasiswa_id = $row ? (int)$row['id'] : 0;
-}
+$mahasiswa_id = $_SESSION['mahasiswa_id'];
+
+// if (isset($_SESSION['mahasiswa_id'])) {
+//     $mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
+// } else {
+//     $user_id = (int) $_SESSION['user_id'];
+//     $r = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id LIMIT 1");
+//     $row = mysqli_fetch_assoc($r);
+//     $mahasiswa_id = $row ? (int)$row['id'] : 0;
+// }
 
 $tugas_id = isset($_POST['tugas_id']) ? (int) $_POST['tugas_id'] : 0;
 if ($tugas_id <= 0 || $mahasiswa_id <= 0) {
@@ -42,6 +43,7 @@ $maxSize = 10 * 1024 * 1024; // 10 MB
 
 $origName = $_FILES['file_tugas']['name'];
 $ext = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
+
 if (!in_array($ext, $allowed)) {
     $msg = urlencode('Ekstensi file tidak diizinkan.');
     header("Location: ../../view/pages/mahasiswa/detail_tugas.php?id={$tugas_id}&upload=error&msg={$msg}");
