@@ -1,6 +1,6 @@
 <?php
 
-include_once '../../../config/koneksi.php';
+include_once __DIR__ . '/../../config/koneksi.php';
 
 require_once __DIR__ . '/../auth/session_check.php';
 checkRoleMahasiswa(); 
