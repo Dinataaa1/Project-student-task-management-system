@@ -12,7 +12,11 @@ include '../../components/header.php';
 ?>
 
 <script>
-    const dataTugasDB = <?= json_encode($array_deadline); ?>;
+    // Data untuk memberi titik di kalender
+    const dataTugasDB = <?= json_encode($array_deadline ?? []); ?>;
+    
+    // Data lengkap untuk daftar "Notes to be made"
+    const dataNotesDB = <?= json_encode($data_dl_terdekat ?? []); ?>;
 </script>
 
 <div class="dashboard-wrapper">
@@ -34,7 +38,7 @@ include '../../components/header.php';
                 <?php if (!empty($data_matkul)) : ?>
                     <?php foreach($data_matkul as $matkul) : ?>
                         <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card text-decoration-none">
-                            <div class="blob-hiasan <?= $matkul['warna'] ?>"></div>
+                            <div class="blob-hiasan <?= htmlspecialchars($matkul['warna'] ?? 'blob-orange') ?>"></div>
                             <span><?= htmlspecialchars($matkul['nama']) ?></span>
                         </a>
                     <?php endforeach; ?>
@@ -52,34 +56,14 @@ include '../../components/header.php';
                     </svg>
 
                     <div class="cal-left-date">
-                        <h1><?= $tanggal_sekarang ?></h1>
-                        <span><?= strtoupper($bulan_sekarang) ?> <?= $tahun_sekarang ?></span>
+                        <h1><?= htmlspecialchars($tanggal_sekarang ?? date('d')) ?></h1>
+                        <span><?= strtoupper(htmlspecialchars($bulan_sekarang ?? date('M'))) ?> <?= htmlspecialchars($tahun_sekarang ?? date('Y')) ?></span>
                     </div>
                     
                     <div class="notes-box">
-                        <h6>NOTES TO BE MADE</h6>
+                        <h6>Tugas Bulan Ini</h6>
                         
-                        <?php if (!empty($data_dl_terdekat)) : ?>
-                            <?php foreach($data_dl_terdekat as $dl) : ?>
-                                <a href="detail_tugas.php?id=<?= $dl['id'] ?>" class="dl-item" style="display: flex; justify-content: space-between; align-items: center;">
-                                    <div style="display: flex; align-items: center; gap: 12px;">
-                                        <div class="dl-dot"></div>
-                                        <span class="text-truncate" style="max-width: 140px;"><?= htmlspecialchars($dl['nama_matkul']) ?></span>
-                                    </div>
-                                    <span style="font-size: 0.8rem; font-weight: 700; opacity: 0.8;">
-                                        <?= date('d M', strtotime($dl['deadline'])) ?>
-                                    </span>
-                                </a>
-                                <?php $tgl_format = date('d M', strtotime($dl['deadline'])); ?>
-
-                                <div class="dl-box d-flex justify-content-between align-items-center px-2" style="font-size: 0.75rem; color: #b02a37;">
-                                    <span class="text-truncate fw-bold" style="max-width: 65%;"><?= htmlspecialchars($dl['judul_tugas']) ?></span>
-                                    <span class="fw-bold"><?= $tgl_format ?></span>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else : ?>
-                            <div class="text-white opacity-75 small">Yeay! Tidak ada deadline terdekat.</div>
-                        <?php endif; ?>
+                        <div id="notesContainer"></div>
                         
                     </div>
                 </div>
