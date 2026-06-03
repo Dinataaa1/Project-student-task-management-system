@@ -29,20 +29,20 @@
     margin-bottom: 30px;
 }
 
-/* Avatar kecil di sidebar */
+/* Avatar kecil di sidebar
 .sidebar-avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     background-color: #009eb3; /* Warna teal/biru kehijauan */
-    color: white;
+    /* color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 700;
     font-size: 1.1rem;
     margin-bottom: 5px;
-}
+} */
 
 .sidebar-name {
     font-size: 0.7rem;
