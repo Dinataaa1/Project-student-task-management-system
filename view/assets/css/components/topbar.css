@@ -1,64 +1,12 @@
 /* ==========================================================================
-   KOMPONEN: TOPBAR & REMINDERS OFFCANVAS
+   KOMPONEN: TOPBAR
    ========================================================================== */
-
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    background-color: #e4e6e9; /* Warna abu-abu background topbar */
     width: 100%;
+    height: 70px;
+    padding: 0 40px;
+    background-color: transparent; 
 }
-
-/* Mengatur lebar panel yang meluncur dari kanan */
-.custom-offcanvas {
-    width: 400px !important;
-    border-left: none;
-    box-shadow: -5px 0 25px rgba(0,0,0,0.05);
-}
-
-.reminders-divider {
-    border-top: 3px solid #7dd3fc;
-    opacity: 1;
-    margin-top: 5px;
-    margin-bottom: 25px;
-    width: 100%;
-}
-
-/* Kerangka dasar kartu reminder */
-.rem-card {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 15px;
-    position: relative;
-    overflow: hidden;
-    color: #333;
-    text-decoration: none;
-    display: block;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    min-height: 120px;
-    border: none;
-}
-
-.rem-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    color: #333;
-}
-
-/* Hiasan blob menggunakan ukuran yang disesuaikan */
-.rem-blob {
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-}
-
-.rem-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; }
-.rem-subtitle { font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; }
-.rem-info { font-size: 0.75rem; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; opacity: 0.8; }

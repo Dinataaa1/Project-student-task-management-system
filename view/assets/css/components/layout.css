@@ -1,56 +1,147 @@
-/* bungkus layar penuh untuk tata letak menu kiri dan konten kanan sejajar */
+/* ==========================================================================
+   SIDEBAR & TATA LETAK UTAMA
+   ========================================================================== */
 .dashboard-wrapper {
     display: flex;
     min-height: 100vh;
     background-color: #f8f9fa;
 }
 
-/* atur kotak menu navigasi kiri agar menempel dari atas ke bawah */
 .sidebar {
-    width: 80px;
+    width: 90px;
     background-color: #ffffff;
-    border-right: 1px solid #e0e0e0;
+    border-right: 1px solid #eaeaea;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 25px;
     z-index: 10;
+    height: 100vh;
+    position: sticky;
+    top: 0;
 }
 
-/* gaya setiap kotak tombol ikon di dalam menu navigasi */
+.sidebar-menu-top {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* Avatar kecil di sidebar */
+.sidebar-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #009eb3; /* Warna teal/biru kehijauan */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.sidebar-name {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.sidebar-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .sidebar-item {
     width: 100%;
-    padding: 15px 0;
-    text-align: center;
-    color: #6c757d;
-    cursor: pointer;
-    transition: 0.3s;
+    padding: 18px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #6c757d; /* Abu-abu default */
+    transition: all 0.2s ease;
 }
 
-/* penanda visual khusus warna biru untuk menu yang sedang dibuka */
+.sidebar-item svg {
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar-item:hover {
+    color: #00a0e3;
+    background-color: #f0f8ff;
+}
+
+/* Menu yang sedang aktif (Blok biru penuh) */
 .sidebar-item.active {
     background-color: #00a0e3;
-    color: white;
+    color: #ffffff;
 }
 
-/* palang atas untuk menempatkan logo dan ikon notifikasi */
-.topbar {
-    background-color: #c4c4c4;
-    height: 70px;
+/* Tombol Logout didorong ke paling bawah */
+.sidebar-menu-bottom {
+    width: 100%;
+    margin-top: auto; /* Ini yang mendorong ke bawah */
+    margin-bottom: 25px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
+    justify-content: center;
 }
 
-/* area utama agar mengisi seluruh sisa ruang layar di sebelah menu navigasi */
+.logout-icon {
+    color: #00a0e3; /* Biru terang sesuai gambar */
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.logout-icon:hover {
+    background-color: #f0f8ff;
+}
+
+/* ==========================================================================
+   AREA KONTEN UTAMA KANAN
+   ========================================================================== */
 .main-content {
-    flex-grow: 1;
+    flex: 1; /* Memaksa elemen ini merentang mengisi SELURUH sisa layar */
+    min-width: 0; /* Kunci rahasia Flexbox agar tidak "nge-bug" saat layarnya sempit */
     display: flex;
     flex-direction: column;
+    background-color: #f8f9fa; /* Menjaga warna background tetap seragam */
 }
 
-/* beri jarak aman (padding) untuk semua isi konten layar */
+/* Beri jarak aman (padding) untuk semua isi konten layar */
 .content-area {
     padding: 30px;
+    flex: 1; /* Agar area konten membentang ke bawah sampai dasar layar */
+}
+
+/* ==========================================================================
+   TOMBOL BACK GLOBAL (BISA DIPAKAI DI SEMUA HALAMAN)
+   ========================================================================== */
+.btn-back {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    background-color: #3e4c59; 
+    color: #ffffff;
+    border-radius: 50%;
+    text-decoration: none;
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 50; /* Memastikan tombol tidak tertutup elemen lain */
+}
+
+.btn-back:hover {
+    background-color: #2b3640;
+    color: #ffffff;
+    transform: translateX(-3px); 
 }
