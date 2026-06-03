@@ -8,7 +8,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // MENGAMBIL NAMA ASLI DARI SESI LOGIN
-// Sistem akan mencari $_SESSION['nama']. Jika kosong, baru dia mencari variabel $nama_user dari controller.
 $nama_pengguna = $_SESSION['nama'] ?? (isset($nama_user) && !empty($nama_user) ? $nama_user : 'Pengguna');
 
 $active_page = 'matkul'; 
@@ -33,10 +32,16 @@ include '../../components/header.php';
                 
                 <?php if (!empty($data_matkul)) : ?>
                     <?php foreach ($data_matkul as $mk) : ?>
-                        <div class="card p-3 shadow-sm border-0 rounded-4" style="min-width: 250px;">
-                            <h6 class="fw-bold text-dark mb-1"><?= htmlspecialchars($mk['nama_matkul']) ?></h6>
-                            <small class="text-muted">SKS: <?= htmlspecialchars($mk['sks'] ?? '-') ?></small>
-                        </div>
+                        <a href="daftar_tugas.php?matkul=<?= $mk['id'] ?>" class="matkul-card text-decoration-none" style="min-width: 250px; display: flex; align-items: center;">
+                            
+                            <div class="blob-hiasan <?= htmlspecialchars($mk['warna'] ?? 'blob-orange') ?>"></div>
+                            
+                            <div class="d-flex flex-column ms-2">
+                                <span class="fw-bold" style="color: #333; font-size: 0.95rem;"><?= htmlspecialchars($mk['nama_matkul']) ?></span>
+                                <small class="text-muted mt-1" style="font-size: 0.75rem;">SKS: <?= htmlspecialchars($mk['sks'] ?? '-') ?></small>
+                            </div>
+
+                        </a>
                     <?php endforeach; ?>
                 <?php else : ?>
                     <div class="alert w-100 fw-bold text-muted border-0 shadow-sm rounded-3 py-3" style="background-color: #ffffff;" role="alert">

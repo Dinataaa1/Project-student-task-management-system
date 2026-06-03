@@ -60,10 +60,6 @@ include '../../components/header.php';
                         </div>
 
                     </div>
-
-                    <!-- Tombol Edit -->
-                    <button type="button" class="btn-edit-profil">Edit Profil</button>
-
                 </div>
             </div>
 
