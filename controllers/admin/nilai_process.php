@@ -1,4 +1,3 @@
-cat << 'EOF' > /tmp/nilai_process.php
 <?php
 // ==========================================================================
 // controllers/admin/nilai_process.php
@@ -11,7 +10,9 @@ cat << 'EOF' > /tmp/nilai_process.php
 header('Content-Type: application/json');
 
 // --- 2. AUTENTIKASI ---
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'dosen') {
     http_response_code(401);
@@ -67,6 +68,7 @@ $stmt_dosen = $conn->prepare("SELECT id FROM dosen WHERE user_id = ?");
 $stmt_dosen->bind_param("i", $user_id);
 $stmt_dosen->execute();
 $data_dosen = $stmt_dosen->get_result()->fetch_assoc();
+$stmt_dosen->close();
 
 if (!$data_dosen) {
     http_response_code(403);
@@ -80,7 +82,7 @@ $dosen_id = $data_dosen['id'];
 $conn->begin_transaction();
 
 try {
-    // STEP 1: Verifikasi + kunci baris (FOR UPDATE)
+    // STEP 1: Verifikasi kepemilikan + kunci baris (FOR UPDATE)
     $stmt_cek = $conn->prepare("
         SELECT pt.id, pt.nilai AS nilai_lama,
                t.judul_tugas, m.nama_mahasiswa
@@ -94,7 +96,7 @@ try {
     $stmt_cek->bind_param("ii", $pengumpulan_id, $dosen_id);
     $stmt_cek->execute();
     $data_pengumpulan = $stmt_cek->get_result()->fetch_assoc();
-    $stmt_cek->close(); // Langsung tutup setelah selesai digunakan
+    $stmt_cek->close();
 
     if (!$data_pengumpulan) {
         $conn->rollback();
@@ -106,14 +108,13 @@ try {
     // STEP 2: Update nilai
     $stmt_update = $conn->prepare("UPDATE pengumpulan_tugas SET nilai = ? WHERE id = ?");
     $stmt_update->bind_param("ii", $nilai, $pengumpulan_id);
-    
-    // Jika execute() gagal total (misal: masalah koneksi/gagal query), lempar Exception
+
     if (!$stmt_update->execute()) {
         throw new Exception("Gagal memperbarui data di database.");
     }
     $stmt_update->close();
 
-    // STEP 3: Commit
+    // STEP 3: Commit — semua berhasil, simpan permanen
     $conn->commit();
 
     http_response_code(200);
@@ -135,5 +136,3 @@ try {
     echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
 }
 ?>
-EOF
-echo "nilai_process.php done"

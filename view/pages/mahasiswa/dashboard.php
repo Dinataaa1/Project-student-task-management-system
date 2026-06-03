@@ -11,8 +11,8 @@ include '../../components/header.php';
 </script>
 
 <div class="dashboard-wrapper">
-    
-    <?php include '../../components/sidebar.php'; ?>
+
+    <?php include __DIR__ . '/../../components/sidebar.php'; ?>
 
     <div class="main-content">
 
@@ -56,6 +56,12 @@ include '../../components/header.php';
                         
                         <?php if (!empty($data_dl_terdekat)) : ?>
                             <?php foreach($data_dl_terdekat as $dl) : ?>
+                                <?php $tgl_format = date('d M', strtotime($dl['deadline'])); ?>
+
+                                <div class="dl-box d-flex justify-content-between align-items-center px-2" style="font-size: 0.75rem; color: #b02a37;">
+                                    <span class="text-truncate fw-bold" style="max-width: 65%;"><?= htmlspecialchars($dl['judul_tugas']) ?></span>
+                                    <span class="fw-bold"><?= $tgl_format ?></span>
+                                </div>
                                 <a href="detail_tugas.php?id=<?= $dl['id'] ?>" class="dl-item" style="display: flex; justify-content: space-between; align-items: center;">
                                     <div style="display: flex; align-items: center; gap: 12px;">
                                         <div class="dl-dot"></div>

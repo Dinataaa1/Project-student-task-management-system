@@ -15,21 +15,10 @@ date_default_timezone_set('Asia/Jakarta');
 // Path disesuaikan dari controllers ke config
 include_once '../../../config/koneksi.php'; 
 
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
-    header("Location: ../../view/auth/login.php");
-    exit();
-}
+require_once __DIR__ . '/../auth/session_check.php';
+checkRoleMahasiswa(); 
 
-if (isset($_SESSION['mahasiswa_id'])) {
-    $mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
-} else {
-    $user_id = (int) $_SESSION['user_id'];
-    $res = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id LIMIT 1");
-    $row = mysqli_fetch_assoc($res);
-    if (!$row) { header("Location: ../../view/auth/login.php"); exit(); }
-    $mahasiswa_id = (int) $row['id'];
-}
+$mahasiswa_id = $_SESSION['mahasiswa_id'];
 
 $id_tugas = isset($_GET['id']) ? $_GET['id'] : 0;
 
@@ -38,8 +27,6 @@ if ($id_tugas == 0) {
     header("Location: daftar_tugas.php"); 
     exit(); 
 }
-
-$id_user = 1; 
 
 // ==========================================================================
 // 2. LOGIKA PENGAMBILAN DATA (QUERY)
@@ -55,7 +42,7 @@ if (!$tugas) {
 } 
 
 $stmt_kumpul = $conn->prepare("SELECT nilai, file_tugas, waktu_kumpul FROM pengumpulan_tugas WHERE tugas_id = ? AND mahasiswa_id = ?");
-$stmt_kumpul->bind_param("ii", $id_tugas, $id_user);
+$stmt_kumpul->bind_param("ii", $id_tugas, $mahasiswa_id);
 $stmt_kumpul->execute();
 $result_kumpul = $stmt_kumpul->get_result();
 
