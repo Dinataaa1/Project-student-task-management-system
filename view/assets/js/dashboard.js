@@ -86,19 +86,28 @@ function renderCalendar() {
         // CEK TUGAS DEADLINE (Titik Merah)
         const dateString = `${navYear}-${(navMonth + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
         
-        if (typeof dataTugasDB !== 'undefined') {
-            const deadlinesOnThisDay = dataTugasDB.filter(d => {
-                return d.split(' ')[0] === dateString; 
+        // Kita gunakan dataNotesDB karena sudah terbukti akurat memuat seluruh tugas
+        if (typeof dataNotesDB !== 'undefined') {
+            const deadlinesOnThisDay = dataNotesDB.filter(note => {
+                // Mengambil bagian "YYYY-MM-DD" dari string "YYYY-MM-DD HH:MM:SS"
+                return note.deadline.split(' ')[0] === dateString; 
             }).length;
 
             if (deadlinesOnThisDay > 0) {
                 const dotsContainer = document.createElement('div');
-                dotsContainer.classList.add('dots-container');
-                dotsContainer.style.marginTop = '2px'; // Beri jarak sedikit dari lingkaran angka
+                // Styling paksa agar berjajar rapi di tengah bawah angka
+                dotsContainer.style.display = 'flex';
+                dotsContainer.style.justifyContent = 'center';
+                dotsContainer.style.gap = '3px';
+                dotsContainer.style.marginTop = '4px';
                 
+                // Buat titik merah sejumlah tugas di hari itu
                 for (let d = 0; d < deadlinesOnThisDay; d++) {
                     const dot = document.createElement('div');
-                    dot.classList.add('dot');
+                    dot.style.width = '6px';
+                    dot.style.height = '6px';
+                    dot.style.backgroundColor = '#ff4d4f';
+                    dot.style.borderRadius = '50%';
                     dotsContainer.appendChild(dot);
                 }
                 cell.appendChild(dotsContainer);
