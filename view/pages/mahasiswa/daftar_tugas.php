@@ -1,12 +1,17 @@
 <?php
 require_once '../../../controllers/mahasiswa/daftar_tugas.php';
 
-// Setup variabel untuk komponen
+// Pastikan sesi sudah berjalan untuk mengambil nama
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+// Mengambil nama dari sesi login (fallback ke 'Mahasiswa' jika kosong)
+$tampil_nama = $_SESSION['nama'] ?? (isset($nama_user) && !empty($nama_user) ? $nama_user : 'Mahasiswa');
 
+// Setup variabel untuk komponen
 $active_page = 'tugas';
 include '../../components/header.php';
-
-include '../../components/header.php';
+// (Pemanggilan header yang ganda sudah dihapus)
 ?>
 
 <div class="dashboard-wrapper">
@@ -15,24 +20,26 @@ include '../../components/header.php';
 
     <div class="main-content">
 
-    <?php include '../../components/topbar.php'; ?>
+        <?php include '../../components/topbar.php'; ?>
     
-        <div class="content-area position-relative" style="min-height: calc(100vh - 70px);">
+        <div class="content-area position-relative" style="min-height: calc(100vh - 70px); padding: 40px;">
             
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-5">
                 <h5 class="fw-bold m-0" style="color: #444;">
-                    Hai, <?= htmlspecialchars($nama_user) ?>! Ini adalah tugas mata kuliah <?= htmlspecialchars($nama_matkul_terpilih) ?>
+                    Hai, <?= htmlspecialchars($tampil_nama) ?>! Ini adalah tugas mata kuliah <?= htmlspecialchars($nama_matkul_terpilih ?? 'Semua') ?>
                 </h5>
                 
                 <form method="GET" action="daftar_tugas.php">
                     <select name="matkul" class="form-select border-2 shadow-sm fw-semibold" style="border-color: #00a0e3;" onchange="this.form.submit()">
                         <option value="">Semua Mata Kuliah</option>
                         
-                        <?php foreach ($data_matkul as $mk) : ?>
-                            <option value="<?= $mk['id'] ?>" <?= $matkul_aktif == $mk['id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($mk['nama_matkul']) ?>
-                            </option>
-                        <?php endforeach; ?>
+                        <?php if(!empty($data_matkul)): ?>
+                            <?php foreach ($data_matkul as $mk) : ?>
+                                <option value="<?= $mk['id'] ?>" <?= (isset($matkul_aktif) && $matkul_aktif == $mk['id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($mk['nama_matkul']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         
                     </select>
                 </form>
@@ -55,9 +62,9 @@ include '../../components/header.php';
                 <?php endif; ?>
             </div>
 
-            <a href="dashboard.php" class="position-absolute text-decoration-none" style="bottom: 30px; left: 30px; color: #205c54;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-                  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            <a href="dashboard.php" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                 </svg>
             </a>
             
