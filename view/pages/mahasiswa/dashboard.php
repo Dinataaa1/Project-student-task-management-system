@@ -12,12 +12,16 @@ include '../../components/header.php';
 ?>
 
 <script>
-    const dataTugasDB = <?= json_encode($array_deadline); ?>;
+    // Data untuk memberi titik di kalender
+    const dataTugasDB = <?= json_encode($array_deadline ?? []); ?>;
+    
+    // Data lengkap untuk daftar "Notes to be made"
+    const dataNotesDB = <?= json_encode($data_dl_terdekat ?? []); ?>;
 </script>
 
 <div class="dashboard-wrapper">
-
-    <?php include __DIR__ . '/../../components/sidebar.php'; ?>
+    
+    <?php include '../../components/sidebar.php'; ?>
 
     <div class="main-content">
 
@@ -34,7 +38,7 @@ include '../../components/header.php';
                 <?php if (!empty($data_matkul)) : ?>
                     <?php foreach($data_matkul as $matkul) : ?>
                         <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card text-decoration-none">
-                            <div class="blob-hiasan <?= $matkul['warna'] ?>"></div>
+                            <div class="blob-hiasan <?= htmlspecialchars($matkul['warna'] ?? 'blob-orange') ?>"></div>
                             <span><?= htmlspecialchars($matkul['nama']) ?></span>
                         </a>
                     <?php endforeach; ?>
