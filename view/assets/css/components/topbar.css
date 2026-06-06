@@ -1,64 +1,78 @@
 /* ==========================================================================
-   KOMPONEN: TOPBAR & REMINDERS OFFCANVAS
+   KOMPONEN: TOPBAR
    ========================================================================== */
-
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    background-color: #e4e6e9; /* Warna abu-abu background topbar */
     width: 100%;
+    height: 70px;
+    padding: 0 40px;
+    background-color: transparent; 
 }
 
-/* Mengatur lebar panel yang meluncur dari kanan */
-.custom-offcanvas {
-    width: 400px !important;
-    border-left: none;
-    box-shadow: -5px 0 25px rgba(0,0,0,0.05);
+/* Animasi & Desain Sliding Panel */
+.notif-overlay {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    background: rgba(0,0,0,0.4); 
+    z-index: 1040;
+    opacity: 0; 
+    visibility: hidden; 
+    transition: all 0.3s ease-in-out;
 }
 
-.reminders-divider {
-    border-top: 3px solid #7dd3fc;
-    opacity: 1;
-    margin-top: 5px;
-    margin-bottom: 25px;
-    width: 100%;
+.notif-overlay.show {
+    opacity: 1; 
+    visibility: visible;
 }
 
-/* Kerangka dasar kartu reminder */
-.rem-card {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
+.notif-panel {
+    position: fixed; 
+    top: 0; 
+    right: -400px; /* Sembunyi di luar layar kanan */
+    width: 350px; 
+    height: 100vh; 
+    background-color: #f8f9fa;
+    z-index: 1050; 
+    transition: right 0.3s ease-in-out;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+    display: flex; 
+    flex-direction: column;
+}
+
+.notif-panel.show {
+    right: 0; /* Meluncur masuk ke dalam layar */
+}
+
+.notif-header {
+    padding: 20px; 
+    background: white; 
+    border-bottom: 1px solid #eee;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.notif-body {
+    padding: 20px; 
+    overflow-y: auto; 
+    flex: 1;
+}
+
+/* Desain Card Tugas di dalam Panel */
+.notif-card {
+    background: white; 
+    border-radius: 12px; 
+    padding: 16px; 
     margin-bottom: 15px;
-    position: relative;
-    overflow: hidden;
-    color: #333;
-    text-decoration: none;
-    display: block;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    min-height: 120px;
-    border: none;
+    border-left: 5px solid #ff4d4f; 
+    transition: transform 0.2s;
 }
 
-.rem-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    color: #333;
+.notif-card:hover {
+    transform: translateY(-3px);
 }
-
-/* Hiasan blob menggunakan ukuran yang disesuaikan */
-.rem-blob {
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-}
-
-.rem-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; }
-.rem-subtitle { font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; }
-.rem-info { font-size: 0.75rem; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; opacity: 0.8; }

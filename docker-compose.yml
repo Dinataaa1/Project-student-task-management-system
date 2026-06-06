@@ -1,0 +1,58 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lol-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-81}:80"
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      DB_HOST: mysql
+      DB_NAME: ${MYSQL_DATABASE:-lol_db}
+      DB_USER: ${MYSQL_USER:-lol}
+      DB_PASS: ${MYSQL_PASSWORD:-password}
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    container_name: lol-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-lol_db}
+      MYSQL_USER: ${MYSQL_USER:-lol}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  phpmyadmin:
+    image: phpmyadmin:5-apache
+    container_name: lol-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "${PHPMYADMIN_PORT:-8082}:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_AUTH_TYPE: cookie
+      UPLOAD_LIMIT: 128M
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

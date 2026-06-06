@@ -1,13 +1,22 @@
 <?php
-// Memanggil logika dari file controller
-require_once '../../../controllers/mahasiswa/dashboard.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// ==========================================================================
+// MENGHUBUNGKAN FRONTEND DENGAN BACKEND (CONTROLLER)
+// ==========================================================================
+require_once __DIR__ . '/../../../controllers/mahasiswa/dashboard.php';
 
 $active_page = 'dashboard';
 include '../../components/header.php';
 ?>
 
 <script>
-    const dataTugasDB = <?= json_encode($array_deadline); ?>;
+    // Data untuk memberi titik di kalender
+    const dataTugasDB = <?= json_encode($array_deadline ?? []); ?>;
+    
+    // Data lengkap untuk daftar "Notes to be made"
+    const dataNotesDB = <?= json_encode($data_dl_terdekat ?? []); ?>;
 </script>
 
 <div class="dashboard-wrapper">
@@ -16,7 +25,7 @@ include '../../components/header.php';
 
     <div class="main-content">
 
-    <?php include '../../components/topbar.php'; ?>
+        <?php include '../../components/topbar.php'; ?>
         
         <div class="content-area">
 
@@ -29,7 +38,7 @@ include '../../components/header.php';
                 <?php if (!empty($data_matkul)) : ?>
                     <?php foreach($data_matkul as $matkul) : ?>
                         <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card text-decoration-none">
-                            <div class="blob-hiasan <?= $matkul['warna'] ?>"></div>
+                            <div class="blob-hiasan <?= htmlspecialchars($matkul['warna'] ?? 'blob-orange') ?>"></div>
                             <span><?= htmlspecialchars($matkul['nama']) ?></span>
                         </a>
                     <?php endforeach; ?>
@@ -47,28 +56,14 @@ include '../../components/header.php';
                     </svg>
 
                     <div class="cal-left-date">
-                        <h1><?= $tanggal_sekarang ?></h1>
-                        <span><?= strtoupper($bulan_sekarang) ?> <?= $tahun_sekarang ?></span>
+                        <h1><?= htmlspecialchars($tanggal_sekarang ?? date('d')) ?></h1>
+                        <span><?= strtoupper(htmlspecialchars($bulan_sekarang ?? date('M'))) ?> <?= htmlspecialchars($tahun_sekarang ?? date('Y')) ?></span>
                     </div>
                     
                     <div class="notes-box">
-                        <h6>NOTES TO BE MADE</h6>
+                        <h6>Tugas Bulan Ini</h6>
                         
-                        <?php if (!empty($data_dl_terdekat)) : ?>
-                            <?php foreach($data_dl_terdekat as $dl) : ?>
-                                <a href="detail_tugas.php?id=<?= $dl['id'] ?>" class="dl-item" style="display: flex; justify-content: space-between; align-items: center;">
-                                    <div style="display: flex; align-items: center; gap: 12px;">
-                                        <div class="dl-dot"></div>
-                                        <span class="text-truncate" style="max-width: 140px;"><?= htmlspecialchars($dl['nama_matkul']) ?></span>
-                                    </div>
-                                    <span style="font-size: 0.8rem; font-weight: 700; opacity: 0.8;">
-                                        <?= date('d M', strtotime($dl['deadline'])) ?>
-                                    </span>
-                                </a>
-                            <?php endforeach; ?>
-                        <?php else : ?>
-                            <div class="text-white opacity-75 small">Yeay! Tidak ada deadline terdekat.</div>
-                        <?php endif; ?>
+                        <div id="notesContainer"></div>
                         
                     </div>
                 </div>
@@ -96,53 +91,6 @@ include '../../components/header.php';
             </div>
             
         </div>
-    </div>
-</div>
-
-<div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="remindersPanel">
-    <div class="offcanvas-header pb-0 mt-3">
-        <h2 class="fw-bold m-0" style="color: #4a4a4a; font-size: 2.2rem;">Reminders</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    
-    <div class="offcanvas-body pt-2">
-        <hr class="reminders-divider">
-
-        <?php 
-        $warna_blob = ['blob-orange', 'blob-blue'];
-        $index = 0;
-        ?>
-
-        <?php if (!empty($data_reminders)) : ?>
-            <?php foreach($data_reminders as $rem) : ?>
-                <a href="detail_tugas.php?id=<?= $rem['id'] ?>" class="rem-card">
-                    <div class="rem-blob <?= $warna_blob[$index % 2] ?>"></div>
-                    
-                    <div class="rem-title"><?= htmlspecialchars($rem['nama_matkul']) ?></div>
-                    <div class="rem-subtitle"><?= htmlspecialchars($rem['judul_tugas']) ?></div>
-                    
-                    <div class="rem-info">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/></svg>
-                        Deadline: <?= date('d M Y, H:i', strtotime($rem['deadline'])) ?>
-                    </div>
-                    
-                    <div class="rem-info">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
-                        Dosen: <?= htmlspecialchars($rem['nama_dosen']) ?>
-                    </div>
-                </a>
-                <?php $index++; ?>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <div class="text-center text-muted mt-5">
-                <p>Belum ada pengingat tugas baru.</p>
-            </div>
-        <?php endif; ?>
-
-        <div class="text-end mt-4">
-            <a href="daftar_tugas.php" class="text-decoration-none fw-bold" style="color: #7dd3fc;">See all</a>
-        </div>
-        
     </div>
 </div>
 

@@ -1,8 +1,7 @@
-cat << 'EOF' > /tmp/tugas_controler.php
 <?php
 // ==========================================================================
 // controllers/admin/tugas_controler.php
-// Handle CRUD Tugas (Create & Read) milik dosen.
+// Handle Create & Read Tugas milik dosen.
 // Di-require di: view/pages/admin/tugas/create.php
 //                view/pages/admin/tugas/detail.php
 // ==========================================================================
@@ -13,7 +12,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'dosen') {
-    // Jalur absolut langsung mengarah ke halaman login tanpa peduli lokasi file yang me-require
     header("Location: /Project-student-task-management-system/view/auth/login.php");
     exit();
 }
@@ -21,13 +19,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'dosen') {
 date_default_timezone_set('Asia/Jakarta');
 include_once __DIR__ . '/../../config/koneksi.php';
 
-// Ambil dosen_id dari tabel dosen berdasarkan user_id session
 $user_id = $_SESSION['user_id'];
 
 $stmt_dosen = $conn->prepare("SELECT id FROM dosen WHERE user_id = ?");
 $stmt_dosen->bind_param("i", $user_id);
 $stmt_dosen->execute();
 $data_dosen = $stmt_dosen->get_result()->fetch_assoc();
+$stmt_dosen->close();
 
 if (!$data_dosen) {
     session_destroy();
@@ -50,25 +48,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
     $deskripsi   = trim($_POST['deskripsi']   ?? '');
     $deadline    = trim($_POST['deadline']    ?? '');
 
-    // Validasi field wajib
     if (empty($matkul_id) || empty($judul_tugas) || empty($deadline)) {
         $pesan_error = "Mata kuliah, judul tugas, dan deadline wajib diisi.";
 
-    // Validasi format deadline
     } elseif (strtotime($deadline) === false) {
         $pesan_error = "Format deadline tidak valid.";
 
-    // Validasi deadline harus di masa depan
     } elseif (strtotime($deadline) <= time()) {
         $pesan_error = "Deadline harus lebih dari waktu sekarang.";
 
     } else {
-        // Keamanan: pastikan matkul ini benar milik dosen yang login
+        // Keamanan: pastikan matkul ini milik dosen yang login
         $stmt_cek = $conn->prepare("SELECT id FROM mata_kuliah WHERE id = ? AND dosen_id = ?");
         $stmt_cek->bind_param("ii", $matkul_id, $dosen_id);
         $stmt_cek->execute();
+        $cek = $stmt_cek->get_result()->fetch_assoc();
+        $stmt_cek->close();
 
-        if (!$stmt_cek->get_result()->fetch_assoc()) {
+        if (!$cek) {
             $pesan_error = "Mata kuliah tidak valid atau bukan milik Anda.";
         } else {
             $stmt_insert = $conn->prepare("
@@ -82,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
             } else {
                 $pesan_error = "Gagal menyimpan tugas. Silakan coba lagi.";
             }
+            $stmt_insert->close();
         }
     }
 }
@@ -100,6 +98,7 @@ $data_matkul = [];
 while ($row = $result_matkul->fetch_assoc()) {
     $data_matkul[] = $row;
 }
+$stmt_matkul->close();
 
 // --- 5. READ: Daftar tugas (bisa difilter per matkul via ?matkul=ID) ---
 $filter_matkul_id = isset($_GET['matkul']) ? (int)$_GET['matkul'] : 0;
@@ -125,26 +124,23 @@ if ($filter_matkul_id > 0) {
 }
 
 $stmt_tugas->execute();
-$result_tugas = $stmt_tugas->get_result();
-
-$data_tugas    = [];
+$result_tugas   = $stmt_tugas->get_result();
+$data_tugas     = [];
 $waktu_sekarang = time();
 
 while ($row = $result_tugas->fetch_assoc()) {
     $deadline_ts = strtotime($row['deadline']);
 
-    // Status deadline untuk warna badge di view
     if ($deadline_ts < $waktu_sekarang) {
-        $row['status_deadline'] = 'lewat';       // merah
+        $row['status_deadline'] = 'lewat';
     } elseif ($deadline_ts - $waktu_sekarang <= 86400) {
-        $row['status_deadline'] = 'mendesak';    // kuning (< 24 jam)
+        $row['status_deadline'] = 'mendesak';
     } else {
-        $row['status_deadline'] = 'aktif';       // hijau
+        $row['status_deadline'] = 'aktif';
     }
 
     $row['deadline_format'] = date('d M Y, H:i', $deadline_ts);
     $data_tugas[] = $row;
 }
+$stmt_tugas->close();
 ?>
-EOF
-echo "tugas_controler.php done"

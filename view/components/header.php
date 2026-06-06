@@ -11,5 +11,6 @@
     
     <!-- Pemanggilan CSS Absolut berbasis BASE_URL -->
     <link href="<?= BASE_URL ?>view/assets/css/index.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>view/assets/images/logo.svg">
 </head>
 <body class="bg-light">
