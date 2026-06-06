@@ -59,19 +59,6 @@ form.addEventListener('submit', function(e) {
         kartuBaru.className = 'card';
         kartuBaru.style.cursor = 'pointer';
         kartuBaru.onclick = function() { window.location.href = 'detail_tugas.php'; };
-        
-        kartuBaru.innerHTML = `
-            <div class="blob"></div>
-            <div class="menu-container">
-                <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                <div class="dropdown-menu">
-                    <a href="#" onclick="editCard(event, this)">Edit</a>
-                    <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
-                </div>
-            </div>
-            <div class="card-title tugas-text">${judulVal}</div>
-        `;
-        gridContainer.appendChild(kartuBaru);
     }
 
     form.reset();

@@ -60,23 +60,6 @@ form.addEventListener('submit', function(e) {
         kartuBaru.className = 'card';
         kartuBaru.style.cursor = 'pointer';
         kartuBaru.onclick = function() { window.location.href = 'tugas/detail.php'; };
-
-        kartuBaru.innerHTML = `
-            <div class="blob ${blobClass}"></div>
-            <div class="menu-container">
-                <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                <div class="dropdown-menu">
-                    <a href="#" onclick="editCard(event, this)">Edit</a>
-                    <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
-                </div>
-            </div>
-            <div class="card-info">
-                <p class="kelas-text">${kelasVal}</p>
-                <p class="jadwal-text">${jadwalVal}</p>
-            </div>
-            <div class="card-title matkul-text">${matkulVal}</div>
-        `;
-        gridContainer.appendChild(kartuBaru);
     }
     modal.style.display = 'none';
     form.reset();

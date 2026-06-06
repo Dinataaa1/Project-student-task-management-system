@@ -1,3 +1,8 @@
+<?php
+// Memanggil backend controller (Mundur 3 tingkat)
+require_once '../../../controllers/admin/matkul_controler.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -32,40 +37,33 @@
         </div>
 
         <div class="content-area">
-            <h2 class="greeting">Hai, Lulu</h2>
+            <?php if (!empty($pesan_error)): ?>
+                <div style="color: red; margin-bottom: 15px; font-weight: bold;"><?= $pesan_error ?></div>
+            <?php endif; ?>
+            <?php if (!empty($pesan_sukses)): ?>
+                <div style="color: green; margin-bottom: 15px; font-weight: bold;"><?= $pesan_sukses ?></div>
+            <?php endif; ?>
+
+            <h2 class="greeting">Hai, <?= htmlspecialchars($nama_dosen) ?></h2>
             
             <div class="grid-container">
-                <div class="card" onclick="window.location.href='tugas/detail.php'" style="cursor: pointer;">
-                    <div class="blob orange"></div>
-                    <div class="menu-container">
-                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                        <div class="dropdown-menu">
-                            <a href="#" onclick="editCard(event, this)">Edit</a>
-                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                <?php foreach ($data_matkul_list as $index => $matkul): ?>
+                    <?php 
+                        // Membuat warna blob selang-seling (orange dan blue)
+                        $blobClass = ($index % 2 === 0) ? 'orange' : 'blue'; 
+                    ?>
+                    <div class="card" onclick="window.location.href='tugas/detail.php?matkul=<?= $matkul['id'] ?>'" style="cursor: pointer;">
+                        <div class="blob <?= $blobClass ?>"></div>
+                        <div class="menu-container">
+                            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                            </div>
+                        <div class="card-info">
+                            <p class="kelas-text"><?= htmlspecialchars($matkul['ruangan']) ?></p>
+                            <p class="jadwal-text"><?= htmlspecialchars($matkul['jadwal']) ?></p>
                         </div>
+                        <div class="card-title matkul-text"><?= htmlspecialchars($matkul['nama_matkul']) ?></div>
                     </div>
-                    <div class="card-info">
-                        <p class="kelas-text">Kelas</p>
-                        <p class="jadwal-text">Jadwal</p>
-                    </div>
-                    <div class="card-title matkul-text">Matkul</div>
-                </div>
-                
-                <div class="card" onclick="window.location.href='tugas/detail.php'" style="cursor: pointer;">
-                    <div class="blob blue"></div>
-                    <div class="menu-container">
-                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                        <div class="dropdown-menu">
-                            <a href="#" onclick="editCard(event, this)">Edit</a>
-                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
-                        </div>
-                    </div>
-                    <div class="card-info">
-                        <p class="kelas-text">Kelas</p>
-                        <p class="jadwal-text">Jadwal</p>
-                    </div>
-                    <div class="card-title matkul-text">Matkul</div>
-                </div>
+                <?php endforeach; ?>
             </div>
 
             <button class="fab" onclick="bukaModalAdd()">
@@ -76,14 +74,16 @@
 
     <div id="modalMatkul" class="modal-overlay">
         <div class="modal-content">
-            <form id="formMatkul">
+            <form id="formMatkul" method="POST" action="">
+                <input type="hidden" name="action" value="create_matkul">
+                
                 <div class="form-group">
                     <label for="inputMatkul">MATKUL</label>
-                    <input type="text" id="inputMatkul" name="matkul" required autocomplete="off">
+                    <input type="text" id="inputMatkul" name="nama_matkul" required autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label for="inputKelas">KELAS</label>
-                    <input type="text" id="inputKelas" name="kelas" required autocomplete="off">
+                    <label for="inputKelas">KELAS/RUANGAN</label>
+                    <input type="text" id="inputKelas" name="ruangan" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="inputJadwal">JADWAL</label>

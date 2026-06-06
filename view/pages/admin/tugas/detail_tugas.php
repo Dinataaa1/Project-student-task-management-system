@@ -65,7 +65,13 @@
                                 <td><a href="#" class="btn-lihat"><i class="fa-regular fa-eye"></i> Lihat</a></td>
                                 <td>
                                     <div class="nilai-wrapper">
-                                        <input type="text" name="nilai[]" class="input-nilai" maxlength="3"> / 100
+                                        <input type="number" 
+                                            class="input-nilai" 
+                                            value="<?= htmlspecialchars($row['nilai'] ?? '') ?>" 
+                                            data-id="<?= $row['pengumpulan_id'] ?>" 
+                                            onchange="simpanNilai(this)" 
+                                            min="0" max="100" 
+                                            placeholder="..."> / 100
                                     </div>
                                 </td>
                                 <td><span class="status-badge status-terlambat">Terlambat</span></td>
@@ -80,5 +86,6 @@
             </a>
         </div>
     </div>
+    <script src="../../../assets/js/admin/detail_tugas.js?v=1"></script>
 </body>
 </html>

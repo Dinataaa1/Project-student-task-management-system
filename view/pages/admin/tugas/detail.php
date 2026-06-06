@@ -1,3 +1,7 @@
+<?php
+require_once '../../../controllers/admin/tugas_controler.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -36,29 +40,30 @@
                 <h2 class="greeting">Hai, Lulu! Ini adalah tugas mata kuliah <span id="namaMatkulText">Semua Mata Kuliah</span></h2>
                 
                 <div class="filter-container">
-                    <select id="matkulFilter" class="matkul-dropdown">
-                        <option value="semua">Semua Mata Kuliah</option>
-                        <option value="prak_web">Praktikum Pemrograman Web</option>
-                        <option value="basis_data">Basis Data Lanjut</option>
-                        <option value="pbo">Pemrograman Berorientasi Objek</option>
-                        <option value="ai">Kecerdasan Buatan (AI)</option>
-                        <option value="so">Sistem Operasi</option>
+                    <select id="matkulFilter" class="matkul-dropdown" onchange="window.location.href='?matkul=' + this.value">
+                        <option value="0">Semua Mata Kuliah</option>
+                        <?php foreach ($data_matkul as $mk): ?>
+                            <option value="<?= $mk['id'] ?>" <?= (isset($_GET['matkul']) && $_GET['matkul'] == $mk['id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($mk['nama_matkul']) ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>
             
             <div class="grid-container">
-                <div class="card" onclick="window.location.href='detail_tugas.php'" style="cursor: pointer;">
-                    <div class="blob"></div>
-                    <div class="menu-container">
-                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                        <div class="dropdown-menu">
-                            <a href="#" onclick="editCard(event, this)">Edit</a>
-                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
+                <?php foreach ($data_tugas as $tugas): ?>
+                    <div class="card" onclick="window.location.href='detail_tugas.php?id=<?= $tugas['id'] ?>'" style="cursor: pointer;">
+                        <div class="blob"></div>
+                        <div class="menu-container">
+                            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        </div>
+                        <div class="card-title tugas-text"><?= htmlspecialchars($tugas['judul_tugas']) ?></div>
+                        <div style="margin-top: 10px; font-size: 12px; font-family: var(--font-body); color: var(--color-pink);">
+                            <?= $tugas['deadline_format'] ?>
                         </div>
                     </div>
-                    <div class="card-title tugas-text">Tugas 1</div>
-                </div>
+                <?php endforeach; ?>
             </div>
 
             <a href="../dashboard.php" class="btn-back">
@@ -73,22 +78,25 @@
 
     <div id="modalTugas" class="modal-overlay">
         <div class="modal-content">
-            <form id="formTugas" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                <label class="btn-lampiran">
-                    <i class="fa-solid fa-chevron-up"></i> Lampiran
-                    <input type="file" id="inputFile" style="display: none;" onchange="tampilkanNamaFile(this)">
-                </label>
-                <span id="fileNameDisplay" class="file-name-display">Belum ada file dipilih</span>
+            <form id="formTugas" method="POST" action="" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <input type="hidden" name="action" value="create_tugas">
+                
+                <select name="matkul_id" class="input-desc" required>
+                    <option value="">Pilih Mata Kuliah...</option>
+                    <?php foreach ($data_matkul as $mk): ?>
+                        <option value="<?= $mk['id'] ?>"><?= htmlspecialchars($mk['nama_matkul']) ?></option>
+                    <?php endforeach; ?>
+                </select>
 
                 <div class="input-row">
-                    <input type="text" id="inputJudulTugas" placeholder="Judul Tugas" required autocomplete="off">
+                    <input type="text" name="judul_tugas" id="inputJudulTugas" placeholder="Judul Tugas" required autocomplete="off">
                     <div class="date-wrapper" title="Pilih Deadline">
                         <i class="fa-regular fa-calendar"></i>
-                        <input type="date" id="inputDeadline" required>
+                        <input type="datetime-local" name="deadline" id="inputDeadline" required>
                     </div>
                 </div>
 
-                <textarea id="inputDeskripsi" class="input-desc" rows="3" placeholder="Deskripsi" required></textarea>
+                <textarea name="deskripsi" id="inputDeskripsi" class="input-desc" rows="3" placeholder="Deskripsi" required></textarea>
 
                 <button type="submit" class="btn-submit">SUBMIT</button>
             </form>
