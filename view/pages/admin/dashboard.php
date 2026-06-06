@@ -72,9 +72,10 @@ require_once '../../../controllers/admin/matkul_controler.php';
         </div>
     </div>
 
-    <div id="modalMatkul" class="modal-overlay">
+    <div id="modalMatkul" class="modal-overlay"> 
         <div class="modal-content">
-            <form id="formMatkul" method="POST" action="">
+            <!-- TODO : FORM BELUM NYAMBUNG BACK END -->
+            <form id="formMatkul" method="POST" action=""> 
                 <input type="hidden" name="action" value="create_matkul">
                 
                 <div class="form-group">

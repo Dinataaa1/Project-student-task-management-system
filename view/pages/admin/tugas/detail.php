@@ -1,5 +1,5 @@
 <?php
-require_once '../../../controllers/admin/tugas_controler.php';
+require_once '../../../../controllers/admin/tugas_controler.php';
 ?>
 
 <!DOCTYPE html>

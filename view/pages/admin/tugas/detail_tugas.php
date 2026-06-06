@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="../../../assets/css/pages/admin/detail_tugas.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
+<!-- TODO : BELUM KONEK BACKEND -->
+
 <body>
     <div class="sidebar">
         <div class="profile-area">
@@ -47,6 +50,7 @@
             </div>
 
             <div class="table-container">
+                <!-- TODO : SAMBUNGIN BACKEND -->
                 <form action="" method="POST">
                     <table>
                         <thead>
