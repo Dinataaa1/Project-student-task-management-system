@@ -2,7 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const bellIcon = document.getElementById('bellIcon');
     const blueDot = document.getElementById('blueDot');
     
-    // Elemen baru untuk sliding panel
+    const bellTop = document.querySelector('.bell-top');
+    const bellBot = document.querySelector('.bell-bot');
+    
     const notifPanel = document.getElementById('notifPanel');
     const notifOverlay = document.getElementById('notifOverlay');
     const closeNotifBtn = document.getElementById('closeNotifBtn');
@@ -21,40 +23,68 @@ document.addEventListener('DOMContentLoaded', function() {
     const memoryKey = 'read_tasks_' + userId;
     let savedReadTasks = JSON.parse(localStorage.getItem(memoryKey)) || [];
 
-    let hasNewUnread = currentTaskIds.some(id => !savedReadTasks.includes(id));
+    // =========================================================================
+    // FITUR BARU: Menghitung jumlah tugas yang belum dibaca
+    // =========================================================================
+    let unreadTasks = currentTaskIds.filter(id => !savedReadTasks.includes(id));
+    let unreadCount = unreadTasks.length; 
+    let hasNewUnread = unreadCount > 0;
 
-    if (hasNewUnread && currentTaskIds.length > 0) {
-        blueDot.classList.remove('d-none');
+    // FUNGSI UNTUK MEMAINKAN ANIMASI (Bisa dipanggil berulang kali)
+    function playBellAnimation() {
+        if (bellTop) {
+            bellTop.classList.remove('bell-top-anim');
+            void bellTop.offsetWidth; // Trik JS untuk mereset animasi
+            bellTop.classList.add('bell-top-anim');
+        }
+        if (bellBot) {
+            bellBot.classList.remove('bell-bot-anim');
+            void bellBot.offsetWidth;
+            bellBot.classList.add('bell-bot-anim');
+        }
     }
 
-    // Fungsi untuk MENGELUARKAN panel dari kanan
+    // Jika ada tugas baru, tampilkan angka dan mainkan animasi!
+    if (hasNewUnread) {
+        blueDot.innerText = unreadCount; // Masukkan angka ke dalam bulatan biru
+        blueDot.classList.remove('d-none');
+        blueDot.classList.add('new-not'); 
+        playBellAnimation(); // Mainkan otomatis saat halaman dimuat
+    }
+
     function openPanel() {
         notifPanel.classList.add('show');
         if (notifOverlay) notifOverlay.classList.add('show');
         
-        // Matikan titik biru dan simpan memori
+        // Sembunyikan bulatan biru setelah panel dibuka
         blueDot.classList.add('d-none');
+        blueDot.classList.remove('new-not');
+        
+        // Simpan semua ID tugas ke memori agar dianggap "sudah dibaca"
         localStorage.setItem(memoryKey, JSON.stringify(currentTaskIds));
     }
 
-    // Fungsi untuk MEMASUKKAN kembali panel ke kanan
     function closePanel() {
         notifPanel.classList.remove('show');
         if (notifOverlay) notifOverlay.classList.remove('show');
     }
 
-    // Aksi saat Lonceng diklik
+    // Mainkan animasi saat mouse diarahkan ke lonceng (Hover)
+    bellIcon.addEventListener('mouseenter', function() {
+        playBellAnimation();
+    });
+
+    // Buka panel DAN mainkan animasi saat lonceng diklik
     bellIcon.addEventListener('click', function(e) {
         e.stopPropagation();
+        playBellAnimation(); 
         openPanel();
     });
 
-    // Menutup panel jika tombol X diklik
     if (closeNotifBtn) {
         closeNotifBtn.addEventListener('click', closePanel);
     }
 
-    // Menutup panel jika area gelap di luar panel diklik
     if (notifOverlay) {
         notifOverlay.addEventListener('click', closePanel);
     }
