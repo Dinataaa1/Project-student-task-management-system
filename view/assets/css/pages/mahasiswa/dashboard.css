@@ -49,9 +49,14 @@
 .cal-left {
     background-color: #bfa1f7;
     color: white;
-    padding: 35px;
-    width: 320px;
+    /* Padding dikurangi dari 35px jadi 25px agar jarak pinggir tidak terlalu jauh */
+    padding: 25px; 
+    /* Lebar ditambah sedikit agar dua card tugas muat sempurna */
+    width: 340px; 
     position: relative;
+    /* Ditambahkan Flexbox agar isinya bisa melar */
+    display: flex;
+    flex-direction: column;
 }
 
 /* pengaturan teks angka tanggal super besar di panel kiri */
@@ -82,9 +87,14 @@
 .notes-box {
     background-color: #9a73e6;
     border-radius: 20px;
-    padding: 25px;
-    margin-top: 40px;
-    min-height: 200px;
+    padding: 20px;
+    margin-top: 25px;
+    /* Ditambahkan properti sakti agar melar penuh */
+    width: 100%;
+    flex-grow: 1; 
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 /* judul "notes to be made" di dalam kotak tugas */
@@ -96,7 +106,7 @@
     letter-spacing: 1px;
 }
 
-/* gaya untuk masing-masing baris daftar tugas di kotak ungu */
+/* gaya untuk masing-masing baris daftar tugas di kotak ungu (sekarang digantikan oleh JS inline style, tapi biarkan saja sebagai cadangan) */
 .dl-item {
     background-color: rgba(255, 255, 255, 0.2);
     padding: 10px 15px;
