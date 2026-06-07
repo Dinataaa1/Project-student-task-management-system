@@ -39,7 +39,7 @@ h1, h2, h3, .page-title { font-family: var(--font-heading); }
 .nav-item:hover:not(.active) { background-color: #e0e7ff; }
 
 /* Tombol Logout */
-.logout-btn { margin-top: auto !important; margin-bottom: 20px; }
+.logout-btn { margin-top: 0 !important; margin-bottom: 0 !important; }
 .logout-btn:hover { background-color: #fce7f3 !important; color: var(--color-pink) !important; }
 
 /* Area Konten Utama */
@@ -61,7 +61,7 @@ h1, h2, h3, .page-title { font-family: var(--font-heading); }
 
 /* Dekorasi Blob Kartu (Gradasi Ungu ke Pink) */
 .blob-large { 
-    position: absolute; top: 0; right: 0; width: 350px; height: 180px; 
+    position: absolute; top: 0; right: 0; width: 250px; height: 150px; 
     border-bottom-left-radius: 100%; 
     background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%);
     z-index: 1;

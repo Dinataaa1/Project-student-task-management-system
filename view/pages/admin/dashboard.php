@@ -18,8 +18,16 @@ require_once '../../../controllers/admin/matkul_controler.php';
 <body>
     <div class="sidebar">
         <div class="profile-area">
-            <img src="https://ui-avatars.com/api/?name=Lulu&background=random&color=fff" alt="Profile">
-            <p>Nama</p>
+            <?php
+                // Memecah nama lengkap menjadi array berdasarkan spasi
+                $nama_parts = explode(' ', $nama_dosen);
+                // Mengambil elemen pertama (nama depan)
+                $nama_depan = $nama_parts[0];
+                
+                $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($nama_dosen) . "&background=4F46E5&color=fff&bold=true";
+            ?>
+            <img src="<?= $avatar_url ?>" alt="Profile">
+            <p><?= htmlspecialchars($nama_depan) ?></p>
         </div>
         <div class="nav-menu">
             <a href="dashboard.php" class="nav-item active"><i class="fa-solid fa-house"></i></a>
@@ -49,14 +57,24 @@ require_once '../../../controllers/admin/matkul_controler.php';
             <div class="grid-container">
                 <?php foreach ($data_matkul_list as $index => $matkul): ?>
                     <?php 
-                        // Membuat warna blob selang-seling (orange dan blue)
                         $blobClass = ($index % 2 === 0) ? 'orange' : 'blue'; 
                     ?>
-                    <div class="card" onclick="window.location.href='tugas/detail.php?matkul=<?= $matkul['id'] ?>'" style="cursor: pointer;">
+                    <div class="card" 
+                    onclick="window.location.href='tugas/detail.php?matkul=<?= $matkul['id'] ?>'" 
+                    data-id="<?= $matkul['id'] ?>" 
+                    data-matkul="<?= htmlspecialchars($matkul['nama_matkul']) ?>" 
+                    data-ruangan="<?= htmlspecialchars($matkul['ruangan']) ?>" 
+                    data-jadwal="<?= htmlspecialchars($matkul['jadwal']) ?>"
+                    style="cursor: pointer;">
                         <div class="blob <?= $blobClass ?>"></div>
                         <div class="menu-container">
                             <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                            <div class="dropdown-menu">
+                                <a href="#" onclick="editCard(event, this)">Edit</a>
+                                <a href="?action=delete_matkul&id=<?= $matkul['id'] ?>" class="text-danger" 
+                                onclick="return confirm('Hapus mata kuliah ini?');">Hapus</a>
                             </div>
+                        </div>
                         <div class="card-info">
                             <p class="kelas-text"><?= htmlspecialchars($matkul['ruangan']) ?></p>
                             <p class="jadwal-text"><?= htmlspecialchars($matkul['jadwal']) ?></p>
@@ -72,17 +90,20 @@ require_once '../../../controllers/admin/matkul_controler.php';
         </div>
     </div>
 
-    <div id="modalMatkul" class="modal-overlay">
+    <div id="modalMatkul" class="modal-overlay" style="display: none;">
         <div class="modal-content">
-            <form id="formMatkul" method="POST" action="">
-                <input type="hidden" name="action" value="create_matkul">
+            <h2 id="modalTitle" style="margin-bottom: 20px; font-family: 'Poppins';">TAMBAH MATKUL</h2>
+            
+            <form id="formMatkul" method="POST" action="dashboard.php">
+                <input type="hidden" name="action" id="formAction" value="create_matkul">
+                <input type="hidden" name="matkul_id" id="matkulId" value="">
                 
                 <div class="form-group">
                     <label for="inputMatkul">MATKUL</label>
                     <input type="text" id="inputMatkul" name="nama_matkul" required autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label for="inputKelas">KELAS/RUANGAN</label>
+                    <label for="inputKelas">KELAS</label>
                     <input type="text" id="inputKelas" name="ruangan" required autocomplete="off">
                 </div>
                 <div class="form-group">
@@ -94,6 +115,6 @@ require_once '../../../controllers/admin/matkul_controler.php';
         </div>
     </div>
 
-        <script src="../../assets/js/admin/dashboard.js"></script>
+    <script src="../../assets/js/admin/dashboard.js?v=<?= time(); ?>"></script>
 </body>
 </html>
