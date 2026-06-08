@@ -83,14 +83,15 @@ if ($selected_matkul_id > 0) {
             <div class="grid-container">
                 <?php foreach ($data_tugas as $tugas): ?>
                     <div class="card" 
-                         onclick="window.location.href='detail_tugas.php?id=<?= $tugas['id'] ?>'" 
-                         data-id="<?= $tugas['id'] ?>"
-                         data-matkul-id="<?= $tugas['matkul_id'] ?>"
-                         data-judul="<?= htmlspecialchars($tugas['judul_tugas']) ?>"
-                         data-deskripsi="<?= htmlspecialchars($tugas['deskripsi']) ?>"
-                         data-deadline="<?= htmlspecialchars($tugas['deadline']) ?>"
-                         style="cursor: pointer;">
-                        <div class="blob"></div>
+                        onclick="window.location.href='detail_tugas.php?id=<?= $tugas['id'] ?>'" 
+                        data-id="<?= $tugas['id'] ?>"
+                        data-matkul-id="<?= $tugas['matkul_id'] ?>"
+                        data-judul="<?= htmlspecialchars($tugas['judul_tugas']) ?>"
+                        data-deskripsi="<?= htmlspecialchars($tugas['deskripsi']) ?>"
+                        data-deadline="<?= htmlspecialchars($tugas['deadline']) ?>"
+                        /* 1. Tambahkan height: 180px agar ukurannya tetap sama semua */
+                        style="cursor: pointer; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 20px; height: 180px; box-sizing: border-box;">
+                        
                         <div class="menu-container">
                             <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
                             <div class="dropdown-menu">
@@ -98,14 +99,17 @@ if ($selected_matkul_id > 0) {
                                 <a href="?action=delete_tugas&id=<?= $tugas['id'] ?>&matkul=<?= $selected_matkul_id ?? 0 ?>" class="text-danger" onclick="return confirm('Hapus tugas ini?');">Hapus</a>
                             </div>
                         </div>
-                        <div class="card-title tugas-text"><?= htmlspecialchars($tugas['judul_tugas']) ?></div>
-                        <div style="margin-top: 10px; font-size: 12px; font-family: var(--font-body); color: var(--color-pink);">
+                        
+                        <div class="card-title tugas-text" style="padding-right: 30px; margin-top: 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                            <?= htmlspecialchars($tugas['judul_tugas']) ?>
+                        </div>
+                        
+                        <div style="margin-top: auto; padding-top: 15px; font-size: 12px; font-family: var(--font-body); color: var(--color-pink);">
                             <?= $tugas['deadline_format'] ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
-
             <button class="fab" onclick="bukaModalTugas()">
                 <i class="fa-solid fa-plus"></i>
             </button>
@@ -116,7 +120,7 @@ if ($selected_matkul_id > 0) {
         <div class="modal-content">
             <h2 id="modalTitleTugas" style="margin-bottom: 20px; font-family: 'Poppins'; text-align: center;">TAMBAH TUGAS</h2>
             
-            <form id="formTugas" method="POST" action="">
+            <form id="formTugas" method="POST" action="" enctype="multipart/form-data">
                 <input type="hidden" name="action" id="formActionTugas" value="create_tugas">
                 <input type="hidden" name="tugas_id" id="tugasId" value="">
                 
@@ -145,6 +149,11 @@ if ($selected_matkul_id > 0) {
                     <textarea name="deskripsi" id="inputDeskripsi" rows="3" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; outline: none; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
                 </div>
 
+                <div class="form-group" style="margin-bottom: 20px; width: 100%;">
+                    <label for="inputFileLampiran" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">LAMPIRAN FILE (Opsional)</label>
+                    <input type="file" id="inputFileLampiran" name="file_lampiran" style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                </div>
+                
                 <div style="width: 100%; text-align: center;">
                     <button type="submit" class="btn-submit">SUBMIT</button>
                 </div>

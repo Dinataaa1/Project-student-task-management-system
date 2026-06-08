@@ -38,7 +38,7 @@ $pesan_error = '';
 
 // 3. Ambil Detail Tugas
 $stmt_tugas = $conn->prepare("
-    SELECT t.id, t.judul_tugas, t.deskripsi, t.deadline, mk.nama_matkul
+    SELECT t.id, t.judul_tugas, t.deskripsi, t.deadline, t.file_lampiran, mk.nama_matkul
     FROM tugas t
     JOIN mata_kuliah mk ON t.matkul_id = mk.id
     WHERE t.id = ? AND mk.dosen_id = ?

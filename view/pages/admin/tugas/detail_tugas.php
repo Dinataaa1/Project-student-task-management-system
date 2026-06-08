@@ -65,7 +65,19 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
                 <div class="blob-large"></div>
                 
                 <div class="task-footer">
-                    <button class="btn-lampiran-view">Lampiran</button>
+                    <?php if (!empty($data_tugas['file_lampiran'])): ?>
+                        <a href="../../../../uploads/tugas/<?= htmlspecialchars($data_tugas['file_lampiran']) ?>" 
+                        class="btn-lampiran-view" 
+                        target="_blank" 
+                        style="text-decoration: none;">
+                        <i class="fa-solid fa-paperclip"></i> Lihat Lampiran
+                        </a>
+                    <?php else: ?>
+                        <span class="btn-lampiran-view" style="background-color: #e2e8f0; color: #94a3b8; cursor: not-allowed; text-decoration: none;">
+                            Tidak ada lampiran
+                        </span>
+                    <?php endif; ?>
+                    
                     <span class="deadline-text">Deadline: <?= date('d M Y, H:i', strtotime($data_tugas['deadline'])) ?></span>
                 </div>
             </div>
@@ -93,7 +105,7 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
                                 <td><?= htmlspecialchars($row['nama_mahasiswa']) ?></td>
                                 <td>
                                     <?php if ($row['status_kumpul'] !== 'kosong' && !empty($row['file_path'])): ?>
-                                        <a href="../../../uploads/<?= htmlspecialchars($row['file_path']) ?>" class="btn-lihat" target="_blank">
+                                        <a href="../../../../uploads/<?= htmlspecialchars($row['file_path']) ?>" class="btn-lihat" target="_blank">
                                             <i class="fa-solid fa-eye"></i> Lihat
                                         </a>
                                     <?php else: ?>
@@ -125,6 +137,6 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
             <?php endif; ?>
         </div>
     </div>
-    <link rel="stylesheet" href="../../../assets/css/pages/admin/detail_tugas.css?v=4">
+    <script src="../../../assets/js/admin/detail_tugas.js?v=2"></script>
 </body>
 </html>

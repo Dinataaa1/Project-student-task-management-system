@@ -56,7 +56,7 @@ if ($_FILES['file_tugas']['size'] > $maxSize) {
     exit();
 }
 
-$baseUploadDir = __DIR__ . '/../uploads/';
+$baseUploadDir = __DIR__ . '/../../uploads/';
 $studentDir = $baseUploadDir . 'mahasiswa_' . $mahasiswa_id . '/';
 if (!is_dir($studentDir)) {
     mkdir($studentDir, 0750, true);
@@ -71,7 +71,7 @@ if (!move_uploaded_file($_FILES['file_tugas']['tmp_name'], $target)) {
     exit();
 }
 
-$publicPath = 'controllers/uploads/mahasiswa_' . $mahasiswa_id . '/' . $filename; // relative path for DB/frontend
+$publicPath = 'mahasiswa_' . $mahasiswa_id . '/' . $filename;
 
 // Insert or update pengumpulan_tugas
 $stmt = $conn->prepare("SELECT id FROM pengumpulan_tugas WHERE tugas_id = ? AND mahasiswa_id = ? LIMIT 1");

@@ -15,7 +15,7 @@ async function simpanNilai(inputElement) {
 
     try {
         // Kirim data ke backend menggunakan Fetch API (Mundur 3 tingkat dari posisi halaman PHP)
-        const response = await fetch('../../../controllers/admin/nilai_process.php', {
+        const response = await fetch('../../../../controllers/admin/nilai_process.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
