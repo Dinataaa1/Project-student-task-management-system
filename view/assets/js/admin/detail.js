@@ -2,21 +2,6 @@
 
 const modal = document.getElementById('modalTugas');
 const form = document.getElementById('formTugas');
-const gridContainer = document.querySelector('.grid-container');
-let editingCard = null;
-
-function bukaModalTugas() {
-    editingCard = null;
-    form.reset();
-    document.getElementById('fileNameDisplay').innerText = "Belum ada file dipilih";
-    modal.style.display = 'flex';
-}
-
-function tampilkanNamaFile(input) {
-    const display = document.getElementById('fileNameDisplay');
-    if (input.files && input.files.length > 0) display.innerText = input.files[0].name;
-    else display.innerText = "Belum ada file dipilih";
-}
 
 function toggleMenu(event, element) {
     event.stopPropagation();
@@ -26,72 +11,52 @@ function toggleMenu(event, element) {
     element.nextElementSibling.classList.toggle('show');
 }
 
-function hapusCard(event, element) {
-    event.stopPropagation();
-    if (confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
-        element.closest('.card').remove();
-    }
-}
-
-function editCard(event, element) {
-    event.stopPropagation();
-    editingCard = element.closest('.card');
-    document.getElementById('inputJudulTugas').value = editingCard.querySelector('.tugas-text').innerText;
-    element.parentElement.classList.remove('show');
+function bukaModalTugas() {
+    form.reset();
+    document.getElementById('modalTitleTugas').innerText = 'TAMBAH TUGAS';
+    document.getElementById('formActionTugas').value = 'create_tugas';
+    document.getElementById('tugasId').value = '';
     modal.style.display = 'flex';
 }
 
+function tutupModalTugas() {
+    modal.style.display = 'none';
+}
+
+function editTugas(event, element) {
+    event.stopPropagation();
+    const card = element.closest('.card');
+    
+    document.getElementById('tugasId').value = card.getAttribute('data-id');
+    document.getElementById('inputMatkulId').value = card.getAttribute('data-matkul-id');
+    document.getElementById('inputJudulTugas').value = card.getAttribute('data-judul');
+    document.getElementById('inputDeskripsi').value = card.getAttribute('data-deskripsi');
+    
+    // Konversi YYYY-MM-DD HH:MM:SS ke YYYY-MM-DDTHH:MM (Format input datetime-local)
+    let deadline = card.getAttribute('data-deadline');
+    if (deadline) {
+        document.getElementById('inputDeadline').value = deadline.replace(' ', 'T').slice(0, 16);
+    }
+
+    document.getElementById('modalTitleTugas').innerText = 'EDIT TUGAS';
+    document.getElementById('formActionTugas').value = 'edit_tugas';
+    
+    modal.style.display = 'flex';
+    element.closest('.dropdown-menu').classList.remove('show');
+}
+
 window.onclick = function(event) {
-    if (event.target == modal) modal.style.display = 'none';
+    if (event.target === modal) modal.style.display = 'none';
     if (!event.target.matches('.menu-icon')) {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
     }
 }
 
-form.addEventListener('submit', function(e) {
-    e.preventDefault(); 
-    const judulVal = document.getElementById('inputJudulTugas').value;
-
-    if (editingCard !== null) {
-        editingCard.querySelector('.tugas-text').innerText = judulVal;
-    } else {
-        const kartuBaru = document.createElement('div');
-        kartuBaru.className = 'card';
-        kartuBaru.style.cursor = 'pointer';
-        kartuBaru.onclick = function() { window.location.href = 'detail_tugas.php'; };
-        
-        kartuBaru.innerHTML = `
-            <div class="blob"></div>
-            <div class="menu-container">
-                <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                <div class="dropdown-menu">
-                    <a href="#" onclick="editCard(event, this)">Edit</a>
-                    <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
-                </div>
-            </div>
-            <div class="card-title tugas-text">${judulVal}</div>
-        `;
-        gridContainer.appendChild(kartuBaru);
-    }
-
-    form.reset();
-    document.getElementById('fileNameDisplay').innerText = "Belum ada file dipilih";
-    modal.style.display = 'none';
-});
-
-// Logika Interaktif Dropdown Filter Matkul
+// Logika Dropdown Filter (Tetap dipertahankan)
 const matkulFilter = document.getElementById('matkulFilter');
 const namaMatkulText = document.getElementById('namaMatkulText');
-
 if(matkulFilter && namaMatkulText) {
     matkulFilter.addEventListener('change', function() {
-        const selectedText = this.options[this.selectedIndex].text;
-        namaMatkulText.innerText = selectedText;
-        
-        namaMatkulText.style.opacity = 0;
-        setTimeout(() => {
-            namaMatkulText.style.opacity = 1;
-            namaMatkulText.style.transition = "opacity 0.3s ease";
-        }, 100);
+        namaMatkulText.innerText = this.options[this.selectedIndex].text;
     });
 }

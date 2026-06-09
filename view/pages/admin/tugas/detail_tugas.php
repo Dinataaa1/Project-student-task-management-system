@@ -1,83 +1,142 @@
+<?php
+// Memanggil backend controller (Mundur 4 tingkat)
+require_once '../../../../controllers/admin/detail_tugas_controler.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Tugas & Penilaian</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../../assets/css/pages/admin/detail_tugas.css">
+    <link rel="stylesheet" href="../../../assets/css/pages/admin/detail_tugas.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
+<!-- TODO : BELUM KONEK BACKEND -->
+
 <body>
     <div class="sidebar">
         <div class="profile-area">
-            <img src="https://ui-avatars.com/api/?name=Lulu&background=random&color=fff" alt="Profile">
-            <p>Nama</p>
+            <?php
+                // Memecah nama lengkap menjadi array berdasarkan spasi
+                $nama_parts = explode(' ', $nama_dosen);
+                // Mengambil elemen pertama (nama depan)
+                $nama_depan = $nama_parts[0];
+                
+                // Membuat URL Avatar dinamis. 
+                // Menggunakan urlencode agar spasi pada nama aman dikirim lewat URL.
+                // Background diatur ke warna biru indigo palet Anda (4F46E5)
+                $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($nama_dosen) . "&background=4F46E5&color=fff&bold=true";
+            ?>
+            <img src="<?= $avatar_url ?>" alt="Profile">
+            <p><?= htmlspecialchars($nama_depan) ?></p>
         </div>
         <div class="nav-menu">
             <a href="../dashboard.php" class="nav-item"><i class="fa-solid fa-house"></i></a>
-            <a href="detail.php" class="nav-item active"><i class="fa-solid fa-address-card"></i></a>
+            <a href="detail.php" class="nav-item"><i class="fa-solid fa-address-card"></i></a>
             <a href="../setting.php" class="nav-item"><i class="fa-solid fa-gear"></i></a>
+            
             <a href="../../../../controllers/logout.php" class="nav-item logout-btn" onclick="return confirm('Apakah Anda yakin ingin keluar dari aplikasi?');">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </a>
         </div>
     </div>
-
     <div class="main-content">
         <div class="header">
             <h1>LOL</h1>
         </div>
 
         <div class="content-area">
-            <h2 class="page-title">Tugas 1</h2>
+            <?php if (!empty($pesan_error)): ?>
+                <div style="color: red; margin-bottom: 15px; font-weight: bold; text-align: center;">
+                    <?= $pesan_error ?>
+                </div>
+            <?php else: ?>
+            
+            <h2 class="page-title"><?= htmlspecialchars($data_tugas['judul_tugas']) ?></h2>
             
             <div class="task-detail-card">
+                <p class="task-desc"><?= nl2br(htmlspecialchars($data_tugas['deskripsi'])) ?></p>
                 <div class="blob-large"></div>
-                <div class="task-desc">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </div>
+                
                 <div class="task-footer">
-                    <a href="#" class="btn-lampiran-view">Lampiran</a>
-                    <span class="deadline-text">Deadline</span>
+                    <?php if (!empty($data_tugas['file_lampiran'])): ?>
+                        <a href="../../../../uploads/tugas/<?= htmlspecialchars($data_tugas['file_lampiran']) ?>" 
+                        class="btn-lampiran-view" 
+                        target="_blank" 
+                        style="text-decoration: none;">
+                        <i class="fa-solid fa-paperclip"></i> Lihat Lampiran
+                        </a>
+                    <?php else: ?>
+                        <span class="btn-lampiran-view" style="background-color: #e2e8f0; color: #94a3b8; cursor: not-allowed; text-decoration: none;">
+                            Tidak ada lampiran
+                        </span>
+                    <?php endif; ?>
+                    
+                    <span class="deadline-text">Deadline: <?= date('d M Y, H:i', strtotime($data_tugas['deadline'])) ?></span>
                 </div>
             </div>
 
             <div class="table-container">
-                <form action="" method="POST">
-                    <table>
-                        <thead>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>NRP</th>
+                            <th>Nama</th>
+                            <th>Lampiran</th>
+                            <th>Nilai</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($data_pengumpulan)): ?>
                             <tr>
-                                <th>NRP</th>
-                                <th>Nama</th>
-                                <th>Lampiran</th>
-                                <th>Nilai</th>
-                                <th>Status</th>
+                                <td colspan="5" style="text-align: center;">Belum ada mahasiswa yang mengumpulkan</td>
                             </tr>
-                        </thead>
-                        <tbody>
+                        <?php else: ?>
+                            <?php foreach ($data_pengumpulan as $row): ?>
                             <tr>
-                                <td>3125600075</td>
-                                <td>Lulu'atul Mahfudoh</td>
-                                <td><a href="#" class="btn-lihat"><i class="fa-regular fa-eye"></i> Lihat</a></td>
+                                <td><?= htmlspecialchars($row['nrp']) ?></td>
+                                <td><?= htmlspecialchars($row['nama_mahasiswa']) ?></td>
+                                <td>
+                                    <?php if ($row['status_kumpul'] !== 'kosong' && !empty($row['file_path'])): ?>
+                                        <a href="../../../../uploads/<?= htmlspecialchars($row['file_path']) ?>" class="btn-lihat" target="_blank">
+                                            <i class="fa-solid fa-eye"></i> Lihat
+                                        </a>
+                                    <?php else: ?>
+                                        <span style="color: #94a3b8; font-size: 13px;">Belum ada file</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <div class="nilai-wrapper">
-                                        <input type="text" name="nilai[]" class="input-nilai" maxlength="3"> / 100
+                                        <input type="number" 
+                                               class="input-nilai" 
+                                               value="<?= htmlspecialchars($row['nilai'] ?? '') ?>" 
+                                               data-id="<?= $row['pengumpulan_id'] ?>" 
+                                               onchange="simpanNilai(this)" 
+                                               min="0" max="100" 
+                                               placeholder="..."> / 100
                                     </div>
                                 </td>
-                                <td><span class="status-badge status-terlambat">Terlambat</span></td>
+                                <td>
+                                    <span class="status-badge status-<?= $row['status_kumpul'] ?>">
+                                        <?= $row['status_teks'] ?>
+                                    </span>
+                                </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </form>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
             </div>
-
-            <a href="detail.php" class="btn-back">
-                <i class="fa-solid fa-chevron-left"></i>
-            </a>
+            <?php endif; ?>
         </div>
     </div>
+    <script src="../../../assets/js/admin/detail_tugas.js?v=2"></script>
 </body>
 </html>

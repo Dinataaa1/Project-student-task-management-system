@@ -41,6 +41,7 @@ CREATE TABLE tugas (
     deskripsi TEXT,
     file_lampiran VARCHAR(255) NULL, 
     deadline DATETIME NOT NULL,
+    file_lampiran VARCHAR(255) NULL
     FOREIGN KEY (matkul_id) REFERENCES mata_kuliah(id) ON DELETE CASCADE
 );
 
