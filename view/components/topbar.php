@@ -3,22 +3,25 @@
 require_once __DIR__ . '/../../controllers/components/topbar.php';
 ?>
 
-<div class="topbar">
+<div class="topbar d-flex justify-content-between align-items-center w-100" style="height: 70px; padding: 0 40px;">
+    
     <div class="topbar-left">
         <h3 class="fw-bold m-0" style="color: #444;">LOL</h3>
     </div>
 
-    <div class="topbar-right position-relative">
-        <div class="bell-container" id="bellIcon" data-userid="<?= $_SESSION['user_id'] ?? 'guest' ?>" style="cursor: pointer; position: relative;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#888" class="bi bi-bell-fill" viewBox="0 0 16 16">
-              <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
-            </svg>
-            <span id="blueDot" class="position-absolute top-0 start-100 translate-middle p-1 bg-info border border-light rounded-circle d-none"></span>
+    <div class="topbar-right">
+        <div class="bell-container" id="bellIcon" data-userid="<?= $_SESSION['user_id'] ?? 'guest' ?>">
+            <div class="bell-wrapper" style="transform: scale(0.45); transform-origin: center; display: flex; align-items: center; justify-content: center;">
+                <div class="bell">
+                    <div class="bell-top"></div>
+                    <div class="bell-bot"></div>
+                    <div id="blueDot" class="bell-notification d-none">!</div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="notifOverlay" class="notif-overlay"></div>
+</div>
 
 <div id="notifPanel" class="notif-panel">
     <div class="notif-header">

@@ -76,3 +76,124 @@
 .notif-card:hover {
     transform: translateY(-3px);
 }
+
+/* ==========================================================================
+   WADAH LONCENG (Bentuk bulatan transparan saat hover)
+   ========================================================================== */
+.bell-container {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.bell-container:hover {
+    background-color: rgba(0, 0, 0, 0.08); /* Warna abu-abu transparan */
+}
+
+/* ==========================================================================
+   ANIMASI LONCENG NOTIFIKASI
+   ========================================================================== */
+.bell {
+    position: relative;
+    width: 50px;
+    height: 60px;
+}
+
+.bell-top {
+    width: 50px;
+    height: 50px;
+    background: #888;
+    border-radius: 50% 50% 0 0;
+    position: relative;
+}
+
+.bell-top:before {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: inherit;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+}
+
+.bell-top:after {
+    content: '';
+    border-bottom: 10px solid #888;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    height: 0;
+    width: 50px;
+    position: absolute;
+    left: -8px;
+    bottom: -10px;
+    /* INI OBATNYA AGAR BENTUK LONCENG TIDAK HANCUR */
+    box-sizing: content-box; 
+}
+
+.bell-bot {
+    width: 16px;
+    height: 10px; /* Aku tinggikan sedikit dari 8px ke 10px */
+    background: #888;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* INI KUNCINYA: Diturunkan agar lebih kelihatan */
+    bottom: -8px; /* Sebelumnya -2px, sekarang posisinya lebih melorot */
+    
+    border-radius: 0 0 16px 16px;
+}
+
+.bell-notification {
+    background: #00a0e3; /* Warna biru cerah */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 20px; /* Ukuran font disesuaikan agar angka ganda (misal 12) muat */
+    line-height: 35px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 160, 227, 0.4); /* Bayangannya juga warna biru */
+}
+
+/* Class untuk mengaktifkan animasi */
+.bell-top-anim { animation: abanico 1000ms ease-in-out; transform-origin: top; }
+.bell-bot-anim { animation: badalo 1000ms ease-in-out; }
+.new-not { animation: popup 500ms forwards; }
+
+@keyframes abanico {
+    0% { transform: rotate(0deg); }
+    7.5% { transform: rotate(25deg); }
+    30% { transform: rotate(-25deg); }
+    45% { transform: rotate(15deg); }
+    58% { transform: rotate(-10deg); }
+    70% { transform: rotate(5deg); }
+    87.5% { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes badalo {
+    15% { transform: translateX(-25px) rotate(7deg); }
+    32.5% { transform: translateX(10px) rotate(-7deg); }
+    50% { transform: translateX(-15px) rotate(7deg); }
+    65% { transform: translateX(5px) rotate(-7deg); }
+    80% { transform: translateX(-15px) rotate(7deg); }
+    90% { transform: translateX(0px) rotate(-7deg); }
+}
+
+@keyframes popup {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
