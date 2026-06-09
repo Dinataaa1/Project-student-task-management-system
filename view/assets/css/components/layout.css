@@ -1,147 +1,65 @@
 /* ==========================================================================
-   SIDEBAR & TATA LETAK UTAMA
+   LAYOUT.CSS (Mengatur Konten Utama & Topbar)
    ========================================================================== */
-.dashboard-wrapper {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f8f9fa;
+html, body {
+    margin: 0 !important; padding: 0 !important; width: 100%; 
+    background-color: #f8f9fa !important; overflow-x: hidden;
 }
 
-.sidebar {
-    width: 90px;
-    background-color: #ffffff;
-    border-right: 1px solid #eaeaea;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 25px;
-    z-index: 10;
-    height: 100vh;
-    position: sticky;
-    top: 0;
-}
-
-.sidebar-menu-top {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-/* Avatar kecil di sidebar
-.sidebar-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: #009eb3; /* Warna teal/biru kehijauan */
-    /* color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-} */
-
-.sidebar-name {
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: #333;
-    text-transform: uppercase;
-}
-
-.sidebar-nav {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar-item {
-    width: 100%;
-    padding: 18px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #6c757d; /* Abu-abu default */
-    transition: all 0.2s ease;
-}
-
-.sidebar-item svg {
-    width: 24px;
-    height: 24px;
-}
-
-.sidebar-item:hover {
-    color: #00a0e3;
-    background-color: #f0f8ff;
-}
-
-/* Menu yang sedang aktif (Blok biru penuh) */
-.sidebar-item.active {
-    background-color: #00a0e3;
-    color: #ffffff;
-}
-
-/* Tombol Logout didorong ke paling bawah */
-.sidebar-menu-bottom {
-    width: 100%;
-    margin-top: auto; /* Ini yang mendorong ke bawah */
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-}
-
-.logout-icon {
-    color: #00a0e3; /* Biru terang sesuai gambar */
-    padding: 15px;
-    border-radius: 10px;
-}
-
-.logout-icon:hover {
-    background-color: #f0f8ff;
-}
-
-/* ==========================================================================
-   AREA KONTEN UTAMA KANAN
-   ========================================================================== */
 .main-content {
-    flex: 1; /* Memaksa elemen ini merentang mengisi SELURUH sisa layar */
-    min-width: 0; /* Kunci rahasia Flexbox agar tidak "nge-bug" saat layarnya sempit */
-    display: flex;
-    flex-direction: column;
-    background-color: #f8f9fa; /* Menjaga warna background tetap seragam */
+    margin-left: 80px !important; /* Mendorong konten ke kanan untuk memberi ruang sidebar */
+    width: calc(100% - 80px) !important;
+    min-height: 100vh !important;
+    display: block !important;
+    background-color: #f8f9fa !important;
 }
 
-/* Beri jarak aman (padding) untuk semua isi konten layar */
-.content-area {
-    padding: 30px;
-    flex: 1; /* Agar area konten membentang ke bawah sampai dasar layar */
+.topbar, .header {
+    width: 100% !important; height: 70px !important;
+    display: flex !important; justify-content: space-between !important; 
+    align-items: center !important; padding: 0 40px !important; 
+    background-color: #EAEBEE !important;
+    position: relative !important; z-index: 10 !important;
 }
+
+.content-area { padding: 30px 40px !important; }
+
+/* Keyframes & Animasi (Tetap di sini agar global) */
+@keyframes slideInUp { 0% { transform: translateY(40px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+@keyframes slideInDown { 0% { transform: translateY(-40px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+.anim-slide-in-up { animation: slideInUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+.anim-slide-in-down { animation: slideInDown 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+.page-slide-out { animation: slideOutToLeft 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important; }
 
 /* ==========================================================================
-   TOMBOL BACK GLOBAL (BISA DIPAKAI DI SEMUA HALAMAN)
+   TOMBOL BACK (FIXED POSITION - ANTI BUGGY)
    ========================================================================== */
 .btn-back {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 45px;
-    height: 45px;
-    background-color: #3e4c59; 
-    color: #ffffff;
-    border-radius: 50%;
-    text-decoration: none;
-    position: absolute;
-    bottom: 30px;
-    left: 40px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    z-index: 50; /* Memastikan tombol tidak tertutup elemen lain */
+    /* POSISI TETAP (FIXED) */
+    position: fixed !important; 
+    bottom: 30px !important; 
+    left: 140px !important; /* 100px (lebar sidebar) + 40px (jarak aman) */
+    
+    /* STYLING */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 50px !important;
+    height: 50px !important;
+    background-color: #3e4c59 !important; 
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    text-decoration: none !important;
+    
+    /* Z-INDEX TERTINGGI AGAR TIDAK TERTUTUP APAPUN */
+    z-index: 9999 !important; 
+    
+    /* EFEK VISUAL */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 
 .btn-back:hover {
-    background-color: #2b3640;
-    color: #ffffff;
-    transform: translateX(-3px); 
+    background-color: #2b3640 !important;
+    transform: scale(1.1) !important; /* Efek membesar saat disentuh */
 }

@@ -190,3 +190,4 @@ btnNext.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
     renderCalendar();
 });
+

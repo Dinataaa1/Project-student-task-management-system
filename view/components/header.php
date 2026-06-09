@@ -12,5 +12,8 @@
     <!-- Pemanggilan CSS Absolut berbasis BASE_URL -->
     <link href="<?= BASE_URL ?>view/assets/css/index.css" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>view/assets/images/logo.svg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 </head>
 <body class="bg-light">

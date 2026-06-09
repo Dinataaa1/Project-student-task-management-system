@@ -5,12 +5,12 @@ require_once __DIR__ . '/../../controllers/components/topbar.php';
 
 <div class="topbar d-flex justify-content-between align-items-center w-100" style="height: 70px; padding: 0 40px;">
     
-    <div class="topbar-left">
-        <h3 class="fw-bold m-0" style="color: #444;">LOL</h3>
+    <div class="topbar">
+        <h1 class="logo-text">LOL</h1>
     </div>
 
     <div class="topbar-right">
-        <div class="bell-container" id="bellIcon" data-userid="<?= $_SESSION['user_id'] ?? 'guest' ?>">
+        <div class="bell-container" id="bellIcon" data-userid="<?= $_SESSION['user_id'] ?? 'guest' ?>" style="cursor: pointer;">
             <div class="bell-wrapper" style="transform: scale(0.45); transform-origin: center; display: flex; align-items: center; justify-content: center;">
                 <div class="bell">
                     <div class="bell-top"></div>
@@ -20,8 +20,9 @@ require_once __DIR__ . '/../../controllers/components/topbar.php';
             </div>
         </div>
     </div>
-
 </div>
+
+<div id="notifOverlay" class="notif-overlay"></div>
 
 <div id="notifPanel" class="notif-panel">
     <div class="notif-header">
