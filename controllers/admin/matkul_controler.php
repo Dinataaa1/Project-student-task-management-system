@@ -2,10 +2,6 @@
 // ==========================================================================
 // controllers/admin/matkul_controler.php
 // Handle CRUD Mata Kuliah milik dosen.
-// Di-require di: view/pages/admin/mata_kuliah/matkul.php   (Read)
-//                view/pages/admin/mata_kuliah/create.php   (Create)
-//                view/pages/admin/mata_kuliah/edit.php     (Update)
-// Delete dipanggil via: ?action=delete&id=ID
 // ==========================================================================
 
 // --- 1. AUTENTIKASI & KONEKSI ---
@@ -49,17 +45,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
 
     $nama_matkul = trim($_POST['nama_matkul'] ?? '');
     $ruangan     = trim($_POST['ruangan']     ?? '');
-    $jadwal      = trim($_POST['jadwal']      ?? '');
+    // [BARU] Menerima data kelas_id dari form dropdown
+    $kelas_id    = (int)($_POST['kelas_id']   ?? 0); 
+    
+    // --- PENGGABUNGAN JADWAL BARU ---
+    $hari = trim($_POST['hari'] ?? '');
+    $jam  = trim($_POST['jam']  ?? '');
+    $jadwal = $hari . ', ' . $jam;
 
-    // Validasi
-    if (empty($nama_matkul)) {
-        $pesan_error = "Nama mata kuliah wajib diisi.";
+    // [BARU] Validasi juga memastikan kelas_id tidak boleh kosong/0
+    
+    if (empty($nama_matkul) || $kelas_id === 0 || empty($ruangan)) {
+        $pesan_error = "Nama mata kuliah, Kelas, dan Ruangan wajib diisi.";
 
     } elseif (mb_strlen($nama_matkul) > 100) {
         $pesan_error = "Nama mata kuliah maksimal 100 karakter.";
 
     } else {
-        // Cek duplikat: dosen tidak boleh punya 2 matkul dengan nama sama
         $stmt_dup = $conn->prepare("SELECT id FROM mata_kuliah WHERE nama_matkul = ? AND dosen_id = ?");
         $stmt_dup->bind_param("si", $nama_matkul, $dosen_id);
         $stmt_dup->execute();
@@ -69,14 +71,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
         if ($duplikat) {
             $pesan_error = "Mata kuliah \"" . htmlspecialchars($nama_matkul) . "\" sudah ada.";
         } else {
+            // [BARU] Menambahkan kelas_id ke dalam Query INSERT
             $stmt_insert = $conn->prepare("
-                INSERT INTO mata_kuliah (nama_matkul, dosen_id, ruangan, jadwal)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO mata_kuliah (nama_matkul, dosen_id, kelas_id, ruangan, jadwal)
+                VALUES (?, ?, ?, ?, ?)
             ");
-            $stmt_insert->bind_param("siss", $nama_matkul, $dosen_id, $ruangan, $jadwal);
+            $stmt_insert->bind_param("siiss", $nama_matkul, $dosen_id, $kelas_id, $ruangan, $jadwal);
 
             if ($stmt_insert->execute()) {
-                $pesan_sukses = "Mata kuliah \"" . htmlspecialchars($nama_matkul) . "\" berhasil ditambahkan.";
+                // [BARU] LOGIKA KRS OTOMATIS DIMULAI DI SINI
+                $new_matkul_id = $conn->insert_id; 
+                $jumlah_mhs = 0;
+
+                // 1. Cari semua mahasiswa yang ID kelasnya sama dengan yang dipilih
+                $stmt_mhs = $conn->prepare("SELECT id FROM mahasiswa WHERE kelas_id = ?");
+                $stmt_mhs->bind_param("i", $kelas_id);
+                $stmt_mhs->execute();
+                $result_mhs = $stmt_mhs->get_result();
+
+                // 2. Jika ada mahasiswa, daftarkan mereka ke KRS satu per satu
+                if ($result_mhs->num_rows > 0) {
+                    $stmt_krs = $conn->prepare("INSERT INTO krs (mahasiswa_id, mata_kuliah_id) VALUES (?, ?)");
+                    while ($mhs = $result_mhs->fetch_assoc()) {
+                        $mhs_id = $mhs['id'];
+                        $stmt_krs->bind_param("ii", $mhs_id, $new_matkul_id);
+                        $stmt_krs->execute();
+                        $jumlah_mhs++;
+                    }
+                    $stmt_krs->close();
+                }
+                $stmt_mhs->close();
+
+                // Pesan sukses disesuaikan untuk menampilkan jumlah mahasiswa yang masuk KRS
+                $pesan_sukses = "Matkul \"" . htmlspecialchars($nama_matkul) . "\" ditambahkan! $jumlah_mhs mahasiswa otomatis masuk KRS.";
             } else {
                 $pesan_error = "Gagal menyimpan mata kuliah. Silakan coba lagi.";
             }
@@ -93,13 +120,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_
     $matkul_id   = (int)($_POST['matkul_id']   ?? 0);
     $nama_matkul = trim($_POST['nama_matkul'] ?? '');
     $ruangan     = trim($_POST['ruangan']     ?? '');
-    $jadwal      = trim($_POST['jadwal']      ?? '');
+    // [BARU] Menerima data kelas_id dari form edit
+    $kelas_id    = (int)($_POST['kelas_id']   ?? 0);
+    
+    // --- PENGGABUNGAN JADWAL BARU ---
+    $hari = trim($_POST['hari'] ?? '');
+    $jam  = trim($_POST['jam']  ?? '');
+    $jadwal = $hari . ', ' . $jam;
 
-    if ($matkul_id <= 0 || empty($nama_matkul)) {
-        $pesan_error = "Data tidak lengkap. ID dan nama mata kuliah wajib diisi.";
+    // [BARU] Validasi kelas tidak boleh kosong
+    if ($matkul_id <= 0 || empty($nama_matkul) || $kelas_id === 0 || empty($ruangan)) {
+        $pesan_error = "Data tidak lengkap. ID, nama mata kuliah, kelas, dan ruangan wajib diisi.";
 
     } else {
-        // Keamanan: pastikan matkul ini benar milik dosen yang login
         $stmt_cek = $conn->prepare("SELECT id FROM mata_kuliah WHERE id = ? AND dosen_id = ?");
         $stmt_cek->bind_param("ii", $matkul_id, $dosen_id);
         $stmt_cek->execute();
@@ -109,12 +142,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_
         if (!$cek) {
             $pesan_error = "Mata kuliah tidak ditemukan atau bukan milik Anda.";
         } else {
+            // [BARU] Menambahkan pembaruan kolom kelas_id
             $stmt_update = $conn->prepare("
                 UPDATE mata_kuliah
-                SET nama_matkul = ?, ruangan = ?, jadwal = ?
+                SET nama_matkul = ?, kelas_id = ?, ruangan = ?, jadwal = ?
                 WHERE id = ? AND dosen_id = ?
             ");
-            $stmt_update->bind_param("sssii", $nama_matkul, $ruangan, $jadwal, $matkul_id, $dosen_id);
+            $stmt_update->bind_param("sissii", $nama_matkul, $kelas_id, $ruangan, $jadwal, $matkul_id, $dosen_id);
 
             if ($stmt_update->execute()) {
                 $pesan_sukses = "Mata kuliah berhasil diperbarui.";
@@ -136,7 +170,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && ($_GET['action'] ?? '') === 'delete_
     if ($matkul_id <= 0) {
         $pesan_error = "ID mata kuliah tidak valid.";
     } else {
-        // Keamanan: pastikan matkul ini milik dosen yang login
         $stmt_cek = $conn->prepare("SELECT id FROM mata_kuliah WHERE id = ? AND dosen_id = ?");
         $stmt_cek->bind_param("ii", $matkul_id, $dosen_id);
         $stmt_cek->execute();
@@ -150,7 +183,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && ($_GET['action'] ?? '') === 'delete_
             $stmt_delete->bind_param("ii", $matkul_id, $dosen_id);
 
             if ($stmt_delete->execute()) {
-                // Tugas yang terkait otomatis terhapus karena ON DELETE CASCADE di database
                 $pesan_sukses = "Mata kuliah berhasil dihapus.";
             } else {
                 $pesan_error = "Gagal menghapus mata kuliah. Silakan coba lagi.";
@@ -168,8 +200,9 @@ $data_edit = null;
 if (isset($_GET['edit_id'])) {
     $edit_id = (int)$_GET['edit_id'];
 
+    // [BARU] Menambahkan kelas_id ke data yang diambil
     $stmt_edit = $conn->prepare("
-        SELECT id, nama_matkul, ruangan, jadwal
+        SELECT id, nama_matkul, kelas_id, ruangan, jadwal
         FROM mata_kuliah
         WHERE id = ? AND dosen_id = ?
     ");
@@ -178,7 +211,6 @@ if (isset($_GET['edit_id'])) {
     $data_edit = $stmt_edit->get_result()->fetch_assoc();
     $stmt_edit->close();
 
-    // Kalau ID tidak ditemukan / bukan milik dosen ini
     if (!$data_edit) {
         $pesan_error = "Mata kuliah tidak ditemukan.";
     }
@@ -187,10 +219,12 @@ if (isset($_GET['edit_id'])) {
 // ==========================================================================
 // --- 7. READ: Daftar semua matkul milik dosen ---
 // ==========================================================================
+// [BARU] Melakukan LEFT JOIN ke tabel kelas untuk mengambil nama_kelas
 $stmt_list = $conn->prepare("
-    SELECT mk.id, mk.nama_matkul, mk.ruangan, mk.jadwal,
+    SELECT mk.id, mk.nama_matkul, mk.ruangan, mk.jadwal, mk.kelas_id, k.nama_kelas,
            COUNT(t.id) AS jumlah_tugas
     FROM mata_kuliah mk
+    LEFT JOIN kelas k ON mk.kelas_id = k.id
     LEFT JOIN tugas t ON t.matkul_id = mk.id
     WHERE mk.dosen_id = ?
     GROUP BY mk.id
@@ -200,9 +234,24 @@ $stmt_list->bind_param("i", $dosen_id);
 $stmt_list->execute();
 $result_list = $stmt_list->get_result();
 
-$data_matkul_list = [];
+$data_matkul = []; 
 while ($row = $result_list->fetch_assoc()) {
-    $data_matkul_list[] = $row;
+    $data_matkul[] = $row; 
 }
 $stmt_list->close();
+
+// ==========================================================================
+// --- 8. READ: Ambil Data Kelas untuk Dropdown (BARU) ---
+// ==========================================================================
+// Data ini dibutuhkan agar file dashboard.php bisa memunculkan pilihan kelas di form
+$stmt_kelas = $conn->prepare("SELECT id, nama_kelas FROM kelas ORDER BY nama_kelas ASC");
+$stmt_kelas->execute();
+$result_kelas = $stmt_kelas->get_result();
+
+$data_kelas = [];
+while ($row = $result_kelas->fetch_assoc()) {
+    $data_kelas[] = $row;
+}
+$stmt_kelas->close();
+
 ?>

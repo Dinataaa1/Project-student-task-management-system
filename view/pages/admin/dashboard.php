@@ -55,31 +55,51 @@ require_once '../../../controllers/admin/matkul_controler.php';
             <h2 class="greeting">Hai, <?= htmlspecialchars($nama_dosen) ?></h2>
             
             <div class="grid-container">
-                <?php foreach ($data_matkul_list as $index => $matkul): ?>
-                    <?php 
-                        $blobClass = ($index % 2 === 0) ? 'orange' : 'blue'; 
-                    ?>
+                <?php 
+                $data_matkul = $data_matkul ?? [];
+                foreach ($data_matkul as $mk): 
+                ?>
                     <div class="card" 
-                    onclick="window.location.href='tugas/detail.php?matkul=<?= $matkul['id'] ?>'" 
-                    data-id="<?= $matkul['id'] ?>" 
-                    data-matkul="<?= htmlspecialchars($matkul['nama_matkul']) ?>" 
-                    data-ruangan="<?= htmlspecialchars($matkul['ruangan']) ?>" 
-                    data-jadwal="<?= htmlspecialchars($matkul['jadwal']) ?>"
-                    style="cursor: pointer;">
-                        <div class="blob <?= $blobClass ?>"></div>
-                        <div class="menu-container">
-                            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                            <div class="dropdown-menu">
-                                <a href="#" onclick="editCard(event, this)">Edit</a>
-                                <a href="?action=delete_matkul&id=<?= $matkul['id'] ?>" class="text-danger" 
-                                onclick="return confirm('Hapus mata kuliah ini?');">Hapus</a>
+                    onclick="window.location.href='tugas/detail.php?matkul=<?= $mk['id'] ?>'" 
+                    style="position: relative; overflow: hidden; cursor: pointer;"
+                    data-id="<?= $mk['id'] ?>"
+                    data-matkul="<?= htmlspecialchars($mk['nama_matkul'], ENT_QUOTES) ?>"
+                    data-kelas-id="<?= $mk['kelas_id'] ?? '' ?>" 
+                    data-ruangan="<?= htmlspecialchars($mk['ruangan'], ENT_QUOTES) ?>"
+                    data-jadwal="<?= htmlspecialchars($mk['jadwal'], ENT_QUOTES) ?>">
+                        <div class="blob" style="position: absolute; top: 0; right: 0; width: 110px; height: 110px; background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%); border-bottom-left-radius: 100%; z-index: 0;"></div>
+                        
+                        <div class="menu-container" style="position: absolute; top: 16px; right: 16px; z-index: 10;">
+                            <i class="fa-solid fa-ellipsis-vertical menu-icon" 
+                            style="padding: 5px 15px; cursor: pointer; font-size: 18px;" 
+                            onclick="event.stopPropagation(); let menu = this.nextElementSibling; menu.style.display = menu.style.display === 'block' ? 'none' : 'block';">
+                            </i>
+                            
+                            <div class="dropdown-menu" style="display: none; position: absolute; top: 100%; right: 0; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.15); border-radius: 8px; min-width: 130px; overflow: hidden; text-align: left;">
+                                
+                                <a href="#" 
+                                onclick="editCard(event, this)" 
+                                style="display: block; padding: 10px 15px; text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #f1f1f1;">
+                                <i class="fa-solid fa-pen" style="margin-right: 8px; color: var(--color-blue);"></i> Edit
+                                </a>
+                                
+                                <a href="?action=delete_matkul&id=<?= $mk['id'] ?>" 
+                                onclick="event.stopPropagation(); return confirm('Hapus mata kuliah ini? Semua tugas di dalamnya juga akan ikut terhapus!');" 
+                                style="display: block; padding: 10px 15px; text-decoration: none; color: #e11d48; font-size: 14px;">
+                                <i class="fa-solid fa-trash" style="margin-right: 8px;"></i> Hapus
+                                </a>
+                                
                             </div>
                         </div>
-                        <div class="card-info">
-                            <p class="kelas-text"><?= htmlspecialchars($matkul['ruangan']) ?></p>
-                            <p class="jadwal-text"><?= htmlspecialchars($matkul['jadwal']) ?></p>
+                        
+                        <div class="matkul-jadwal" style="position: relative; z-index: 1; font-size: 12px; color: #64748b; margin-bottom: 10px;">
+                            <span style="font-weight: 600; color: #4F46E5;"><?= htmlspecialchars($mk['nama_kelas'] ?? 'Tanpa Kelas') ?></span> <br>
+                            <?= htmlspecialchars($mk['ruangan'] ?? '') ?><?= !empty($mk['ruangan']) ? ' - ' : '' ?><?= htmlspecialchars($mk['jadwal']) ?>
                         </div>
-                        <div class="card-title matkul-text"><?= htmlspecialchars($matkul['nama_matkul']) ?></div>
+
+                        <div class="card-title" style="position: relative; z-index: 1;">
+                            <?= htmlspecialchars($mk['nama_matkul']) ?>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -102,13 +122,41 @@ require_once '../../../controllers/admin/matkul_controler.php';
                     <label for="inputMatkul">MATKUL</label>
                     <input type="text" id="inputMatkul" name="nama_matkul" required autocomplete="off">
                 </div>
-                <div class="form-group">
-                    <label for="inputKelas">KELAS</label>
-                    <input type="text" id="inputKelas" name="ruangan" required autocomplete="off">
+                
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="selectKelas" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">PILIH KELAS</label>
+                    <select id="selectKelas" name="kelas_id" required style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                        <option value="" disabled selected>-- Pilih Kelas --</option>
+                        <?php 
+                        $data_kelas = $data_kelas ?? [];
+                        foreach ($data_kelas as $k): 
+                        ?>
+                            <option value="<?= $k['id'] ?>"><?= htmlspecialchars($k['nama_kelas']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="inputJadwal">JADWAL</label>
-                    <input type="text" id="inputJadwal" name="jadwal" required autocomplete="off">
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="inputRuangan" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">RUANGAN</label>
+                    <input type="text" id="inputRuangan" name="ruangan" required placeholder="Contoh: Lab 1" autocomplete="off" style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px; width: 100%;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">JADWAL</label>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <select name="hari" required style="flex: 1; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                            <option value="" disabled selected>Pilih Hari</option>
+                            <option value="Senin">Senin</option>
+                            <option value="Selasa">Selasa</option>
+                            <option value="Rabu">Rabu</option>
+                            <option value="Kamis">Kamis</option>
+                            <option value="Jumat">Jumat</option>
+                            <option value="Sabtu">Sabtu</option>
+                            <option value="Minggu">Minggu</option>
+                        </select>
+                        
+                        <input type="time" name="jam" required style="flex: 1; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                    </div>
                 </div>
                 <button type="submit" class="btn-submit">SUBMIT</button>
             </form>
