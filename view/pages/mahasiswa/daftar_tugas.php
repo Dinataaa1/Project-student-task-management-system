@@ -1,73 +1,65 @@
 <?php
+// Memanggil logika dari file controller yang sudah kita perbaiki
 require_once '../../../controllers/mahasiswa/daftar_tugas.php';
 
-// Pastikan sesi sudah berjalan untuk mengambil nama
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-// Mengambil nama dari sesi login (fallback ke 'Mahasiswa' jika kosong)
-$tampil_nama = $_SESSION['nama'] ?? (isset($nama_user) && !empty($nama_user) ? $nama_user : 'Mahasiswa');
-
-// Setup variabel untuk komponen
 $active_page = 'tugas';
+$jalur_css = "../../assets/css/index.css";
 include '../../components/header.php';
-// (Pemanggilan header yang ganda sudah dihapus)
 ?>
 
 <div class="dashboard-wrapper">
-    
     <?php include '../../components/sidebar.php'; ?>
 
     <div class="main-content">
-
         <?php include '../../components/topbar.php'; ?>
-    
-        <div class="content-area position-relative" style="min-height: calc(100vh - 70px); padding: 40px;">
-            
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <h5 class="fw-bold m-0" style="color: #444;">
-                    Hai, <?= htmlspecialchars($tampil_nama) ?>! Ini adalah tugas mata kuliah <?= htmlspecialchars($nama_matkul_terpilih ?? 'Semua') ?>
-                </h5>
-                
-                <form method="GET" action="daftar_tugas.php">
-                    <select name="matkul" class="form-select border-2 shadow-sm fw-semibold" style="border-color: #00a0e3;" onchange="this.form.submit()">
-                        <option value="">Semua Mata Kuliah</option>
-                        
-                        <?php if(!empty($data_matkul)): ?>
-                            <?php foreach ($data_matkul as $mk) : ?>
-                                <option value="<?= $mk['id'] ?>" <?= (isset($matkul_aktif) && $matkul_aktif == $mk['id']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($mk['nama_matkul']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                        
-                    </select>
-                </form>
+
+        <div class="content-area">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold" style="color: #1E293B;">
+                    Hai, <?= htmlspecialchars($_SESSION['nama_user'] ?? 'Luthfi Bahrur R.') ?>! Ini adalah tugas mata kuliah Semua
+                </h4>
+
+                <select class="form-select w-auto fw-bold" style="border-radius: 10px; color: #1E293B; border-color: #cbd5e1;">
+                    <option selected>Semua Mata Kuliah</option>
+                </select>
             </div>
 
-            <div class="d-flex gap-4 flex-wrap pb-5">
-                <?php if (!empty($data_tugas)) : ?>
-                    <?php foreach ($data_tugas as $tugas) : ?>
-                        
-                        <a href="detail_tugas.php?id=<?= $tugas['id'] ?>" class="tugas-card blob-orange">
-                            <div class="blob-hiasan blob-orange"></div>
-                            <span><?= htmlspecialchars($tugas['judul_tugas']) ?></span>
+            <div class="d-flex flex-wrap gap-4 mt-4">
+                <?php
+                if (!empty($daftar_tugas)) :
+                    foreach ($daftar_tugas as $tugas) :
+                        // 1. Generate gradien acak 3 warna
+                        $colors = ['#4F46E5', '#7E52E8', '#EC4899'];
+                        shuffle($colors);
+                        $gradient = "linear-gradient(135deg, " . implode(", ", $colors) . ")";
+
+                        // 2. Random delay agar gerakan tidak seragam
+                        $delay = -rand(0, 10);
+                ?>
+
+                        <a href="detail_tugas.php?id=<?= htmlspecialchars($tugas['id']) ?>" class="tugas-card text-decoration-none">
+                            <div class="blob-hiasan-tugas" style="--bg-gradasi: <?= $gradient ?>; animation-delay: <?= $delay ?>s;"></div>
+
+                            <div class="tugas-content">
+                                <h3 class="judul-tugas"><?= htmlspecialchars($tugas['judul_tugas']) ?></h3>
+                            </div>
                         </a>
-                        
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <div class="alert alert-light w-100 text-center fw-bold text-muted border-0 shadow-sm" role="alert">
-                        Yeay! Belum ada tugas untuk mata kuliah ini.
-                    </div>
+
+                    <?php
+                    endforeach;
+                else :
+                    ?>
+                    <p class="text-muted fw-bold p-3">Belum ada tugas yang tersedia.</p>
                 <?php endif; ?>
             </div>
 
-            <a href="dashboard.php" class="btn-back">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+            <a href="dashboard.php" class="position-absolute" style="bottom: 40px; left: 40px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#1E293B" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
                 </svg>
             </a>
-            
+
         </div>
     </div>
 </div>

@@ -14,57 +14,70 @@ include '../../components/header.php';
 <script>
     // Data untuk memberi titik di kalender
     const dataTugasDB = <?= json_encode($array_deadline ?? []); ?>;
-    
+
     // Data lengkap untuk daftar "Notes to be made"
     const dataNotesDB = <?= json_encode($data_dl_terdekat ?? []); ?>;
 </script>
 
 <div class="dashboard-wrapper">
-    
+
     <?php include '../../components/sidebar.php'; ?>
 
     <div class="main-content">
 
         <?php include '../../components/topbar.php'; ?>
-        
+
         <div class="content-area">
 
-            <?php 
-                $tampil_nama = !empty($nama_user) ? $nama_user : 'Mahasiswa'; 
+            <?php
+            $tampil_nama = !empty($nama_user) ? $nama_user : 'Mahasiswa';
             ?>
             <h4 class="fw-bold mb-4">Hai, <?= htmlspecialchars($tampil_nama) ?></h4>
 
-            <div class="d-flex gap-3 align-items-center flex-wrap mb-4">
-                <?php if (!empty($data_matkul)) : ?>
-                    <?php foreach($data_matkul as $matkul) : ?>
-                        <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card text-decoration-none">
-                            <div class="blob-hiasan <?= htmlspecialchars($matkul['warna'] ?? 'blob-orange') ?>"></div>
-                            <span><?= htmlspecialchars($matkul['nama']) ?></span>
+            <div class="d-flex flex-wrap gap-4 mt-4">
+                <?php
+                if (!empty($data_matkul)) :
+                    foreach ($data_matkul as $matkul) :
+                        // DEFINISI WARNA DI SINI (Di dalam loop agar tiap kartu dapat komposisi beda)
+                        $colors = ['#4F46E5', '#7E52E8', '#EC4899'];
+                        shuffle($colors); // Mengacak urutan
+                        $gradient = "linear-gradient(135deg, " . implode(", ", $colors) . ")";
+
+                        // Random delay agar gerakan lava tidak seragam
+                        $delay = -rand(0, 10);
+                ?>
+                        <a href="daftar_tugas.php?matkul=<?= $matkul['id'] ?>" class="matkul-card-lg text-decoration-none">
+
+                            <div class="blob-hiasan-lg" style="--bg-gradasi: <?= $gradient ?>; animation-delay: <?= $delay ?>s;"></div>
+
+                            <div class="matkul-content">
+                                <h3 class="judul-matkul"><?= htmlspecialchars($matkul['nama']) ?></h3>
+                                <p class="see-detail">Lihat tugas &rarr;</p>
+                            </div>
                         </a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p class="text-muted fst-italic">Belum ada mata kuliah yang diambil.</p>
                 <?php endif; ?>
-                <a href="daftar_matkul.php" class="ms-3 fw-bold text-decoration-none" style="color: #00a0e3;">See all ></a>
             </div>
 
             <div class="calendar-widget">
-                
+
                 <div class="cal-left">
                     <svg class="cal-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
-                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                     </svg>
 
                     <div class="cal-left-date">
                         <h1><?= htmlspecialchars($tanggal_sekarang ?? date('d')) ?></h1>
                         <span><?= strtoupper(htmlspecialchars($bulan_sekarang ?? date('M'))) ?> <?= htmlspecialchars($tahun_sekarang ?? date('Y')) ?></span>
                     </div>
-                    
+
                     <div class="notes-box">
                         <h6>Tugas Bulan Ini</h6>
-                        
+
                         <div id="notesContainer"></div>
-                        
+
                     </div>
                 </div>
 
@@ -89,7 +102,7 @@ include '../../components/header.php';
                 </div>
 
             </div>
-            
+
         </div>
     </div>
 </div>

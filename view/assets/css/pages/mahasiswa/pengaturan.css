@@ -1,5 +1,6 @@
 /* ==========================================================================
-   HALAMAN PENGATURAN / KARTU PROFIL (VERSI COMPACT & RAPAT)
+   KARTU PROFIL PENGGUNA
+   Menampilkan informasi akun user dengan tata letak padat (compact).
    ========================================================================== */
 .profile-card {
     background-color: #ffffff;
@@ -7,61 +8,67 @@
     box-shadow: 0 4px 25px rgba(0,0,0,0.04);
     width: 100%;
     max-width: 480px;
-    /* Padding atas-bawah dikurangi agar kartu tidak terlalu tinggi */
     padding: 30px 50px; 
     text-align: center;
 }
 
 .profile-img-container {
-    width: 75px; /* Foto sedikit dikecilkan */
+    width: 75px; 
     height: 75px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto 10px auto; /* Jarak bawah foto dirapatkan */
+    margin: 0 auto 10px auto; 
     border: 3px solid #f0f0f0; 
 }
 
-.profile-img-container img {
-    width: 100%; height: 100%; object-fit: cover;
+.profile-img-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
 }
 
-.profile-name {
-    font-size: 1.15rem;
-    font-weight: 900;
-    color: #000000;
-    margin-bottom: 0;
+/* ==========================================================================
+   DETAIL DATA PROFIL
+   Pengaturan font untuk nama, email, dan jarak antar list detail.
+   ========================================================================== */
+.profile-name { 
+    font-size: 1.15rem; 
+    font-weight: 900; 
+    color: #000000; 
+    margin-bottom: 0; 
 }
 
-.profile-email {
-    font-size: 0.85rem;
-    color: #777777;
-    margin-bottom: 20px; /* Jarak dari email ke detail dirapatkan */
+.profile-email { 
+    font-size: 0.85rem; 
+    color: #777777; 
+    margin-bottom: 20px; 
 }
 
-.profile-details {
-    text-align: left;
-    margin-bottom: 25px; /* Jarak dari detail ke tombol merah dirapatkan */
+.profile-details { 
+    text-align: left; 
+    margin-bottom: 25px; 
 }
 
-/* INI YANG MENGATUR "SPASI" ANTAR TEKS */
-.detail-item {
-    margin-bottom: 12px; /* Spasi antar baris jauh lebih rapat */
+.detail-item { 
+    margin-bottom: 12px; 
 }
 
-.detail-label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #888888;
-    margin-bottom: 2px; /* Jarak antara label abu-abu dan teks hitam dirapatkan */
+.detail-label { 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    color: #888888; 
+    margin-bottom: 2px; 
 }
 
-.detail-value {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: #222222;
+.detail-value { 
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    color: #222222; 
 }
 
-/* Tombol Merah Pill */
+/* ==========================================================================
+   TOMBOL AKSI PROFIL
+   ========================================================================== */
 .btn-edit-profil {
     background-color: #c92a2a;
     color: #ffffff;
