@@ -1,4 +1,9 @@
 <?php
+
+// TAMPILKAN SEMUA ERROR
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // (Pastikan require_once tugas_controler.php sudah ada di baris paling atas)
 require_once '../../../../controllers/admin/tugas_controler.php';
 

@@ -56,7 +56,7 @@ if ($_FILES['file_tugas']['size'] > $maxSize) {
     exit();
 }
 
-$baseUploadDir = __DIR__ . '/../../uploads/';
+$baseUploadDir = __DIR__ . '/../uploads/';
 $studentDir = $baseUploadDir . 'mahasiswa_' . $mahasiswa_id . '/';
 if (!is_dir($studentDir)) {
     mkdir($studentDir, 0750, true);

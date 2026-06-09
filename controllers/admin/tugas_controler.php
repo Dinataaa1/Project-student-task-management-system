@@ -20,7 +20,7 @@ $nama_dosen = $_SESSION['nama'] ?? 'Dosen';
 // FUNGSI BANTUAN UNTUK UPLOAD FILE
 function prosesUploadFile() {
     if (isset($_FILES['file_lampiran']) && $_FILES['file_lampiran']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = __DIR__ . '/../../uploads/tugas/';
+        $upload_dir = __DIR__ . '/../uploads/tugas/';
         if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true); // Buat folder jika belum ada
         $file_name = time() . '_' . preg_replace("/[^a-zA-Z0-9.-]/", "_", basename($_FILES['file_lampiran']['name']));
         if (move_uploaded_file($_FILES['file_lampiran']['tmp_name'], $upload_dir . $file_name)) {

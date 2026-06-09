@@ -38,8 +38,7 @@ CREATE TABLE tugas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     matkul_id INT NOT NULL,
     judul_tugas VARCHAR(150) NOT NULL,
-    deskripsi TEXT,
-    file_lampiran VARCHAR(255) NULL, 
+    deskripsi TEXT, 
     deadline DATETIME NOT NULL,
     file_lampiran VARCHAR(255) NULL
     FOREIGN KEY (matkul_id) REFERENCES mata_kuliah(id) ON DELETE CASCADE
