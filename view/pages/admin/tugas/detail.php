@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Tugas Mata Kuliah</title>
-    <link rel="stylesheet" href="../../../assets/css/pages/admin/detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../assets/css/pages/admin/detail.css?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -29,7 +32,20 @@
         </div>
 
         <div class="content-area">
-            <h2 class="greeting">Hai, Lulu! Ini adalah kelas 1 D4 IT C</h2>
+            <div class="content-header">
+                <h2 class="greeting">Hai, Lulu! Ini adalah tugas mata kuliah <span id="namaMatkulText">Semua Mata Kuliah</span></h2>
+                
+                <div class="filter-container">
+                    <select id="matkulFilter" class="matkul-dropdown">
+                        <option value="semua">Semua Mata Kuliah</option>
+                        <option value="prak_web">Praktikum Pemrograman Web</option>
+                        <option value="basis_data">Basis Data Lanjut</option>
+                        <option value="pbo">Pemrograman Berorientasi Objek</option>
+                        <option value="ai">Kecerdasan Buatan (AI)</option>
+                        <option value="so">Sistem Operasi</option>
+                    </select>
+                </div>
+            </div>
             
             <div class="grid-container">
                 <div class="card" onclick="window.location.href='detail_tugas.php'" style="cursor: pointer;">
@@ -72,92 +88,13 @@
                     </div>
                 </div>
 
-                <textarea id="inputDeskripsi" class="input-desc" rows="3" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..." required></textarea>
+                <textarea id="inputDeskripsi" class="input-desc" rows="3" placeholder="Deskripsi" required></textarea>
 
                 <button type="submit" class="btn-submit">SUBMIT</button>
             </form>
         </div>
     </div>
 
-    <script>
-        const modal = document.getElementById('modalTugas');
-        const form = document.getElementById('formTugas');
-        const gridContainer = document.querySelector('.grid-container');
-        let editingCard = null;
-
-        function bukaModalTugas() {
-            editingCard = null;
-            form.reset();
-            document.getElementById('fileNameDisplay').innerText = "Belum ada file dipilih";
-            modal.style.display = 'flex';
-        }
-
-        function tampilkanNamaFile(input) {
-            const display = document.getElementById('fileNameDisplay');
-            if (input.files && input.files.length > 0) display.innerText = input.files[0].name;
-            else display.innerText = "Belum ada file dipilih";
-        }
-
-        function toggleMenu(event, element) {
-            event.stopPropagation();
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                if (menu !== element.nextElementSibling) menu.classList.remove('show');
-            });
-            element.nextElementSibling.classList.toggle('show');
-        }
-
-        function hapusCard(event, element) {
-            event.stopPropagation();
-            if (confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
-                element.closest('.card').remove();
-            }
-        }
-
-        function editCard(event, element) {
-            event.stopPropagation();
-            editingCard = element.closest('.card');
-            document.getElementById('inputJudulTugas').value = editingCard.querySelector('.tugas-text').innerText;
-            element.parentElement.classList.remove('show');
-            modal.style.display = 'flex';
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) modal.style.display = 'none';
-            if (!event.target.matches('.menu-icon')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
-            }
-        }
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            const judulVal = document.getElementById('inputJudulTugas').value;
-
-            if (editingCard !== null) {
-                editingCard.querySelector('.tugas-text').innerText = judulVal;
-            } else {
-                const kartuBaru = document.createElement('div');
-                kartuBaru.className = 'card';
-                kartuBaru.style.cursor = 'pointer';
-                kartuBaru.onclick = function() { window.location.href = 'detail_tugas.php'; };
-                
-                kartuBaru.innerHTML = `
-                    <div class="blob"></div>
-                    <div class="menu-container">
-                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                        <div class="dropdown-menu">
-                            <a href="#" onclick="editCard(event, this)">Edit</a>
-                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
-                        </div>
-                    </div>
-                    <div class="card-title tugas-text">${judulVal}</div>
-                `;
-                gridContainer.appendChild(kartuBaru);
-            }
-
-            form.reset();
-            document.getElementById('fileNameDisplay').innerText = "Belum ada file dipilih";
-            modal.style.display = 'none';
-        });
-    </script>
+    <script src="../../../assets/js/admin/detail.js?v=1"></script>
 </body>
 </html>

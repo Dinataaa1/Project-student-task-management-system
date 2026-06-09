@@ -3,7 +3,11 @@
 // mengarahkan kembali ke view `daftar_tugas.php` dengan query string.
 
 // Tidak banyak logika: sanitasi input dan redirect.
-session_start();
+require_once __DIR__ . '/../auth/session_check.php';
+checkRoleMahasiswa(); 
+
+// Sekarang kamu bisa langsung pakai ini tanpa perlu query ulang!
+$mahasiswa_id = $_SESSION['mahasiswa_id'];
 
 $matkul = isset($_GET['matkul']) ? $_GET['matkul'] : '';
 $matkul = is_numeric($matkul) ? (int)$matkul : '';

@@ -3,26 +3,14 @@
 // 1. OTENTIKASI & KONEKSI BASIS DATA (CONTROLLER)
 // ==========================================================================
 date_default_timezone_set('Asia/Jakarta');
+
 include_once '../../../config/koneksi.php'; 
 
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
-    header("Location: ../../view/auth/login.php");
-    exit();
-}
+require_once __DIR__ . '/../auth/session_check.php';
 
-if (isset($_SESSION['mahasiswa_id'])) {
-    $mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
-} else {
-    $user_id = (int) $_SESSION['user_id'];
-    $res = mysqli_query($conn, "SELECT id FROM mahasiswa WHERE user_id = $user_id LIMIT 1");
-    $row = mysqli_fetch_assoc($res);
-    if (!$row) {
-        header("Location: ../../view/auth/login.php");
-        exit();
-    }
-    $mahasiswa_id = (int) $row['id'];
-}
+checkRoleMahasiswa();
+
+$mahasiswa_id = $_SESSION['mahasiswa_id'] ?? '';
 
 $nama_user = $_SESSION['nama'] ?? '';
 
@@ -73,7 +61,7 @@ if ($query_tugas) {
 
 // C. Menarik data deadline terdekat (Hanya tugas yang BELUM dikumpulkan)
 $query_dl_terdekat = mysqli_query($conn, "
-    SELECT t.id, mk.nama_matkul, t.deadline 
+    SELECT t.id, t.judul_tugas, mk.nama_matkul, t.deadline 
     FROM tugas t
     JOIN mata_kuliah mk ON t.matkul_id = mk.id
     JOIN krs k ON mk.id = k.mata_kuliah_id

@@ -1,36 +1,12 @@
 <?php
-// Pastikan sesi sudah berjalan agar bisa memanggil nama
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Ambil nama dari sesi, jika kosong pakai 'User'
 $nama_sidebar = $_SESSION['nama'] ?? 'User';
-
-// Logika pembuat singkatan Avatar (Maksimal 2 huruf)
-$kata = explode(' ', trim($nama_sidebar)); // Memecah nama berdasarkan spasi
-$singkatan = '';
-
-if (count($kata) >= 2) {
-    // Jika nama lebih dari 1 kata, ambil huruf pertama dari kata ke-1 dan ke-2
-    $singkatan = strtoupper(substr($kata[0], 0, 1) . substr($kata[1], 0, 1));
-} else {
-    // Jika nama cuma 1 kata, ambil 2 huruf pertamanya
-    $singkatan = strtoupper(substr($nama_sidebar, 0, 2));
-}
-
-// Ambil nama panggilan (kata pertama saja) agar muat di sidebar yang sempit
-$nama_panggilan = strtoupper($kata[0]);
 ?>
 
 <div class="sidebar">
     
     <div class="sidebar-menu-top">
-        <h3 class="fw-bold mb-4" style="color: #ff7b89; margin-top: -10px;">V</h3>
-        
-        <div class="sidebar-avatar"><?= htmlspecialchars($singkatan) ?></div>
-        
-        <span class="sidebar-name"><?= htmlspecialchars($nama_panggilan) ?></span>
+        <img src="https://ui-avatars.com/api/?name=<?= urlencode($nama_sidebar) ?>&background=random&rounded=true" alt="Profile" width="40">
+        <div class="sidebar-name"><?= htmlspecialchars($nama_sidebar) ?></div>
     </div>
 
     <div class="sidebar-nav">
@@ -52,7 +28,7 @@ $nama_panggilan = strtoupper($kata[0]);
     </div>
 
     <div class="sidebar-menu-bottom">
-        <a href="../../auth/logout.php" class="logout-icon text-decoration-none" onclick="return confirm('Apakah Anda yakin ingin keluar?');">
+        <a href="<?= BASE_URL ?>controllers/logout.php" class="logout-icon text-decoration-none" onclick="return confirm('Apakah Anda yakin ingin keluar?');">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/><path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/></svg>
         </a>
     </div>
