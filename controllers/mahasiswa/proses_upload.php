@@ -73,6 +73,22 @@ if (move_uploaded_file($_FILES['file_tugas']['tmp_name'], $targetPath)) {
 
     header("Location: ../../view/pages/mahasiswa/detail_tugas.php?id={$tugas_id}&upload=success");
     exit();
+}
+
+$publicPath = 'mahasiswa_' . $mahasiswa_id . '/' . $filename;
+
+// Insert or update pengumpulan_tugas
+$stmt = $conn->prepare("SELECT id FROM pengumpulan_tugas WHERE tugas_id = ? AND mahasiswa_id = ? LIMIT 1");
+$stmt->bind_param('ii', $tugas_id, $mahasiswa_id);
+$stmt->execute();
+$res = $stmt->get_result();
+
+if ($res && $res->num_rows > 0) {
+    $row = $res->fetch_assoc();
+    $id = (int)$row['id'];
+    $u = $conn->prepare("UPDATE pengumpulan_tugas SET file_tugas = ?, waktu_kumpul = NOW() WHERE id = ?");
+    $u->bind_param('si', $publicPath, $id);
+    $u->execute();
 } else {
     die("Gagal memindahkan file ke server.");
 }
