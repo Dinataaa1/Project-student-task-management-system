@@ -77,13 +77,22 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .main-content { flex: 1; display: flex; flex-direction: column; }
 
 /* Header Atas */
+/* Header Atas */
 .header { 
     height: 60px; 
-    background-color: #d8d8d8; 
+    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); /* Mengubah warna background abu-abu menjadi ungu blob */
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
-.header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
+
+.header h1 { 
+    font-size: 32px; 
+    color: #ffffff; 
+    font-family: 'Luckiest Guy', cursive; /* Nama font diubah menjadi Luckiest Guy */
+    letter-spacing: 2px; 
+    margin: 0; 
+    font-weight: normal; /* Tambahkan ini karena Luckiest Guy sudah sangat tebal dari sananya */
+}
 
 /* Area Scroll Konten */
 .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; }
@@ -356,4 +365,94 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .card-title {
     position: relative; 
     z-index: 1; 
+}
+
+/* =========================================
+   Animasi Blob Menutupi Kartu & Teks Putih
+   ========================================= */
+
+/* 1. Pengaturan transisi untuk pergerakan blob dan perubahan warna teks */
+.card .blob {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; 
+    transform-origin: top right; 
+}
+
+.card-title, 
+.matkul-jadwal, 
+.matkul-jadwal span, 
+.menu-icon {
+    transition: color 0.3s ease !important;
+}
+
+/* 2. Saat Kartu di-hover: Blob membesar menutupi seluruh kartu */
+.card:hover .blob {
+    transform: scale(9) !important; /* Skala diperbesar 9x lipat agar memenuhi seluruh area */
+    border-bottom-left-radius: 0 !important; /* Lengkungan dihilangkan agar sudut bawah tertutup rapat */
+    opacity: 1 !important; 
+}
+
+/* 3. Saat Kartu di-hover: Teks, Ikon, dan Keterangan Kelas berubah menjadi putih */
+.card:hover .card-title,
+.card:hover .matkul-jadwal,
+.card:hover .matkul-jadwal span,
+.card:hover .menu-icon {
+    color: #ffffff !important; /* !important digunakan untuk memaksa penimpaan warna bawaan HTML */
+}
+
+/* =========================================
+   7. FORM ELEMENTS (MODAL DASHBOARD)
+   ========================================= */
+/* Class-class ini menggantikan inline CSS pada form di dalam modal */
+.form-label-small {
+    display: block; 
+    font-size: 12px; 
+    font-weight: 600; 
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.form-select-inline {
+    width: 100%; 
+    padding: 8px 0; 
+    border: none; 
+    border-bottom: 1px solid #333; 
+    outline: none; 
+    background: transparent; 
+    font-family: var(--font-body);
+}
+
+.form-input-inline {
+    width: 100%; 
+    padding: 8px 0; 
+    border: none; 
+    border-bottom: 1px solid #333; 
+    outline: none; 
+    background: transparent; 
+    font-family: var(--font-body);
+}
+
+.form-group-spaced {
+    margin-bottom: 15px; 
+    width: 100%;
+}
+
+.jadwal-container {
+    display: flex; 
+    gap: 10px;
+}
+
+.jadwal-input {
+    flex: 1; 
+    padding: 8px 0; 
+    border: none; 
+    border-bottom: 1px solid #333; 
+    outline: none; 
+    background: transparent; 
+    font-family: var(--font-body);
+}
+
+/* Modal Title */
+.modal-title-custom {
+    margin-bottom: 20px; 
+    font-family: var(--font-heading);
 }

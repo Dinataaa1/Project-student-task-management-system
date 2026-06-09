@@ -70,8 +70,22 @@ h1, h2, h3, .page-title { font-family: var(--font-heading); }
 
 /* Area Konten Utama */
 .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
-.header { height: 60px; background-color: #e2e8f0; display: flex; align-items: center; padding: 0 30px; }
-.header h1 { font-size: 22px; color: var(--color-dark); font-weight: 800; letter-spacing: 1px; margin: 0; }
+/* Header Atas */
+.header { 
+    height: 60px; 
+    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); /* Mengubah warna background abu-abu menjadi ungu blob */
+    display: flex; align-items: center; 
+    padding: 0 30px; 
+}
+
+.header h1 { 
+    font-size: 32px; 
+    color: #ffffff; 
+    font-family: 'Luckiest Guy', cursive; /* Nama font diubah menjadi Luckiest Guy */
+    letter-spacing: 2px; 
+    margin: 0; 
+    font-weight: normal; /* Tambahkan ini karena Luckiest Guy sudah sangat tebal dari sananya */
+}
 
 .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; padding-bottom: 100px; }
 .page-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; color: var(--color-dark); }
@@ -142,3 +156,34 @@ td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;
 tbody tr:nth-child(1) { animation-delay: 0.1s; }
 tbody tr:nth-child(2) { animation-delay: 0.2s; }
 tbody tr:nth-child(3) { animation-delay: 0.3s; }
+
+/* =========================================
+   TAMBAHAN CLASS PENGGANTI INLINE CSS
+   ========================================= */
+
+/* Pesan Error di Tengah */
+.alert-error {
+    color: red; 
+    margin-bottom: 15px; 
+    font-weight: bold; 
+    text-align: center;
+}
+
+/* Tombol Lampiran Nonaktif (Disabled) */
+.btn-lampiran-disabled {
+    background-color: #e2e8f0 !important; 
+    color: #94a3b8 !important; 
+    cursor: not-allowed; 
+    text-decoration: none;
+}
+
+/* Teks Rata Tengah (Untuk Tabel Kosong) */
+.text-center {
+    text-align: center;
+}
+
+/* Teks Abu-abu Kecil (Untuk Lampiran Kosong) */
+.text-muted-small {
+    color: #94a3b8; 
+    font-size: 13px;
+}

@@ -13,6 +13,7 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../../assets/css/pages/admin/detail_tugas.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -53,7 +54,7 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
 
         <div class="content-area">
             <?php if (!empty($pesan_error)): ?>
-                <div style="color: red; margin-bottom: 15px; font-weight: bold; text-align: center;">
+                <div class="alert-error">
                     <?= $pesan_error ?>
                 </div>
             <?php else: ?>
@@ -66,14 +67,13 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
                 
                 <div class="task-footer">
                     <?php if (!empty($data_tugas['file_lampiran'])): ?>
-                        <a href="<?= BASE_URL ?>/controllers/uploads/tugas/<?= htmlspecialchars($data_tugas['file_lampiran']) ?>" 
-                        class="btn-lampiran-view" 
-                        target="_blank" 
-                        style="text-decoration: none;">
-                        <i class="fa-solid fa-paperclip"></i> Lihat Lampiran
+                        <a href="<?= BASE_URL ?>/uploads/tugas/<?= htmlspecialchars($data_tugas['file_lampiran']) ?>" 
+                           class="btn-lampiran-view" 
+                           target="_blank">
+                           <i class="fa-solid fa-paperclip"></i> Lihat Lampiran
                         </a>
                     <?php else: ?>
-                        <span class="btn-lampiran-view" style="background-color: #e2e8f0; color: #94a3b8; cursor: not-allowed; text-decoration: none;">
+                        <span class="btn-lampiran-view btn-lampiran-disabled">
                             Tidak ada lampiran
                         </span>
                     <?php endif; ?>
@@ -96,7 +96,7 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
                     <tbody>
                         <?php if (empty($data_pengumpulan)): ?>
                             <tr>
-                                <td colspan="5" style="text-align: center;">Belum ada mahasiswa yang mengumpulkan</td>
+                                <td colspan="5" class="text-center">Belum ada mahasiswa yang mengumpulkan</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($data_pengumpulan as $row): ?>
@@ -109,7 +109,7 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
                                             <i class="fa-solid fa-eye"></i> Lihat
                                         </a>
                                     <?php else: ?>
-                                        <span style="color: #94a3b8; font-size: 13px;">Belum ada file</span>
+                                        <span class="text-muted-small">Belum ada file</span>
                                     <?php endif; ?>
                                 </td>
                                 <td>

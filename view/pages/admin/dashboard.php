@@ -12,6 +12,7 @@ require_once '../../../controllers/admin/matkul_controler.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/pages/admin/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -57,7 +58,8 @@ require_once '../../../controllers/admin/matkul_controler.php';
             <div class="grid-container">
                 <?php 
                 $data_matkul = $data_matkul ?? [];
-                foreach ($data_matkul as $mk): 
+                foreach ($data_matkul as $index => $mk):
+                    $warna_blob = ($index % 2 == 0) ? 'orange' : 'blue'; 
                 ?>
                     <div class="card" 
                     onclick="window.location.href='tugas/detail.php?matkul=<?= $mk['id'] ?>'" 
@@ -67,7 +69,7 @@ require_once '../../../controllers/admin/matkul_controler.php';
                     data-kelas-id="<?= $mk['kelas_id'] ?? '' ?>" 
                     data-ruangan="<?= htmlspecialchars($mk['ruangan'], ENT_QUOTES) ?>"
                     data-jadwal="<?= htmlspecialchars($mk['jadwal'], ENT_QUOTES) ?>">
-                        <div class="blob" style="position: absolute; top: 0; right: 0; width: 110px; height: 110px; background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%); border-bottom-left-radius: 100%; z-index: 0;"></div>
+                        <div class="blob <?= $warna_blob ?>"></div>
                         
                         <div class="menu-container" style="position: absolute; top: 16px; right: 16px; z-index: 10;">
                             <i class="fa-solid fa-ellipsis-vertical menu-icon" 
@@ -112,7 +114,7 @@ require_once '../../../controllers/admin/matkul_controler.php';
 
     <div id="modalMatkul" class="modal-overlay" style="display: none;">
         <div class="modal-content">
-            <h2 id="modalTitle" style="margin-bottom: 20px; font-family: 'Poppins';">TAMBAH MATKUL</h2>
+            <h2 id="modalTitle" class="modal-title-custom">TAMBAH MATKUL</h2>
             
             <form id="formMatkul" method="POST" action="dashboard.php">
                 <input type="hidden" name="action" id="formAction" value="create_matkul">
@@ -123,9 +125,9 @@ require_once '../../../controllers/admin/matkul_controler.php';
                     <input type="text" id="inputMatkul" name="nama_matkul" required autocomplete="off">
                 </div>
                 
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="selectKelas" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">PILIH KELAS</label>
-                    <select id="selectKelas" name="kelas_id" required style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                <div class="form-group-spaced">
+                    <label for="selectKelas" class="form-label-small">PILIH KELAS</label>
+                    <select id="selectKelas" name="kelas_id" required class="form-select-inline">
                         <option value="" disabled selected>-- Pilih Kelas --</option>
                         <?php 
                         $data_kelas = $data_kelas ?? [];
@@ -136,15 +138,16 @@ require_once '../../../controllers/admin/matkul_controler.php';
                     </select>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="inputRuangan" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">RUANGAN</label>
-                    <input type="text" id="inputRuangan" name="ruangan" required placeholder="Contoh: Lab 1" autocomplete="off" style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                <div class="form-group-spaced">
+                    <label for="inputRuangan" class="form-label-small">RUANGAN</label>
+                    <input type="text" id="inputRuangan" name="ruangan" required placeholder="Contoh: Lab 1" autocomplete="off" class="form-input-inline">
                 </div>
-                <div class="form-group" style="margin-bottom: 15px; width: 100%;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">JADWAL</label>
+                
+                <div class="form-group-spaced">
+                    <label class="form-label-small">JADWAL</label>
                     
-                    <div style="display: flex; gap: 10px;">
-                        <select name="hari" required style="flex: 1; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                    <div class="jadwal-container">
+                        <select name="hari" required class="jadwal-input">
                             <option value="" disabled selected>Pilih Hari</option>
                             <option value="Senin">Senin</option>
                             <option value="Selasa">Selasa</option>
@@ -155,9 +158,10 @@ require_once '../../../controllers/admin/matkul_controler.php';
                             <option value="Minggu">Minggu</option>
                         </select>
                         
-                        <input type="time" name="jam" required style="flex: 1; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                        <input type="time" name="jam" required class="jadwal-input">
                     </div>
                 </div>
+                
                 <button type="submit" class="btn-submit">SUBMIT</button>
             </form>
         </div>

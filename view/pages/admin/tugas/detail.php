@@ -30,6 +30,7 @@ if ($selected_matkul_id > 0) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../../assets/css/pages/admin/detail.css?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -70,7 +71,7 @@ if ($selected_matkul_id > 0) {
                 <h2 class="greeting">
                     Hai, <?= htmlspecialchars(explode(' ', $nama_dosen)[0]) ?>! 
                     Ini adalah tugas mata kuliah 
-                    <span style="color: var(--color-blue);"><?= htmlspecialchars($current_matkul_name) ?></span>
+                    <span class="text-highlight-blue"><?= htmlspecialchars($current_matkul_name) ?></span>
                 </h2>
                 
                 <div class="filter-container">
@@ -86,32 +87,38 @@ if ($selected_matkul_id > 0) {
             </div>
             
             <div class="grid-container">
-                <?php foreach ($data_tugas as $tugas): ?>
-                    <div class="card" 
-                        onclick="window.location.href='detail_tugas.php?id=<?= $tugas['id'] ?>'" 
-                        data-id="<?= $tugas['id'] ?>"
-                        data-matkul-id="<?= $tugas['matkul_id'] ?>"
-                        data-judul="<?= htmlspecialchars($tugas['judul_tugas']) ?>"
-                        data-deskripsi="<?= htmlspecialchars($tugas['deskripsi']) ?>"
-                        data-deadline="<?= htmlspecialchars($tugas['deadline']) ?>"
-                        /* 1. Tambahkan height: 180px agar ukurannya tetap sama semua */
-                        style="cursor: pointer; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 20px; height: 180px; box-sizing: border-box;">
+                <?php 
+                $data_tugas = $data_tugas ?? [];
+                foreach ($data_tugas as $index => $tugas):
+                    $warna_blob = ($index % 2 == 0) ? 'orange' : 'blue'; 
+                ?>
+                    <div class="card" onclick="window.location.href='detail_tugas.php?id=<?= $tugas['id'] ?>'">
+                        
+                        <div class="blob <?= $warna_blob ?> small"></div>
                         
                         <div class="menu-container">
-                            <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
-                            <div class="dropdown-menu">
-                                <a href="#" onclick="editTugas(event, this)">Edit</a>
-                                <a href="?action=delete_tugas&id=<?= $tugas['id'] ?>&matkul=<?= $selected_matkul_id ?? 0 ?>" class="text-danger" onclick="return confirm('Hapus tugas ini?');">Hapus</a>
+                            <i class="fa-solid fa-ellipsis-vertical menu-icon menu-icon-custom"
+                            onclick="event.stopPropagation(); let menu = this.nextElementSibling; menu.style.display = menu.style.display === 'block' ? 'none' : 'block';">
+                            </i>
+                            
+                            <div class="dropdown-menu dropdown-menu-custom">
+                                <a href="#" onclick="editTugas(event, this)" class="dropdown-item-bordered">
+                                    <i class="fa-solid fa-pen" style="margin-right: 8px; color: var(--color-blue);"></i> Edit
+                                </a>
+                                <a href="?action=delete_tugas&id=<?= $tugas['id'] ?>" onclick="event.stopPropagation(); return confirm('Hapus tugas ini?');" class="dropdown-item-danger">
+                                    <i class="fa-solid fa-trash" style="margin-right: 8px;"></i> Hapus
+                                </a>
                             </div>
                         </div>
-                        
-                        <div class="card-title tugas-text" style="padding-right: 30px; margin-top: 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+
+                        <div class="task-card-title">
                             <?= htmlspecialchars($tugas['judul_tugas']) ?>
                         </div>
-                        
-                        <div style="margin-top: auto; padding-top: 15px; font-size: 12px; font-family: var(--font-body); color: var(--color-pink);">
-                            <?= $tugas['deadline_format'] ?>
+
+                        <div class="task-card-deadline">
+                            <?= htmlspecialchars($tugas['deadline_format'] ?? date('d M Y, H:i', strtotime($tugas['deadline']))) ?>
                         </div>
+
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -123,15 +130,15 @@ if ($selected_matkul_id > 0) {
 
     <div id="modalTugas" class="modal-overlay" style="display: none;">
         <div class="modal-content">
-            <h2 id="modalTitleTugas" style="margin-bottom: 20px; font-family: 'Poppins'; text-align: center;">TAMBAH TUGAS</h2>
+            <h2 id="modalTitleTugas" class="modal-title-center">TAMBAH TUGAS</h2>
             
             <form id="formTugas" method="POST" action="" enctype="multipart/form-data">
                 <input type="hidden" name="action" id="formActionTugas" value="create_tugas">
                 <input type="hidden" name="tugas_id" id="tugasId" value="">
                 
-                <div class="form-group" style="margin-bottom: 15px; width: 100%;">
-                    <label for="inputMatkulId" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">MATA KULIAH</label>
-                    <select name="matkul_id" id="inputMatkulId" required style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                <div class="form-group-spaced">
+                    <label for="inputMatkulId" class="form-label-small">MATA KULIAH</label>
+                    <select name="matkul_id" id="inputMatkulId" required class="form-select-inline">
                         <option value="">Pilih Mata Kuliah...</option>
                         <?php foreach ($data_matkul as $mk): ?>
                             <option value="<?= $mk['id'] ?>"><?= htmlspecialchars($mk['nama_matkul']) ?></option>
@@ -139,27 +146,27 @@ if ($selected_matkul_id > 0) {
                     </select>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 15px; width: 100%;">
-                    <label for="inputJudulTugas" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">JUDUL TUGAS</label>
-                    <input type="text" id="inputJudulTugas" name="judul_tugas" required autocomplete="off" style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent;">
+                <div class="form-group-spaced">
+                    <label for="inputJudulTugas" class="form-label-small">JUDUL TUGAS</label>
+                    <input type="text" id="inputJudulTugas" name="judul_tugas" required autocomplete="off" class="form-input-inline">
                 </div>
 
-                <div class="form-group" style="margin-bottom: 15px; width: 100%;">
-                    <label for="inputDeadline" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">DEADLINE</label>
-                    <input type="datetime-local" id="inputDeadline" name="deadline" required style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                <div class="form-group-spaced">
+                    <label for="inputDeadline" class="form-label-small">DEADLINE</label>
+                    <input type="datetime-local" id="inputDeadline" name="deadline" required class="form-input-inline">
                 </div>
 
-                <div class="form-group" style="margin-bottom: 20px; width: 100%;">
-                    <label for="inputDeskripsi" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">DESKRIPSI</label>
-                    <textarea name="deskripsi" id="inputDeskripsi" rows="3" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; outline: none; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
+                <div class="form-group-large">
+                    <label for="inputDeskripsi" class="form-label-small">DESKRIPSI</label>
+                    <textarea name="deskripsi" id="inputDeskripsi" rows="3" required class="form-textarea-custom"></textarea>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 20px; width: 100%;">
-                    <label for="inputFileLampiran" style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">LAMPIRAN FILE (Opsional)</label>
-                    <input type="file" id="inputFileLampiran" name="file_lampiran" style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent; font-family: 'Inter', sans-serif;">
+                <div class="form-group-large">
+                    <label for="inputFileLampiran" class="form-label-small">LAMPIRAN FILE (Opsional)</label>
+                    <input type="file" id="inputFileLampiran" name="file_lampiran" class="form-input-inline">
                 </div>
                 
-                <div style="width: 100%; text-align: center;">
+                <div class="submit-container">
                     <button type="submit" class="btn-submit">SUBMIT</button>
                 </div>
             </form>

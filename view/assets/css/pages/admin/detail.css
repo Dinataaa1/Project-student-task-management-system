@@ -77,13 +77,22 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
 
 /* Header Atas */
+/* Header Atas */
 .header { 
     height: 60px; 
-    background-color: #d8d8d8; 
+    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); /* Mengubah warna background abu-abu menjadi ungu blob */
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
-.header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
+
+.header h1 { 
+    font-size: 32px; 
+    color: #ffffff; 
+    font-family: 'Luckiest Guy', cursive; /* Nama font diubah menjadi Luckiest Guy */
+    letter-spacing: 2px; 
+    margin: 0; 
+    font-weight: normal; /* Tambahkan ini karena Luckiest Guy sudah sangat tebal dari sananya */
+}
 
 /* Area Scroll Konten */
 /* Area Scroll Konten */
@@ -155,10 +164,12 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .blob { 
     position: absolute; 
     top: 0; right: 0; 
-    width: 110px; height: 110px; 
+    width: 110px; height: 100px; 
     border-bottom-left-radius: 100%; 
-    background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-purple) 100%);
+    z-index: 0;
 }
+.blob.orange { background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); }
+.blob.blue { background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-purple) 100%); }
 
 /* Tombol Tambah Mengambang */
 .fab { 
@@ -426,4 +437,136 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     top: 16px;
     right: 16px;
     z-index: 2;
+}
+
+/* =========================================
+   Animasi Blob Menutupi Kartu & Teks Putih
+   ========================================= */
+
+/* 1. Pengaturan transisi untuk pergerakan blob dan perubahan warna teks */
+.card .blob {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; 
+    transform-origin: top right; 
+}
+
+/* Class tambahan khusus untuk blob berukuran kecil (misal di halaman detail) */
+.blob.small {
+    width: 80px;
+    height: 80px;
+}
+
+.card-title, 
+.matkul-jadwal, 
+.matkul-jadwal span, 
+.menu-icon,
+.task-deadline,
+.task-date,
+.deadline-text {
+    transition: color 0.3s ease !important;
+}
+
+/* 2. Saat Kartu di-hover: Blob membesar menutupi seluruh kartu */
+.card:hover .blob {
+    transform: scale(12) !important; /* Skala diperbesar menjadi 12x agar blob yang kecil (60px) tetap bisa menutupi seluruh kartu */
+    border-bottom-left-radius: 0 !important; 
+    opacity: 1 !important; 
+}
+
+/* 3. Saat Kartu di-hover: Teks, Ikon, Keterangan, dan Tanggal berubah menjadi putih */
+.card:hover .card-title,
+.card:hover .matkul-jadwal,
+.card:hover .matkul-jadwal span,
+.card:hover .menu-icon,
+.card:hover .task-deadline,
+.card:hover .task-date,
+.card:hover .deadline-text {
+    color: #ffffff !important; 
+}
+
+/* =========================================
+   TAMBAHAN CLASS PENGGANTI INLINE CSS
+   ========================================= */
+
+/* Teks Highlight */
+.text-highlight-blue {
+    color: var(--color-blue);
+}
+
+/* Modifikasi Dropdown Menu pada Card Tugas */
+.menu-icon-custom {
+    padding: 5px 15px; 
+    cursor: pointer; 
+    font-size: 18px;
+}
+.dropdown-menu-custom {
+    top: 100% !important; 
+    min-width: 130px !important; 
+    text-align: left;
+}
+.dropdown-item-bordered {
+    border-bottom: 1px solid #f1f1f1;
+}
+.dropdown-item-danger {
+    color: #e11d48 !important;
+}
+
+/* Tipografi Card Tugas */
+.task-card-title {
+    position: relative; 
+    z-index: 1; 
+    padding-right: 60px; 
+    font-weight: 700; 
+    margin-bottom: 20px; 
+    font-size: 16px; 
+    line-height: 1.4;
+}
+.task-card-deadline {
+    position: relative; 
+    z-index: 1; 
+    font-size: 12px; 
+    color: #e11d48;
+}
+
+/* Form & Modal Elements */
+.modal-title-center {
+    margin-bottom: 20px; 
+    font-family: var(--font-heading); 
+    text-align: center;
+}
+.form-group-spaced {
+    margin-bottom: 15px; 
+    width: 100%;
+}
+.form-group-large {
+    margin-bottom: 20px; 
+    width: 100%;
+}
+.form-label-small {
+    display: block; 
+    font-size: 12px; 
+    font-weight: 600; 
+    margin-bottom: 5px;
+    color: #000;
+}
+.form-input-inline, .form-select-inline {
+    width: 100%; 
+    padding: 8px 0; 
+    border: none; 
+    border-bottom: 1px solid #333; 
+    outline: none; 
+    background: transparent; 
+    font-family: var(--font-body);
+}
+.form-textarea-custom {
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    outline: none; 
+    font-family: var(--font-body); 
+    resize: vertical;
+}
+.submit-container {
+    width: 100%; 
+    text-align: center;
 }
