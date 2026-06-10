@@ -1,5 +1,4 @@
 <?php
-// Memanggil controller setting (Mundur 3 tingkat)
 require_once '../../../controllers/admin/setting_controler.php';
 ?>
 
@@ -12,11 +11,11 @@ require_once '../../../controllers/admin/setting_controler.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/pages/admin/setting.css?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<!-- TODO : SAMBUNGIN BACKEND -->
 <body>
     <div class="sidebar">
         <div class="profile-area">
@@ -47,10 +46,10 @@ require_once '../../../controllers/admin/setting_controler.php';
 
         <div class="content-area">
             <?php if (!empty($pesan_error)): ?>
-                <div style="color: red; margin-bottom: 15px; font-weight: bold; text-align: center;"><?= $pesan_error ?></div>
+                <div class="alert-error"><?= $pesan_error ?></div>
             <?php endif; ?>
             <?php if (!empty($pesan_sukses)): ?>
-                <div style="color: green; margin-bottom: 15px; font-weight: bold; text-align: center;"><?= $pesan_sukses ?></div>
+                <div class="alert-success"><?= $pesan_sukses ?></div>
             <?php endif; ?>
 
             <h2 class="page-title">Profil Dosen</h2>
@@ -87,50 +86,33 @@ require_once '../../../controllers/admin/setting_controler.php';
 
     <div id="modalEditProfil" class="modal-overlay" style="display: none;">
         <div class="modal-content">
-            <h2 style="margin-bottom: 20px; font-family: 'Poppins'; text-align: center;">EDIT PROFIL</h2>
+            <h2 class="modal-title">EDIT PROFIL</h2>
             
             <form method="POST" action="">
                 <input type="hidden" name="action" value="update_profil">
 
-                <div class="form-group" style="margin-bottom: 15px; width: 100%;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">NAMA LENGKAP</label>
-                    <input type="text" name="nama_lengkap" value="<?= htmlspecialchars($profil['nama_lengkap']) ?>" required style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent;">
+                <div class="form-group">
+                    <label class="form-label">NAMA LENGKAP</label>
+                    <input type="text" name="nama_lengkap" value="<?= htmlspecialchars($profil['nama_lengkap']) ?>" required class="form-input">
                 </div>
 
-                <div class="form-group" style="margin-bottom: 15px; width: 100%;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">NIP</label>
-                    <input type="text" name="nip" value="<?= htmlspecialchars($profil['nip']) ?>" required style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent;">
+                <div class="form-group">
+                    <label class="form-label">NIP</label>
+                    <input type="text" name="nip" value="<?= htmlspecialchars($profil['nip']) ?>" required class="form-input">
                 </div>
 
-                <div class="form-group" style="margin-bottom: 25px; width: 100%;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">EMAIL</label>
-                    <input type="email" name="email" value="<?= htmlspecialchars($profil['email']) ?>" required style="width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #333; outline: none; background: transparent;">
+                <div class="form-group">
+                    <label class="form-label">EMAIL</label>
+                    <input type="email" name="email" value="<?= htmlspecialchars($profil['email']) ?>" required class="form-input">
                 </div>
 
-                <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button type="button" onclick="tutupModalProfil()" style="padding: 10px 20px; border-radius: 20px; border: 1px solid #ccc; background: transparent; cursor: pointer; font-weight: 600;">Batal</button>
-                    <button type="submit" style="padding: 10px 20px; border-radius: 20px; background: #c62828; color: #fff; border: none; cursor: pointer; font-weight: 600;">Simpan</button>
+                <div class="modal-actions">
+                    <button type="button" onclick="tutupModalProfil()" class="btn-cancel">Batal</button>
+                    <button type="submit" class="btn-save">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
-
-    <script>
-        function bukaModalProfil() {
-            document.getElementById('modalEditProfil').style.display = 'flex';
-        }
-
-        function tutupModalProfil() {
-            document.getElementById('modalEditProfil').style.display = 'none';
-        }
-
-        // Tutup jika klik area di luar modal
-        window.onclick = function(event) {
-            const modal = document.getElementById('modalEditProfil');
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
+    </div> <script src="../../assets/js/admin/setting.js?v=1"></script>
 </body>
 </html>

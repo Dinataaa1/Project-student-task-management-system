@@ -46,7 +46,7 @@ include '../../components/header.php';
                         
                         <div class="detail-item">
                             <div class="detail-label">Status / Kelas:</div>
-                            <div class="detail-value"><?= isset($kelas_placeholder) ? $kelas_placeholder : 'Informatika / Belum diatur' ?></div>
+                            <div class="detail-value"><?= htmlspecialchars($data_user['nama_kelas'] ?? '-') ?></div>
                         </div>
                         
                         <div class="detail-item">

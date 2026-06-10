@@ -1,6 +1,4 @@
-/* =========================================
-   PALET WARNA & TIPOGRAFI GLOBAL
-   ========================================= */
+/* PALET WARNA & TIPOGRAFI GLOBAL */
 :root {
     --color-blue: #4F46E5;
     --color-purple: #8B5CF6;
@@ -30,9 +28,7 @@ h1, h2, h3, .page-title { font-family: var(--font-heading); }
 .profile-area img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 .profile-area p { font-size: 11px; font-weight: bold; margin-top: 5px; text-transform: uppercase; color: var(--color-dark); }
 
-/* =========================================
-   STANDARISASI MENU SIDEBAR
-   ========================================= */
+/* STANDARISASI MENU SIDEBAR */
 .nav-menu { 
     display: flex; 
     flex-direction: column; 
@@ -47,16 +43,36 @@ h1, h2, h3, .page-title { font-family: var(--font-heading); }
     justify-content: center; 
     align-items: center; 
     text-decoration: none; 
-    /* Warna ikon saat TIDAK aktif (Abu-abu kebiruan agar rapi) */
     color: #64748b; 
     font-size: 22px; 
     transition: 0.2s; 
 }
 
+/* 1. Animasi membal (pop) untuk kotak background biru */
+@keyframes popActiveMenu {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 2. Ganti class .nav-item.active lama Anda dengan ini */
 .nav-item.active { 
-    /* Warna latar dan ikon saat AKTIF (Indigo/Biru Tua) */
     background-color: var(--color-blue, #4F46E5); 
     color: #fff; 
+    /* Menerapkan animasi membal saat halaman dimuat */
+    animation: popActiveMenu 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 3. Animasi ayunan kecil (swing) khusus untuk ikon di dalam menu aktif */
+@keyframes swingIcon {
+    0% { transform: rotate(-30deg) scale(0.5); opacity: 0; }
+    50% { transform: rotate(15deg) scale(1.2); opacity: 1; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.nav-item.active i {
+    display: inline-block; /* Wajib agar ikon bisa berotasi */
+    animation: swingIcon 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .nav-item:hover:not(.active) { 
@@ -65,13 +81,34 @@ h1, h2, h3, .page-title { font-family: var(--font-heading); }
 }
 
 /* Tombol Logout */
-.logout-btn { margin-top: 0 !important; margin-bottom: 0 !important; }
-.logout-btn:hover { background-color: #fce7f3 !important; color: var(--color-pink) !important; }
+.logout-btn {
+    margin-top: auto !important; /* Trik Flexbox untuk mendorong elemen ke paling bawah */
+    transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ffe8e8 !important; 
+    color: #c62828 !important;
+}
 
 /* Area Konten Utama */
 .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
-.header { height: 60px; background-color: #e2e8f0; display: flex; align-items: center; padding: 0 30px; }
-.header h1 { font-size: 22px; color: var(--color-dark); font-weight: 800; letter-spacing: 1px; margin: 0; }
+/* Header Atas */
+.header { 
+    height: 80px; 
+    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); 
+    display: flex; align-items: center; 
+    padding: 0 30px; 
+}
+
+.header h1 { 
+    font-size: 35px; 
+    color: #ffffff; 
+    font-family: 'Luckiest Guy', cursive; 
+    letter-spacing: 2px; 
+    margin: 0; 
+    font-weight: normal; 
+}
 
 .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; padding-bottom: 100px; }
 .page-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; color: var(--color-dark); }
@@ -142,3 +179,30 @@ td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;
 tbody tr:nth-child(1) { animation-delay: 0.1s; }
 tbody tr:nth-child(2) { animation-delay: 0.2s; }
 tbody tr:nth-child(3) { animation-delay: 0.3s; }
+
+/* Pesan Error di Tengah */
+.alert-error {
+    color: red; 
+    margin-bottom: 15px; 
+    font-weight: bold; 
+    text-align: center;
+}
+
+/* Tombol Lampiran Nonaktif (Disabled) */
+.btn-lampiran-disabled {
+    background-color: #e2e8f0 !important; 
+    color: #94a3b8 !important; 
+    cursor: not-allowed; 
+    text-decoration: none;
+}
+
+/* Teks Rata Tengah (Untuk Tabel Kosong) */
+.text-center {
+    text-align: center;
+}
+
+/* Teks Abu-abu Kecil (Untuk Lampiran Kosong) */
+.text-muted-small {
+    color: #94a3b8; 
+    font-size: 13px;
+}

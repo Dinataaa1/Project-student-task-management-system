@@ -46,9 +46,17 @@ function editTugas(event, element) {
 }
 
 window.onclick = function(event) {
-    if (event.target === modal) modal.style.display = 'none';
-    if (!event.target.matches('.menu-icon')) {
-        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    // 1. Menutup Modal jika klik background overlay
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+    
+    // 2. Menutup menu dropdown titik tiga jika klik di area kosong
+    if (!event.target.matches('.menu-icon') && !event.target.closest('.dropdown-menu')) {
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            m.style.display = 'none'; // Ini yang akan menutup menu Anda
+            m.classList.remove('show'); // Tetap dibiarkan untuk berjaga-jaga
+        });
     }
 }
 

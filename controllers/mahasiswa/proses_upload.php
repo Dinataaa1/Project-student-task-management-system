@@ -39,7 +39,7 @@ if (!in_array($ext, $allowed)) {
 
 // 6. Persiapan Folder (Simpan di folder yang benar agar bisa diakses oleh view)
 // Pastikan folder 'uploads' ada di root project
-$uploadDir = __DIR__ . '/uploads/mahasiswa_' . $mahasiswa_id . '/';
+$uploadDir = '../uploads/mahasiswa_' . $mahasiswa_id . '/';
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }

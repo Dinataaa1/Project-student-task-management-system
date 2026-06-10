@@ -39,9 +39,7 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .profile-area img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 .profile-area p { font-size: 11px; font-weight: bold; margin-top: 5px; text-transform: uppercase; color: #000; }
 
-/* =========================================
-   STANDARISASI MENU SIDEBAR
-   ========================================= */
+/* STANDARISASI MENU SIDEBAR */
 .nav-menu { 
     display: flex; 
     flex-direction: column; 
@@ -56,16 +54,27 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     justify-content: center; 
     align-items: center; 
     text-decoration: none; 
-    /* Warna ikon saat TIDAK aktif (Abu-abu kebiruan agar rapi) */
     color: #64748b; 
     font-size: 22px; 
     transition: 0.2s; 
 }
 
 .nav-item.active { 
-    /* Warna latar dan ikon saat AKTIF (Indigo/Biru Tua) */
     background-color: var(--color-blue, #4F46E5); 
     color: #fff; 
+    animation: popActiveMenu 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 3. Animasi ayunan kecil (swing) khusus untuk ikon di dalam menu aktif */
+@keyframes swingIcon {
+    0% { transform: rotate(-30deg) scale(0.5); opacity: 0; }
+    50% { transform: rotate(15deg) scale(1.2); opacity: 1; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.nav-item.active i {
+    display: inline-block; /* Wajib agar ikon bisa berotasi */
+    animation: swingIcon 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .nav-item:hover:not(.active) { 
@@ -78,12 +87,20 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Header Atas */
 .header { 
-    height: 60px; 
-    background-color: #d8d8d8; 
+    height: 80px; 
+    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); 
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
-.header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
+
+.header h1 { 
+    font-size: 35px; 
+    color: #ffffff; 
+    font-family: 'Luckiest Guy', cursive; 
+    letter-spacing: 2px; 
+    margin: 0; 
+    font-weight: normal; 
+}
 
 /* Area Scroll Konten */
 .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; }
@@ -250,8 +267,10 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Efek Hover Tombol Logout */
 .logout-btn {
+    margin-top: auto !important; /* Trik Flexbox untuk mendorong elemen ke paling bawah */
     transition: 0.3s ease;
 }
+
 .logout-btn:hover {
     background-color: #ffe8e8 !important; 
     color: #c62828 !important;
@@ -356,4 +375,162 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .card-title {
     position: relative; 
     z-index: 1; 
+}
+ 
+/* Animasi Blob Menutupi Kartu & Teks Putih */
+
+/* 1. Pengaturan transisi untuk pergerakan blob dan perubahan warna teks */
+.card .blob {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; 
+    transform-origin: top right; 
+}
+
+.card-title, 
+.matkul-jadwal-custom, 
+.matkul-kelas-highlight, 
+.menu-icon-custom {
+    transition: color 0.3s ease !important;
+}
+
+/* 2. Saat Kartu di-hover: Blob membesar menutupi seluruh kartu */
+.card:hover .blob {
+    transform: scale(9) !important; /* Skala diperbesar 9x lipat agar memenuhi seluruh area */
+    border-bottom-left-radius: 0 !important; /* Lengkungan dihilangkan agar sudut bawah tertutup rapat */
+    opacity: 1 !important; 
+}
+
+.card:hover .card-title,
+.card:hover .matkul-jadwal-custom,
+.card:hover .matkul-kelas-highlight,
+.card:hover .menu-icon-custom {
+    color: #ffffff !important; 
+}
+
+/* FORM ELEMENTS (MODAL DASHBOARD) */
+/* Class-class ini menggantikan inline CSS pada form di dalam modal */
+.form-label-small {
+    display: block; 
+    font-size: 12px; 
+    font-weight: 600; 
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.form-select-inline {
+    width: 100%; 
+    padding: 8px 0; 
+    border: none; 
+    border-bottom: 1px solid #333; 
+    outline: none; 
+    background: transparent; 
+    font-family: var(--font-body);
+}
+
+.form-input-inline {
+    width: 100%; 
+    padding: 8px 0; 
+    border: none; 
+    border-bottom: 1px solid #333; 
+    outline: none; 
+    background: transparent; 
+    font-family: var(--font-body);
+}
+
+.form-group-spaced {
+    margin-bottom: 15px; 
+    width: 100%;
+}
+
+.jadwal-container {
+    display: flex; 
+    gap: 10px;
+}
+
+.jadwal-input {
+    flex: 1; 
+    padding: 8px 0; 
+    border: none; 
+    border-bottom: 1px solid #333; 
+    outline: none; 
+    background: transparent; 
+    font-family: var(--font-body);
+}
+
+/* Modal Title */
+.modal-title-custom {
+    margin-bottom: 20px; 
+    font-family: var(--font-heading);
+}
+
+/* TAMBAHAN CLASS PENGGANTI INLINE CSS */
+
+/* Notifikasi Pesan */
+.alert-error {
+    color: red; 
+    margin-bottom: 15px; 
+    font-weight: bold;
+}
+.alert-success {
+    color: green; 
+    margin-bottom: 15px; 
+    font-weight: bold;
+}
+
+/* Tambahan untuk Card agar otomatis punya kursor pointer */
+.card {
+    cursor: pointer;
+}
+
+/* Modifikasi Menu Dropdown pada Card */
+.menu-container-custom {
+    z-index: 10 !important;
+}
+.menu-icon-custom {
+    padding: 5px 15px; 
+    font-size: 18px;
+    transition: color 0.3s ease !important;
+}
+.dropdown-menu-custom {
+    top: 100% !important; 
+    min-width: 130px !important; 
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15) !important;
+}
+.dropdown-item {
+    display: block; 
+    padding: 10px 15px; 
+    text-decoration: none; 
+    color: #333; 
+    font-size: 14px;
+}
+.dropdown-item-bordered {
+    border-bottom: 1px solid #f1f1f1;
+}
+.dropdown-item-danger {
+    color: #e11d48 !important;
+}
+.dropdown-icon {
+    margin-right: 8px;
+}
+.icon-blue {
+    color: var(--color-blue);
+}
+
+/* Tipografi Jadwal Kelas */
+.matkul-jadwal-custom {
+    position: relative; 
+    z-index: 1; 
+    font-size: 12px; 
+    color: #64748b; 
+    margin-bottom: 10px;
+}
+.matkul-kelas-highlight {
+    font-weight: 600; 
+    color: var(--color-blue);
+}
+
+@keyframes popActiveMenu {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
