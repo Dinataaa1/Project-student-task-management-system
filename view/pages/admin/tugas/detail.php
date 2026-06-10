@@ -82,7 +82,13 @@ if ($selected_matkul_id > 0) {
                 foreach ($data_tugas as $index => $tugas):
                     $warna_blob = ($index % 2 == 0) ? 'orange' : 'blue'; 
                 ?>
-                    <div class="card" onclick="window.location.href='detail_tugas.php?id=<?= $tugas['id'] ?>'">
+                    <div class="card" 
+                    onclick="window.location.href='detail_tugas.php?id=<?= $tugas['id'] ?>'"
+                    data-id="<?= $tugas['id'] ?>"
+                    data-matkul-id="<?= $tugas['matkul_id'] ?>"
+                    data-judul="<?= htmlspecialchars($tugas['judul_tugas'], ENT_QUOTES) ?>"
+                    data-deskripsi="<?= htmlspecialchars($tugas['deskripsi'], ENT_QUOTES) ?>"
+                    data-deadline="<?= $tugas['deadline'] ?>">
                         
                         <div class="blob <?= $warna_blob ?> small"></div>
                         
