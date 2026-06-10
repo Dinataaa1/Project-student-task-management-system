@@ -97,7 +97,7 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
                                 <td><?= htmlspecialchars($row['nama_mahasiswa']) ?></td>
                                 <td>
                                     <?php if ($row['status_kumpul'] !== 'kosong' && !empty($row['file_path'])): ?>
-                                        <a href="../../../../uploads/<?= htmlspecialchars($row['file_path']) ?>" class="btn-lihat" target="_blank">
+                                        <a href="<?= BASE_URL ?><?= htmlspecialchars($row['file_path']) ?>" class="btn-lihat" target="_blank">
                                             <i class="fa-solid fa-eye"></i> Lihat
                                         </a>
                                     <?php else: ?>
