@@ -43,7 +43,11 @@ $delay2 = -rand(0, 10);
                         <div class="mt-auto">
                             <?php if (!empty($tugas['file_lampiran'])) : ?>
                                 <div class="mb-3">
-                                    <span class="badge bg-secondary text-white p-2">Lampiran Soal</span>
+                                    <a href="../../../controllers/uploads/tugas/<?= htmlspecialchars($detail_tugas['file_lampiran']) ?>" target="_blank" class="text-decoration-none">
+                                        <span class="badge bg-secondary text-white p-2 border shadow-sm" style="cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 6px;">
+                                            <i class="fas fa-file-download"></i> Lihat Lampiran Soal
+                                        </span>
+                                    </a>
                                 </div>
                             <?php endif; ?>
                             <p class="text-danger fw-bold mb-0">Deadline: <?= $deadline_format ?></p>

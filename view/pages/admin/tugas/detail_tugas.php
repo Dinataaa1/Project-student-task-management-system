@@ -59,7 +59,7 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
                 
                 <div class="task-footer">
                     <?php if (!empty($data_tugas['file_lampiran'])): ?>
-                        <a href="<?= BASE_URL ?>/uploads/tugas/<?= htmlspecialchars($data_tugas['file_lampiran']) ?>" 
+                        <a href="../../../../controllers/uploads/tugas/<?= htmlspecialchars($data_tugas['file_lampiran']) ?>" 
                            class="btn-lampiran-view" 
                            target="_blank">
                            <i class="fa-solid fa-paperclip"></i> Lihat Lampiran
