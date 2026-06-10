@@ -48,9 +48,31 @@ h1, h2, h3, .page-title { font-family: var(--font-heading); }
     transition: 0.2s; 
 }
 
+/* 1. Animasi membal (pop) untuk kotak background biru */
+@keyframes popActiveMenu {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 2. Ganti class .nav-item.active lama Anda dengan ini */
 .nav-item.active { 
     background-color: var(--color-blue, #4F46E5); 
     color: #fff; 
+    /* Menerapkan animasi membal saat halaman dimuat */
+    animation: popActiveMenu 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 3. Animasi ayunan kecil (swing) khusus untuk ikon di dalam menu aktif */
+@keyframes swingIcon {
+    0% { transform: rotate(-30deg) scale(0.5); opacity: 0; }
+    50% { transform: rotate(15deg) scale(1.2); opacity: 1; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.nav-item.active i {
+    display: inline-block; /* Wajib agar ikon bisa berotasi */
+    animation: swingIcon 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .nav-item:hover:not(.active) { 

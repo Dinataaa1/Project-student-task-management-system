@@ -60,9 +60,21 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 }
 
 .nav-item.active { 
-    /* Warna latar dan ikon saat AKTIF (Indigo/Biru Tua) */
     background-color: var(--color-blue, #4F46E5); 
     color: #fff; 
+    animation: popActiveMenu 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 3. Animasi ayunan kecil (swing) khusus untuk ikon di dalam menu aktif */
+@keyframes swingIcon {
+    0% { transform: rotate(-30deg) scale(0.5); opacity: 0; }
+    50% { transform: rotate(15deg) scale(1.2); opacity: 1; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.nav-item.active i {
+    display: inline-block; /* Wajib agar ikon bisa berotasi */
+    animation: swingIcon 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .nav-item:hover:not(.active) { 
@@ -73,7 +85,6 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 /* Area Konten Utama */
 .main-content { flex: 1; display: flex; flex-direction: column; }
 
-/* Header Atas */
 /* Header Atas */
 .header { 
     height: 60px; 
@@ -514,4 +525,10 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .matkul-kelas-highlight {
     font-weight: 600; 
     color: var(--color-blue);
+}
+
+@keyframes popActiveMenu {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
