@@ -41,7 +41,7 @@ $delay2 = -rand(0, 10);
                         </p>
 
                         <div class="mt-auto">
-                            <?php if (!empty($tugas['file_lampiran'])) : ?>
+                            <?php if (!empty($detail_tugas['file_lampiran'])) : ?>
                                 <div class="mb-3">
                                     <a href="../../../controllers/uploads/tugas/<?= htmlspecialchars($detail_tugas['file_lampiran']) ?>" target="_blank" class="text-decoration-none">
                                         <span class="badge bg-secondary text-white p-2 border shadow-sm" style="cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 6px;">
