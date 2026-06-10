@@ -39,9 +39,7 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .profile-area img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 .profile-area p { font-size: 11px; font-weight: bold; margin-top: 5px; text-transform: uppercase; color: #000; }
 
-/* =========================================
-   STANDARISASI MENU SIDEBAR
-   ========================================= */
+/* STANDARISASI MENU SIDEBAR */
 .nav-menu { 
     display: flex; 
     flex-direction: column; 
@@ -56,14 +54,12 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     justify-content: center; 
     align-items: center; 
     text-decoration: none; 
-    /* Warna ikon saat TIDAK aktif (Abu-abu kebiruan agar rapi) */
     color: #64748b; 
     font-size: 22px; 
     transition: 0.2s; 
 }
 
 .nav-item.active { 
-    /* Warna latar dan ikon saat AKTIF (Indigo/Biru Tua) */
     background-color: var(--color-blue, #4F46E5); 
     color: #fff; 
 }
@@ -77,10 +73,9 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
 
 /* Header Atas */
-/* Header Atas */
 .header { 
     height: 60px; 
-    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); /* Mengubah warna background abu-abu menjadi ungu blob */
+    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); 
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
@@ -88,13 +83,12 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .header h1 { 
     font-size: 32px; 
     color: #ffffff; 
-    font-family: 'Luckiest Guy', cursive; /* Nama font diubah menjadi Luckiest Guy */
+    font-family: 'Luckiest Guy', cursive; 
     letter-spacing: 2px; 
     margin: 0; 
-    font-weight: normal; /* Tambahkan ini karena Luckiest Guy sudah sangat tebal dari sananya */
+    font-weight: normal; 
 }
 
-/* Area Scroll Konten */
 /* Area Scroll Konten */
 .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; }
 
@@ -111,11 +105,11 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     font-size: 18px; 
     font-weight: 700; 
     color: #333; 
-    margin: 0; /* Margin bawah dihapus, diatur oleh content-header */
+    margin: 0; 
 }
 
 .greeting span {
-    color: #009ef7; /* Highlight warna biru */
+    color: #009ef7; 
 }
 
 .matkul-dropdown {
@@ -424,7 +418,7 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Angkat teks judul tugas dan tanggal ke layer depan */
 .task-title, 
-.card-title, /* Jika Anda menggunakan class yang sama dengan dashboard */
+.card-title, 
 .task-date,
 .deadline-text {
     position: relative;
@@ -439,11 +433,7 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     z-index: 2;
 }
 
-/* =========================================
-   Animasi Blob Menutupi Kartu & Teks Putih
-   ========================================= */
-
-/* 1. Pengaturan transisi untuk pergerakan blob dan perubahan warna teks */
+/* Pengaturan transisi untuk pergerakan blob dan perubahan warna teks */
 .card .blob {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; 
     transform-origin: top right; 
@@ -465,14 +455,14 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     transition: color 0.3s ease !important;
 }
 
-/* 2. Saat Kartu di-hover: Blob membesar menutupi seluruh kartu */
+/* Saat Kartu di-hover: Blob membesar menutupi seluruh kartu */
 .card:hover .blob {
-    transform: scale(12) !important; /* Skala diperbesar menjadi 12x agar blob yang kecil (60px) tetap bisa menutupi seluruh kartu */
+    transform: scale(12) !important; 
     border-bottom-left-radius: 0 !important; 
     opacity: 1 !important; 
 }
 
-/* 3. Saat Kartu di-hover: Teks, Ikon, Keterangan, dan Tanggal berubah menjadi putih */
+/* Saat Kartu di-hover: Teks, Ikon, Keterangan, dan Tanggal berubah menjadi putih */
 .card:hover .card-title,
 .card:hover .matkul-jadwal,
 .card:hover .matkul-jadwal span,
@@ -482,10 +472,6 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .card:hover .deadline-text {
     color: #ffffff !important; 
 }
-
-/* =========================================
-   TAMBAHAN CLASS PENGGANTI INLINE CSS
-   ========================================= */
 
 /* Teks Highlight */
 .text-highlight-blue {
@@ -569,4 +555,12 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .submit-container {
     width: 100%; 
     text-align: center;
+}
+
+/* Ikon Dropdown */
+.dropdown-icon {
+    margin-right: 8px;
+}
+.icon-blue {
+    color: var(--color-blue);
 }

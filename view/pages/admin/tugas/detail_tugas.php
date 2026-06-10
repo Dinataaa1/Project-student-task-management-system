@@ -1,5 +1,4 @@
 <?php
-// Memanggil backend controller (Mundur 4 tingkat)
 require_once '../../../../controllers/admin/detail_tugas_controler.php';
 ?>
 
@@ -18,20 +17,13 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<!-- TODO : BELUM KONEK BACKEND -->
-
 <body>
     <div class="sidebar">
         <div class="profile-area">
             <?php
-                // Memecah nama lengkap menjadi array berdasarkan spasi
                 $nama_parts = explode(' ', $nama_dosen);
-                // Mengambil elemen pertama (nama depan)
                 $nama_depan = $nama_parts[0];
-                
-                // Membuat URL Avatar dinamis. 
-                // Menggunakan urlencode agar spasi pada nama aman dikirim lewat URL.
-                // Background diatur ke warna biru indigo palet Anda (4F46E5)
+
                 $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($nama_dosen) . "&background=4F46E5&color=fff&bold=true";
             ?>
             <img src="<?= $avatar_url ?>" alt="Profile">
