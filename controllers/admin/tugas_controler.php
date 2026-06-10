@@ -1,21 +1,32 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'dosen') {
-    header("Location: /Project-student-task-management-system/view/auth/login.php"); exit();
-}
-date_default_timezone_set('Asia/Jakarta');
+
+require_once __DIR__ . '/../auth/session_check.php';
 include_once __DIR__ . '/../../config/koneksi.php';
 
-$user_id = $_SESSION['user_id'];
-$pesan_sukses = ''; $pesan_error  = '';
+checkRoleDosen();
 
-$stmt_dosen = $conn->prepare("SELECT id FROM dosen WHERE user_id = ?");
-$stmt_dosen->bind_param("i", $user_id);
-$stmt_dosen->execute();
-$data_dosen = $stmt_dosen->get_result()->fetch_assoc();
-$stmt_dosen->close();
-$dosen_id = $data_dosen['id'];
+validasiCSRFToken();
+
+$dosen_id = $_SESSION['dosen_id'];
 $nama_dosen = $_SESSION['nama'] ?? 'Dosen';
+
+// if (session_status() === PHP_SESSION_NONE) session_start();
+// if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'dosen') {
+//     header("Location: /Project-student-task-management-system/view/auth/login.php"); exit();
+// }
+// date_default_timezone_set('Asia/Jakarta');
+// include_once __DIR__ . '/../../config/koneksi.php';
+
+// $user_id = $_SESSION['user_id'];
+// $pesan_sukses = ''; $pesan_error  = '';
+
+// $stmt_dosen = $conn->prepare("SELECT id FROM dosen WHERE user_id = ?");
+// $stmt_dosen->bind_param("i", $user_id);
+// $stmt_dosen->execute();
+// $data_dosen = $stmt_dosen->get_result()->fetch_assoc();
+// $stmt_dosen->close();
+// $dosen_id = $data_dosen['id'];
+// $nama_dosen = $_SESSION['nama'] ?? 'Dosen';
 
 // FUNGSI BANTUAN UNTUK UPLOAD FILE
 function prosesUploadFile() {

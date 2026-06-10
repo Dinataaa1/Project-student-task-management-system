@@ -128,7 +128,8 @@ if ($selected_matkul_id > 0) {
         <div class="modal-content">
             <h2 id="modalTitleTugas" class="modal-title-center">TAMBAH TUGAS</h2>
             
-            <form id="formTugas" method="POST" action="" enctype="multipart/form-data">
+            <form action="../../../controllers/admin/tugas_controler.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                 <input type="hidden" name="action" id="formActionTugas" value="create_tugas">
                 <input type="hidden" name="tugas_id" id="tugasId" value="">
                 
