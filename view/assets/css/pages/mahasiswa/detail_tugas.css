@@ -158,3 +158,47 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(236, 72, 153, 0.45);
 }
+
+/* Pastikan parent card memiliki position relative dan overflow hidden */
+.custom-card {
+    position: relative;
+    overflow: hidden;
+    /* ... properti background putih, padding, box-shadow kamu biarkan saja ... */
+}
+
+/* Pastikan konten tetap di atas blob */
+.card-content-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+/* Styling Blob Animasi */
+.blob-hiasan-detail-large {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 350px; /* Sesuaikan besarnya agar menutupi sisi kanan card */
+    height: 350px;
+    border-radius: 50%; /* Agar bentuk dasar melingkar */
+    
+    /* Menerapkan gradasi dan animasi */
+    background: var(--bg-gradasi);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease-in-out infinite, liquidLava 8s ease-in-out infinite;
+    
+    z-index: 0;
+    opacity: 0.75;
+}
+
+/* Animasi Pergerakan Warna */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animasi Perubahan Bentuk (Lava Lamp Effect) */
+@keyframes liquidLava {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}

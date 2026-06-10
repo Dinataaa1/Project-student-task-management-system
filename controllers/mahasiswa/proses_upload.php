@@ -36,8 +36,13 @@ if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }
 
-// Menyimpan dengan nama unik agar tidak bentrok
-$filename = time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
+// Mengambil nama asli file tanpa ekstensi
+$nama_asli = pathinfo($_FILES['file_tugas']['name'], PATHINFO_FILENAME);
+// Membersihkan spasi atau karakter aneh agar aman di database
+$nama_bersih = preg_replace('/[^A-Za-z0-9_\-]/', '_', $nama_asli);
+
+// Format baru: Waktu + Tanda Strip + Nama Asli + Ekstensi
+$filename = time() . '-' . $nama_bersih . '.' . $ext;
 $targetPath = $uploadDir . $filename;
 
 if (move_uploaded_file($_FILES['file_tugas']['tmp_name'], $targetPath)) {

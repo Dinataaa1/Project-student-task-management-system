@@ -1,24 +1,35 @@
 <?php
 // controllers/mahasiswa/pengaturan.php
-
-include_once __DIR__ . '/../../config/koneksi.php';
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once __DIR__ . '/../auth/session_check.php';
 
-// Pastikan hanya mahasiswa sah yang bisa mengakses halaman ini
+// Pastikan user adalah mahasiswa
 checkRoleMahasiswa();
 
-$id_user = $_SESSION['user_id'];
+// Panggil koneksi
+require_once __DIR__ . '/../../config/koneksi.php';
 
-$query = mysqli_query($conn, "
-    SELECT u.email, m.nama_mahasiswa, m.nrp, k.nama_kelas
-    FROM users u
-    JOIN mahasiswa m ON u.id = m.user_id
-    LEFT JOIN kelas k ON m.kelas_id = k.id
-    WHERE u.id = $id_user
-");
+$mahasiswa_id = $_SESSION['mahasiswa_id'];
 
-$data_user = mysqli_fetch_assoc($query);
+// Query tanpa JOIN ke tabel 'kelas' yang tidak ada
+$sql = "
+    SELECT m.nama_mahasiswa, m.nrp, u.email 
+    FROM mahasiswa m
+    JOIN users u ON m.user_id = u.id
+    WHERE m.id = ?
+";
 
-// 3. LOGIKA FALLBACK JIKA KELAS BELUM DISET DI DATABASE
-$nama_kelas = !empty($data_user['nama_kelas']) ? $data_user['nama_kelas'] : "Informatika / Belum diatur"; 
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $mahasiswa_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$data_user = mysqli_fetch_assoc($result);
+
+// Berikan nilai default untuk nama_kelas agar view tidak error
+if ($data_user) {
+    // Jika di masa depan kamu menambahkan kolom 'kelas' di tabel mahasiswa,
+    // kamu bisa mengubahnya menjadi: $data_user['kelas'] ?? 'Belum diatur';
+    $data_user['nama_kelas'] = 'Belum ada data kelas';
+}
 ?>

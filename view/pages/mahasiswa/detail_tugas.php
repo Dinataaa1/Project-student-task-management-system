@@ -5,6 +5,18 @@ require_once '../../../controllers/mahasiswa/detail_tugas.php';
 $active_page = 'tugas';
 $jalur_css = "../../assets/css/detail-tugas.css";
 include '../../components/header.php';
+
+// Logika Acak Warna Blob untuk Card Kiri
+$colors1 = ['#4F46E5', '#7E52E8', '#EC4899'];
+shuffle($colors1);
+$gradient1 = "linear-gradient(135deg, " . implode(", ", $colors1) . ")";
+$delay1 = -rand(0, 10);
+
+// Logika Acak Warna Blob untuk Card Kanan
+$colors2 = ['#4F46E5', '#7E52E8', '#EC4899'];
+shuffle($colors2);
+$gradient2 = "linear-gradient(135deg, " . implode(", ", $colors2) . ")";
+$delay2 = -rand(0, 10);
 ?>
 
 <div class="dashboard-wrapper">
@@ -13,13 +25,16 @@ include '../../components/header.php';
         <?php include '../../components/topbar.php'; ?>
 
         <div class="content-area content-area-detail">
-            <div class="card-container">
 
-                <div class="custom-card card-left">
-                    <div class="blob-hiasan-detail-large"></div>
+            <div class="card-container d-flex gap-4">
 
-                    <div class="card-content-wrapper">
-                        <h3 class="fw-bold mb-3" style="color: #1E293B;"><?= htmlspecialchars($tugas['judul_tugas']) ?></h3>
+                <div class="custom-card card-left flex-fill p-4" style="position: relative; overflow: hidden; background: white; border-radius: 15px;">
+                    <div class="blob-hiasan-detail-large" style="--bg-gradasi: <?= $gradient1 ?>; animation-delay: <?= $delay1 ?>s;"></div>
+
+                    <div class="card-content-wrapper d-flex flex-column h-100" style="position: relative; z-index: 2;">
+                        <h3 class="fw-bold mb-3" style="color: #1E293B;">
+                            <?= htmlspecialchars($tugas['judul_tugas']) ?>
+                        </h3>
 
                         <p class="text-dark mb-4" style="line-height: 1.6; font-size: 0.95rem; width: 85%;">
                             <?= nl2br(htmlspecialchars($tugas['deskripsi'])) ?>
@@ -28,34 +43,53 @@ include '../../components/header.php';
                         <div class="mt-auto">
                             <?php if (!empty($tugas['file_lampiran'])) : ?>
                                 <div class="mb-3">
-                                    <span class="badge-pink-figma">Lampiran Soal</span>
+                                    <span class="badge bg-secondary text-white p-2">Lampiran Soal</span>
                                 </div>
                             <?php endif; ?>
-
-                            <p class="text-deadline-figma mb-0">Deadline: <?= $deadline_format ?></p>
+                            <p class="text-danger fw-bold mb-0">Deadline: <?= $deadline_format ?></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="custom-card card-right">
-                    <div class="blob-hiasan-detail-large"></div>
+                <div class="custom-card card-right flex-fill p-4" style="position: relative; overflow: hidden; background: white; border-radius: 15px;">
+                    <div class="blob-hiasan-detail-large" style="--bg-gradasi: <?= $gradient2 ?>; animation-delay: <?= $delay2 ?>s;"></div>
 
-                    <div class="card-content-wrapper">
-                        <h2 class="text-nilai-figma mb-4">
-                            <?= ($pengumpulan && $pengumpulan['nilai'] !== null) ? $pengumpulan['nilai'] : 'Nilai' ?>
+                    <div class="card-content-wrapper d-flex flex-column h-100" style="position: relative; z-index: 2;">
+                        <h2 class="fw-bold text-success mb-4">
+                            <?= ($pengumpulan && isset($pengumpulan['nilai']) && $pengumpulan['nilai'] !== null) ? htmlspecialchars($pengumpulan['nilai']) : 'Nilai' ?>
                         </h2>
 
-                        <div>
-                            <span class="badge-orange-figma">
-                                <?= $pengumpulan ? htmlspecialchars(basename($pengumpulan['file_tugas'])) : 'Belum ada lampiran' ?>
-                            </span>
+                        <div class="mb-4">
+                            <?php if ($pengumpulan && !empty($pengumpulan['file_tugas'])): ?>
+                                <?php
+                                // Ambil nama file dari database
+                                $file_tersimpan = basename($pengumpulan['file_tugas']);
+
+                                // Potong angka waktu di depan (pisahkan berdasarkan tanda strip '-')
+                                $potongan = explode('-', $file_tersimpan, 2);
+
+                                // Jika ada tanda strip, ambil nama aslinya. Jika tidak, tampilkan apa adanya.
+                                $nama_visual = isset($potongan[1]) ? $potongan[1] : $file_tersimpan;
+                                ?>
+                                <a href="../../../<?= htmlspecialchars($pengumpulan['file_tugas']) ?>" target="_blank" class="text-decoration-none">
+                                    <span class="badge bg-light text-primary p-2 border" style="cursor: pointer; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                        <i class="fas fa-file-word"></i> <?= htmlspecialchars($nama_visual) ?>
+                                    </span>
+                                </a>
+                            <?php else: ?>
+                                <span class="badge bg-light text-secondary p-2 border">
+                                    Belum ada lampiran
+                                </span>
+                            <?php endif; ?>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-end mt-auto pt-5">
-                            <p class="<?= $status_color ?> m-0 fw-bold"><?= $teks_status ?></p>
+                        <div class="d-flex justify-content-between align-items-end mt-auto">
+                            <p class="<?= htmlspecialchars($status_color ?? 'text-danger') ?> m-0 fw-bold">
+                                <?= htmlspecialchars($teks_status ?? 'Belum Mengumpulkan') ?>
+                            </p>
 
-                            <button class="btn-edit-figma" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                                <?= $pengumpulan ? '^ Edit Tugas' : 'Upload Tugas' ?>
+                            <button class="btn btn-dark fw-bold rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                                <?= $pengumpulan ? 'Edit Tugas' : 'Upload Tugas' ?>
                             </button>
                         </div>
                     </div>
@@ -72,16 +106,22 @@ include '../../components/header.php';
             <div class="modal-body text-center">
                 <form method="POST" action="../../../controllers/mahasiswa/proses_upload.php" enctype="multipart/form-data">
 
-                    <label class="btn-file-figma mb-4">
-                        File Tugas
-                        <input type="file" name="file_tugas" class="d-none" required id="fileInput">
-                    </label>
+                    <div class="d-flex flex-column align-items-center gap-2 mb-4 mt-2">
 
-                    <p class="modal-desc-figma mb-3">
+                        <label class="btn-file-figma mb-0" style="cursor: pointer;">
+                            <i class="fas fa-upload"></i> File Tugas
+                            <input type="file" name="file_tugas" class="d-none" required id="fileInputTugas">
+                        </label>
+
+                        <div class="btn-file-figma mb-0" id="lampiranIndicator" style="cursor: default; opacity: 0.7; transition: all 0.3s;">
+                            <i class="fas fa-file-alt"></i> <span id="fileNameDisplay">Lampiran</span>
+                        </div>
+
+                    </div>
+
+                    <p class="modal-desc-figma mb-4">
                         Pilih file tugas yang akan diunggah. Pastikan format sesuai dengan ketentuan dosen.
                     </p>
-
-                    <div id="fileNameDisplay" class="file-name-line mb-5"></div>
 
                     <input type="hidden" name="tugas_id" value="<?= htmlspecialchars($tugas['id']) ?>">
 
@@ -96,15 +136,33 @@ include '../../components/header.php';
 </div>
 
 <script>
-    document.getElementById('fileInput').addEventListener('change', function(e) {
-        var fileName = e.target.files[0] ? e.target.files[0].name : "";
-        document.getElementById('fileNameDisplay').textContent = fileName;
+    // Script untuk memindahkan nama file ke kotak "Lampiran"
+    document.getElementById('fileInputTugas').addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        var displaySpan = document.getElementById('fileNameDisplay');
+        var indicator = document.getElementById('lampiranIndicator');
+
+        if (file) {
+            // Jika file dipilih, ganti teks 'Lampiran' jadi nama file
+            displaySpan.textContent = file.name;
+            // Bikin kotaknya jadi terang (tidak transparan lagi) untuk menandakan file siap
+            indicator.style.opacity = "1";
+            indicator.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
+        } else {
+            // Jika dibatalkan, kembalikan seperti semula
+            displaySpan.textContent = "Lampiran";
+            indicator.style.opacity = "0.7";
+            indicator.style.boxShadow = "none";
+        }
     });
 </script>
 
 <?php if ($active_page !== 'dashboard'): ?>
-    <a href="dashboard.php" class="btn-back">
-        <i class="fa-solid fa-arrow-left"></i>
+    <a href="daftar_tugas.php" class="position-fixed" style="bottom: 30px; left: 30px; z-index: 1000;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#1E293B" class="bi bi-arrow-left-circle-fill shadow rounded-circle" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+        </svg>
     </a>
 <?php endif; ?>
+
 <?php include '../../components/footer.php'; ?>
