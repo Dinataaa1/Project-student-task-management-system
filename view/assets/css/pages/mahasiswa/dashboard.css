@@ -264,3 +264,62 @@
     padding: 0.5em 0.75em;
     font-size: 0.7rem;
 }
+
+
+/* Transisi dasar agar perubahan warnanya mulus (tidak kaku) */
+.matkul-card-lg .info-details p,
+.matkul-card-lg .info-details i,
+.matkul-card-lg .badge {
+    transition: all 0.3s ease-in-out;
+}
+
+/* 1. Mengubah teks dosen, ruang, hari menjadi putih saat card di-hover */
+.matkul-card-lg:hover .info-details p,
+.matkul-card-lg:hover .info-details i {
+    color: #ffffff !important;
+}
+
+/* 2. Mengubah badge Tugas Aktif menjadi background putih & teks warna tema */
+.matkul-card-lg:hover .badge {
+    background-color: #ffffff !important;
+    /* Menggunakan warna ungu/biru dari blob agar seolah "transparan" menembus background putih */
+    color: #7E52E8 !important; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Tambahan bayangan tipis agar badge menonjol */
+}
+
+/* 1. Pengaturan Container Kiri */
+.cal-left {
+    position: relative;
+    overflow: hidden; /* Mencegah animasi keluar dari kotak */
+    border-radius: 15px 0 0 15px; /* Sesuaikan dengan lengkungan aslimu */
+    border: none;
+}
+
+/* 2. Blob Animasi Khusus Kalender */
+.blob-hiasan-cal {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-gradasi);
+    background-size: 400% 400%; /* Dibuat besar agar mengisi penuh area */
+    animation: gradientMove 15s ease-in-out infinite; /* Agak lambat biar elegan */
+    z-index: 0;
+}
+
+/* 3. Efek Kaca (Glassmorphism) untuk Kotak Notes */
+.notes-box {
+    background: rgba(255, 255, 255, 0.1) !important; /* Transparan */
+    backdrop-filter: blur(10px); /* Efek blur ala Apple */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: auto; /* Mendorong notes ke bawah jika perlu */
+}
+
+/* 4. Pastikan teks di bagian kiri tetap putih dan rapi */
+.cal-left-content h1, 
+.cal-left-content span, 
+.cal-left-content h6 {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Biar tetap kebaca walau bg terang */
+}

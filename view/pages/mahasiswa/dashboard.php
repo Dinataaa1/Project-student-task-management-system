@@ -60,20 +60,35 @@ include '../../components/header.php';
             </div>
 
             <!-- KALENDER -->
-            <div class="calendar-widget" style="margin-top: 10px;">
-                <div class="cal-left">
-                    <svg class="cal-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
-                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
-                    </svg>
-                    <div class="cal-left-date">
-                        <h1><?= htmlspecialchars($tanggal_sekarang ?? date('d')) ?></h1>
-                        <span><?= strtoupper(htmlspecialchars($bulan_sekarang ?? date('M'))) ?> <?= htmlspecialchars($tahun_sekarang ?? date('Y')) ?></span>
-                    </div>
-                    <div class="notes-box">
-                        <h6>Tugas Bulan Ini</h6>
-                        <div id="notesContainer"></div>
+            <div class="calendar-widget" style="margin-top: 50px;">
+
+                <?php
+                // Logika Random Gradasi untuk Kalender
+                $cal_colors = ['#4F46E5', '#7E52E8', '#EC4899'];
+                shuffle($cal_colors);
+                $cal_gradient = "linear-gradient(135deg, " . implode(", ", $cal_colors) . ")";
+                $cal_delay = -rand(0, 10);
+                ?>
+
+                <div class="cal-left" style="position: relative; overflow: hidden;">
+                    <div class="blob-hiasan-cal" style="--bg-gradasi: <?= $cal_gradient ?>; animation-delay: <?= $cal_delay ?>s;"></div>
+
+                    <div class="cal-left-content" style="position: relative; z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column;">
+                        <svg class="cal-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                        </svg>
+                        <div class="cal-left-date">
+                            <h1><?= htmlspecialchars($tanggal_sekarang ?? date('d')) ?></h1>
+                            <span><?= strtoupper(htmlspecialchars($bulan_sekarang ?? date('M'))) ?> <?= htmlspecialchars($tahun_sekarang ?? date('Y')) ?></span>
+                        </div>
+
+                        <div class="notes-box">
+                            <h6>TUGAS BULAN INI</h6>
+                            <div id="notesContainer"></div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="cal-right">
                     <div class="cal-header">
                         <span id="btnPrev">&lt;</span>

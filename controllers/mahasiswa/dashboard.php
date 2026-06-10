@@ -8,10 +8,18 @@ checkRoleMahasiswa();
 $mahasiswa_id = $_SESSION['mahasiswa_id'];
 $nama_user = $_SESSION['nama'] ?? 'Mahasiswa';
 
-// A. Tarik data Matkul (JOIN dosen & hitung total tugas)
+// A. Tarik data Matkul & Hitung tugas yang BELUM DIKUMPULKAN
 $query_matkul = mysqli_query($conn, "
     SELECT mk.*, d.nama_dosen, 
-           (SELECT COUNT(*) FROM tugas WHERE tugas.matkul_id = mk.id) as total_tugas 
+           (SELECT COUNT(*) 
+            FROM tugas t 
+            WHERE t.matkul_id = mk.id 
+            AND t.id NOT IN (
+                SELECT tugas_id 
+                FROM pengumpulan_tugas pt 
+                WHERE pt.mahasiswa_id = k.mahasiswa_id
+            )
+           ) as total_tugas 
     FROM mata_kuliah mk 
     JOIN dosen d ON mk.dosen_id = d.id
     JOIN krs k ON mk.id = k.mata_kuliah_id

@@ -119,4 +119,9 @@ $daftar_tugas = mysqli_fetch_all($result_tugas, MYSQLI_ASSOC);
     </div>
 </div>
 
+<?php if ($active_page !== 'dashboard'): ?>
+    <a href="dashboard.php" class="btn-back">
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+<?php endif; ?>
 <?php include '../../components/footer.php'; ?>
