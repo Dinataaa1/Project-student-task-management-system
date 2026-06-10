@@ -70,7 +70,7 @@ include '../../components/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content custom-modal-figma p-4">
             <div class="modal-body text-center">
-                <form method="POST" action="../../../controllers/mahasiswa/proses_upload.php" enctype="multipart/form-data">
+                <form method="POST" action="../../../../controllers/mahasiswa/proses_upload.php" enctype="multipart/form-data">
 
                     <label class="btn-file-figma mb-4">
                         File Tugas
