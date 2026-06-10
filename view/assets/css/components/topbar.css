@@ -1,5 +1,5 @@
 /* ==========================================================================
-   KOMPONEN: TOPBAR
+   BAGIAN 2: KOMPONEN TOPBAR & NOTIFIKASI
    ========================================================================== */
 .topbar {
     display: flex;
@@ -8,10 +8,10 @@
     width: 100%;
     height: 70px;
     padding: 0 40px;
-    background-color: transparent; 
+    background-color: #EAEBEE; 
 }
 
-/* Animasi & Desain Sliding Panel */
+/* --- PANEL SLIDING NOTIFIKASI --- */
 .notif-overlay {
     position: fixed; 
     top: 0; 
@@ -33,7 +33,7 @@
 .notif-panel {
     position: fixed; 
     top: 0; 
-    right: -400px; /* Sembunyi di luar layar kanan */
+    right: -400px; 
     width: 350px; 
     height: 100vh; 
     background-color: #f8f9fa;
@@ -45,7 +45,7 @@
 }
 
 .notif-panel.show {
-    right: 0; /* Meluncur masuk ke dalam layar */
+    right: 0; 
 }
 
 .notif-header {
@@ -63,7 +63,6 @@
     flex: 1;
 }
 
-/* Desain Card Tugas di dalam Panel */
 .notif-card {
     background: white; 
     border-radius: 12px; 
@@ -77,9 +76,7 @@
     transform: translateY(-3px);
 }
 
-/* ==========================================================================
-   WADAH LONCENG (Bentuk bulatan transparan saat hover)
-   ========================================================================== */
+/* --- WADAH LONCENG --- */
 .bell-container {
     width: 45px;
     height: 45px;
@@ -92,68 +89,41 @@
 }
 
 .bell-container:hover {
-    background-color: rgba(0, 0, 0, 0.08); /* Warna abu-abu transparan */
+    background-color: rgba(0, 0, 0, 0.08); 
 }
 
-/* ==========================================================================
-   ANIMASI LONCENG NOTIFIKASI
-   ========================================================================== */
+/* --- ANIMASI LONCENG NOTIFIKASI --- */
 .bell {
     position: relative;
     width: 50px;
     height: 60px;
 }
 
-.bell-top {
-    width: 50px;
-    height: 50px;
-    background: #888;
-    border-radius: 50% 50% 0 0;
-    position: relative;
+/* Mengubah warna lonceng jadi putih */
+.bell-top { 
+    width: 50px; height: 50px; 
+    background: #FFFFFF !important; /* Jadi Putih */
+    border-radius: 50% 50% 0 0; position: relative; 
 }
-
-.bell-top:before {
-    content: '';
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: inherit;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 50%;
+.bell-top:before { 
+    content: ''; position: absolute; width: 15px; height: 15px; 
+    background: #FFFFFF !important; /* Jadi Putih */
+    top: -10px; left: 50%; transform: translateX(-50%); border-radius: 50%; 
 }
-
-.bell-top:after {
-    content: '';
-    border-bottom: 10px solid #888;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    height: 0;
-    width: 50px;
-    position: absolute;
-    left: -8px;
-    bottom: -10px;
-    /* INI OBATNYA AGAR BENTUK LONCENG TIDAK HANCUR */
-    box-sizing: content-box; 
+.bell-top:after { 
+    content: ''; 
+    border-bottom: 10px solid #FFFFFF !important; /* Jadi Putih */
+    border-left: 8px solid transparent; border-right: 8px solid transparent; 
+    height: 0; width: 50px; position: absolute; left: -8px; bottom: -10px; box-sizing: content-box; 
 }
-
-.bell-bot {
-    width: 16px;
-    height: 10px; /* Aku tinggikan sedikit dari 8px ke 10px */
-    background: #888;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    
-    /* INI KUNCINYA: Diturunkan agar lebih kelihatan */
-    bottom: -8px; /* Sebelumnya -2px, sekarang posisinya lebih melorot */
-    
-    border-radius: 0 0 16px 16px;
+.bell-bot { 
+    width: 16px; height: 10px; 
+    background: #FFFFFF !important; /* Jadi Putih */
+    position: absolute; left: 50%; transform: translateX(-50%); bottom: -8px; border-radius: 0 0 16px 16px; 
 }
 
 .bell-notification {
-    background: #00a0e3; /* Warna biru cerah */
+    background: #00a0e3; 
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -162,17 +132,50 @@
     top: -15px;
     color: #fff;
     font-weight: 800;
-    font-size: 20px; /* Ukuran font disesuaikan agar angka ganda (misal 12) muat */
+    font-size: 20px; 
     line-height: 35px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 160, 227, 0.4); /* Bayangannya juga warna biru */
+    box-shadow: 0 2px 5px rgba(0, 160, 227, 0.4); 
 }
 
-/* Class untuk mengaktifkan animasi */
+/* Class Trigger Animasi */
 .bell-top-anim { animation: abanico 1000ms ease-in-out; transform-origin: top; }
 .bell-bot-anim { animation: badalo 1000ms ease-in-out; }
 .new-not { animation: popup 500ms forwards; }
 
+/* ==========================================================================
+   TOPBAR / HEADER (DIPERBAIKI AGAR TIDAK ADA GAP PUTIH)
+   ========================================================================== */
+/* Update latar belakang topbar jadi ungu */
+.topbar, .header {
+    width: 100% !important; 
+    height: 70px !important;
+    display: flex !important; 
+    justify-content: flex-start !important; 
+    align-items: center !important;
+    padding: 0 25px !important; 
+    margin: 0 !important;
+    
+    background-color: #7E52E8 !important; /* Warna ungu baru */
+    
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Update teks LOL jadi putih */
+.topbar h1, .header h1 { 
+    font-family: 'Luckiest Guy', cursive !important;
+    color: #FFFFFF !important;                  /* Teks Putih */
+    /*-webkit-text-stroke: 1px #4b2fa3 !important; /* Outline sedikit lebih gelap biar kontras */
+    font-size: 2.2rem !important; 
+    margin: 0 !important;
+    letter-spacing: 2px;
+}
+
+.content-area { padding: 30px 40px !important; }
+
+
+/* Keyframes */
 @keyframes abanico {
     0% { transform: rotate(0deg); }
     7.5% { transform: rotate(25deg); }
@@ -197,3 +200,33 @@
     0% { transform: scale(0.3); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
 }
+
+/* 1. Backdrop (Layar Gelap) */
+.overlay-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Warna abu-abu transparan */
+    z-index: 1040; /* Di bawah panel notif, di atas konten */
+    display: none;
+}
+
+/* 2. Panel Notifikasi */
+.notif-panel {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Sembunyi di kanan */
+    width: 400px;
+    height: 100%;
+    background: white;
+    z-index: 1050; /* Paling atas */
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+/* Class untuk mengaktifkan */
+.notif-panel.active { right: 0; }
+.overlay-backdrop.active { display: block; }
