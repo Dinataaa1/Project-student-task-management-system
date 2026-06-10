@@ -59,9 +59,31 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     transition: 0.2s; 
 }
 
+/* 1. Animasi membal (pop) untuk kotak background biru */
+@keyframes popActiveMenu {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 2. Ganti class .nav-item.active lama Anda dengan ini */
 .nav-item.active { 
     background-color: var(--color-blue, #4F46E5); 
     color: #fff; 
+    /* Menerapkan animasi membal saat halaman dimuat */
+    animation: popActiveMenu 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 3. Animasi ayunan kecil (swing) khusus untuk ikon di dalam menu aktif */
+@keyframes swingIcon {
+    0% { transform: rotate(-30deg) scale(0.5); opacity: 0; }
+    50% { transform: rotate(15deg) scale(1.2); opacity: 1; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.nav-item.active i {
+    display: inline-block; /* Wajib agar ikon bisa berotasi */
+    animation: swingIcon 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .nav-item:hover:not(.active) { 
@@ -74,14 +96,14 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Header Atas */
 .header { 
-    height: 60px; 
+    height: 80px; 
     background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); 
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
 
 .header h1 { 
-    font-size: 32px; 
+    font-size: 35px; 
     color: #ffffff; 
     font-family: 'Luckiest Guy', cursive; 
     letter-spacing: 2px; 
@@ -350,11 +372,13 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Efek Hover Tombol Logout */
 .logout-btn {
+    margin-top: auto !important; /* Trik Flexbox untuk mendorong elemen ke paling bawah */
     transition: 0.3s ease;
 }
+
 .logout-btn:hover {
     background-color: #ffe8e8 !important; 
-    color: #c62828 !important; 
+    color: #c62828 !important;
 }
 
 /* Animasi Masuk */
@@ -445,31 +469,24 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     height: 80px;
 }
 
-.card-title, 
-.matkul-jadwal, 
-.matkul-jadwal span, 
-.menu-icon,
-.task-deadline,
-.task-date,
-.deadline-text {
+/* 1. Pengaturan transisi untuk perubahan warna teks */
+.task-card-title, 
+.task-card-deadline, 
+.menu-icon-custom {
     transition: color 0.3s ease !important;
 }
 
-/* Saat Kartu di-hover: Blob membesar menutupi seluruh kartu */
+/* 2. Saat Kartu di-hover: Blob membesar menutupi seluruh kartu */
 .card:hover .blob {
     transform: scale(12) !important; 
     border-bottom-left-radius: 0 !important; 
     opacity: 1 !important; 
 }
 
-/* Saat Kartu di-hover: Teks, Ikon, Keterangan, dan Tanggal berubah menjadi putih */
-.card:hover .card-title,
-.card:hover .matkul-jadwal,
-.card:hover .matkul-jadwal span,
-.card:hover .menu-icon,
-.card:hover .task-deadline,
-.card:hover .task-date,
-.card:hover .deadline-text {
+/* 3. Saat Kartu di-hover: Judul, Deadline, dan Ikon berubah menjadi putih */
+.card:hover .task-card-title,
+.card:hover .task-card-deadline,
+.card:hover .menu-icon-custom {
     color: #ffffff !important; 
 }
 
@@ -483,6 +500,7 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     padding: 5px 15px; 
     cursor: pointer; 
     font-size: 18px;
+    transition: color 0.3s ease !important;
 }
 .dropdown-menu-custom {
     top: 100% !important; 

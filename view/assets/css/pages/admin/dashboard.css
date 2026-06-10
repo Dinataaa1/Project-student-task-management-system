@@ -60,9 +60,21 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 }
 
 .nav-item.active { 
-    /* Warna latar dan ikon saat AKTIF (Indigo/Biru Tua) */
     background-color: var(--color-blue, #4F46E5); 
     color: #fff; 
+    animation: popActiveMenu 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 3. Animasi ayunan kecil (swing) khusus untuk ikon di dalam menu aktif */
+@keyframes swingIcon {
+    0% { transform: rotate(-30deg) scale(0.5); opacity: 0; }
+    50% { transform: rotate(15deg) scale(1.2); opacity: 1; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.nav-item.active i {
+    display: inline-block; /* Wajib agar ikon bisa berotasi */
+    animation: swingIcon 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .nav-item:hover:not(.active) { 
@@ -74,16 +86,15 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .main-content { flex: 1; display: flex; flex-direction: column; }
 
 /* Header Atas */
-/* Header Atas */
 .header { 
-    height: 60px; 
+    height: 80px; 
     background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); 
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
 
 .header h1 { 
-    font-size: 32px; 
+    font-size: 35px; 
     color: #ffffff; 
     font-family: 'Luckiest Guy', cursive; 
     letter-spacing: 2px; 
@@ -256,8 +267,10 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Efek Hover Tombol Logout */
 .logout-btn {
+    margin-top: auto !important; /* Trik Flexbox untuk mendorong elemen ke paling bawah */
     transition: 0.3s ease;
 }
+
 .logout-btn:hover {
     background-color: #ffe8e8 !important; 
     color: #c62828 !important;
@@ -373,9 +386,9 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 }
 
 .card-title, 
-.matkul-jadwal, 
-.matkul-jadwal span, 
-.menu-icon {
+.matkul-jadwal-custom, 
+.matkul-kelas-highlight, 
+.menu-icon-custom {
     transition: color 0.3s ease !important;
 }
 
@@ -386,12 +399,11 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     opacity: 1 !important; 
 }
 
-/* 3. Saat Kartu di-hover: Teks, Ikon, dan Keterangan Kelas berubah menjadi putih */
 .card:hover .card-title,
-.card:hover .matkul-jadwal,
-.card:hover .matkul-jadwal span,
-.card:hover .menu-icon {
-    color: #ffffff !important; /* !important digunakan untuk memaksa penimpaan warna bawaan HTML */
+.card:hover .matkul-jadwal-custom,
+.card:hover .matkul-kelas-highlight,
+.card:hover .menu-icon-custom {
+    color: #ffffff !important; 
 }
 
 /* FORM ELEMENTS (MODAL DASHBOARD) */
@@ -476,6 +488,7 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .menu-icon-custom {
     padding: 5px 15px; 
     font-size: 18px;
+    transition: color 0.3s ease !important;
 }
 .dropdown-menu-custom {
     top: 100% !important; 
@@ -514,4 +527,10 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .matkul-kelas-highlight {
     font-weight: 600; 
     color: var(--color-blue);
+}
+
+@keyframes popActiveMenu {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
