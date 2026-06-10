@@ -1,14 +1,9 @@
 <?php
-
-// TAMPILKAN SEMUA ERROR
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-// (Pastikan require_once tugas_controler.php sudah ada di baris paling atas)
 require_once '../../../../controllers/admin/tugas_controler.php';
 
-// Menentukan nama mata kuliah yang sedang dipilih
-$current_matkul_name = "Semua Mata Kuliah"; // Default
+$current_matkul_name = "Semua Mata Kuliah"; 
 $selected_matkul_id = isset($_GET['matkul']) ? (int)$_GET['matkul'] : 0;
 
 if ($selected_matkul_id > 0) {
@@ -38,14 +33,9 @@ if ($selected_matkul_id > 0) {
     <div class="sidebar">
         <div class="profile-area">
             <?php
-                // Memecah nama lengkap menjadi array berdasarkan spasi
                 $nama_parts = explode(' ', $nama_dosen);
-                // Mengambil elemen pertama (nama depan)
                 $nama_depan = $nama_parts[0];
-                
-                // Membuat URL Avatar dinamis. 
-                // Menggunakan urlencode agar spasi pada nama aman dikirim lewat URL.
-                // Background diatur ke warna biru indigo palet Anda (4F46E5)
+         
                 $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($nama_dosen) . "&background=4F46E5&color=fff&bold=true";
             ?>
             <img src="<?= $avatar_url ?>" alt="Profile">
@@ -96,17 +86,17 @@ if ($selected_matkul_id > 0) {
                         
                         <div class="blob <?= $warna_blob ?> small"></div>
                         
-                        <div class="menu-container">
+                       <div class="menu-container">
                             <i class="fa-solid fa-ellipsis-vertical menu-icon menu-icon-custom"
                             onclick="event.stopPropagation(); let menu = this.nextElementSibling; menu.style.display = menu.style.display === 'block' ? 'none' : 'block';">
                             </i>
                             
                             <div class="dropdown-menu dropdown-menu-custom">
                                 <a href="#" onclick="editTugas(event, this)" class="dropdown-item-bordered">
-                                    <i class="fa-solid fa-pen" style="margin-right: 8px; color: var(--color-blue);"></i> Edit
+                                    <i class="fa-solid fa-pen dropdown-icon icon-blue"></i> Edit
                                 </a>
                                 <a href="?action=delete_tugas&id=<?= $tugas['id'] ?>" onclick="event.stopPropagation(); return confirm('Hapus tugas ini?');" class="dropdown-item-danger">
-                                    <i class="fa-solid fa-trash" style="margin-right: 8px;"></i> Hapus
+                                    <i class="fa-solid fa-trash dropdown-icon"></i> Hapus
                                 </a>
                             </div>
                         </div>

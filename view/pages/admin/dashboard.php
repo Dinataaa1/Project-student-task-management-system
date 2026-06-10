@@ -1,5 +1,4 @@
 <?php
-// Memanggil backend controller (Mundur 3 tingkat)
 require_once '../../../controllers/admin/matkul_controler.php';
 ?>
 
@@ -20,9 +19,7 @@ require_once '../../../controllers/admin/matkul_controler.php';
     <div class="sidebar">
         <div class="profile-area">
             <?php
-                // Memecah nama lengkap menjadi array berdasarkan spasi
                 $nama_parts = explode(' ', $nama_dosen);
-                // Mengambil elemen pertama (nama depan)
                 $nama_depan = $nama_parts[0];
                 
                 $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($nama_dosen) . "&background=4F46E5&color=fff&bold=true";
@@ -47,10 +44,10 @@ require_once '../../../controllers/admin/matkul_controler.php';
 
         <div class="content-area">
             <?php if (!empty($pesan_error)): ?>
-                <div style="color: red; margin-bottom: 15px; font-weight: bold;"><?= $pesan_error ?></div>
+                <div class="alert-error"><?= $pesan_error ?></div>
             <?php endif; ?>
             <?php if (!empty($pesan_sukses)): ?>
-                <div style="color: green; margin-bottom: 15px; font-weight: bold;"><?= $pesan_sukses ?></div>
+                <div class="alert-success"><?= $pesan_sukses ?></div>
             <?php endif; ?>
 
             <h2 class="greeting">Hai, <?= htmlspecialchars($nama_dosen) ?></h2>
@@ -63,43 +60,42 @@ require_once '../../../controllers/admin/matkul_controler.php';
                 ?>
                     <div class="card" 
                     onclick="window.location.href='tugas/detail.php?matkul=<?= $mk['id'] ?>'" 
-                    style="position: relative; overflow: hidden; cursor: pointer;"
                     data-id="<?= $mk['id'] ?>"
                     data-matkul="<?= htmlspecialchars($mk['nama_matkul'], ENT_QUOTES) ?>"
                     data-kelas-id="<?= $mk['kelas_id'] ?? '' ?>" 
                     data-ruangan="<?= htmlspecialchars($mk['ruangan'], ENT_QUOTES) ?>"
                     data-jadwal="<?= htmlspecialchars($mk['jadwal'], ENT_QUOTES) ?>">
+                        
                         <div class="blob <?= $warna_blob ?>"></div>
                         
-                        <div class="menu-container" style="position: absolute; top: 16px; right: 16px; z-index: 10;">
-                            <i class="fa-solid fa-ellipsis-vertical menu-icon" 
-                            style="padding: 5px 15px; cursor: pointer; font-size: 18px;" 
+                        <div class="menu-container menu-container-custom">
+                            <i class="fa-solid fa-ellipsis-vertical menu-icon menu-icon-custom" 
                             onclick="event.stopPropagation(); let menu = this.nextElementSibling; menu.style.display = menu.style.display === 'block' ? 'none' : 'block';">
                             </i>
                             
-                            <div class="dropdown-menu" style="display: none; position: absolute; top: 100%; right: 0; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.15); border-radius: 8px; min-width: 130px; overflow: hidden; text-align: left;">
+                            <div class="dropdown-menu dropdown-menu-custom">
                                 
                                 <a href="#" 
                                 onclick="editCard(event, this)" 
-                                style="display: block; padding: 10px 15px; text-decoration: none; color: #333; font-size: 14px; border-bottom: 1px solid #f1f1f1;">
-                                <i class="fa-solid fa-pen" style="margin-right: 8px; color: var(--color-blue);"></i> Edit
+                                class="dropdown-item dropdown-item-bordered">
+                                <i class="fa-solid fa-pen dropdown-icon icon-blue"></i> Edit
                                 </a>
                                 
                                 <a href="?action=delete_matkul&id=<?= $mk['id'] ?>" 
                                 onclick="event.stopPropagation(); return confirm('Hapus mata kuliah ini? Semua tugas di dalamnya juga akan ikut terhapus!');" 
-                                style="display: block; padding: 10px 15px; text-decoration: none; color: #e11d48; font-size: 14px;">
-                                <i class="fa-solid fa-trash" style="margin-right: 8px;"></i> Hapus
+                                class="dropdown-item dropdown-item-danger">
+                                <i class="fa-solid fa-trash dropdown-icon"></i> Hapus
                                 </a>
                                 
                             </div>
                         </div>
                         
-                        <div class="matkul-jadwal" style="position: relative; z-index: 1; font-size: 12px; color: #64748b; margin-bottom: 10px;">
-                            <span style="font-weight: 600; color: #4F46E5;"><?= htmlspecialchars($mk['nama_kelas'] ?? 'Tanpa Kelas') ?></span> <br>
+                        <div class="matkul-jadwal-custom">
+                            <span class="matkul-kelas-highlight"><?= htmlspecialchars($mk['nama_kelas'] ?? 'Tanpa Kelas') ?></span> <br>
                             <?= htmlspecialchars($mk['ruangan'] ?? '') ?><?= !empty($mk['ruangan']) ? ' - ' : '' ?><?= htmlspecialchars($mk['jadwal']) ?>
                         </div>
 
-                        <div class="card-title" style="position: relative; z-index: 1;">
+                        <div class="card-title">
                             <?= htmlspecialchars($mk['nama_matkul']) ?>
                         </div>
                     </div>
@@ -112,7 +108,7 @@ require_once '../../../controllers/admin/matkul_controler.php';
         </div>
     </div>
 
-    <div id="modalMatkul" class="modal-overlay" style="display: none;">
+    <div id="modalMatkul" class="modal-overlay">
         <div class="modal-content">
             <h2 id="modalTitle" class="modal-title-custom">TAMBAH MATKUL</h2>
             
