@@ -87,14 +87,14 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Header Atas */
 .header { 
-    height: 60px; 
+    height: 80px; 
     background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); 
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
 
 .header h1 { 
-    font-size: 32px; 
+    font-size: 35px; 
     color: #ffffff; 
     font-family: 'Luckiest Guy', cursive; 
     letter-spacing: 2px; 
@@ -267,8 +267,10 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Efek Hover Tombol Logout */
 .logout-btn {
+    margin-top: auto !important; /* Trik Flexbox untuk mendorong elemen ke paling bawah */
     transition: 0.3s ease;
 }
+
 .logout-btn:hover {
     background-color: #ffe8e8 !important; 
     color: #c62828 !important;
@@ -384,9 +386,9 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 }
 
 .card-title, 
-.matkul-jadwal, 
-.matkul-jadwal span, 
-.menu-icon {
+.matkul-jadwal-custom, 
+.matkul-kelas-highlight, 
+.menu-icon-custom {
     transition: color 0.3s ease !important;
 }
 
@@ -397,12 +399,11 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     opacity: 1 !important; 
 }
 
-/* 3. Saat Kartu di-hover: Teks, Ikon, dan Keterangan Kelas berubah menjadi putih */
 .card:hover .card-title,
-.card:hover .matkul-jadwal,
-.card:hover .matkul-jadwal span,
-.card:hover .menu-icon {
-    color: #ffffff !important; /* !important digunakan untuk memaksa penimpaan warna bawaan HTML */
+.card:hover .matkul-jadwal-custom,
+.card:hover .matkul-kelas-highlight,
+.card:hover .menu-icon-custom {
+    color: #ffffff !important; 
 }
 
 /* FORM ELEMENTS (MODAL DASHBOARD) */
@@ -487,6 +488,7 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .menu-icon-custom {
     padding: 5px 15px; 
     font-size: 18px;
+    transition: color 0.3s ease !important;
 }
 .dropdown-menu-custom {
     top: 100% !important; 

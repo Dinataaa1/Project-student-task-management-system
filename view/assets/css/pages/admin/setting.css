@@ -73,17 +73,24 @@ h1, h2, h3, .card-title, .page-title, .greeting, .modal-title {
 
 .nav-item:hover:not(.active) { background-color: #e0e7ff; color: var(--color-blue); }
 
-.logout-btn { transition: 0.3s ease; }
-.logout-btn:hover { background-color: #ffe8e8 !important; color: #c62828 !important; }
+.logout-btn {
+    margin-top: auto !important; /* Trik Flexbox untuk mendorong elemen ke paling bawah */
+    transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ffe8e8 !important; 
+    color: #c62828 !important;
+}
 
 /* HEADER */
 .header { 
-    height: 60px; 
+    height: 80px; 
     background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); 
     display: flex; align-items: center; padding: 0 30px; 
 }
 .header h1 { 
-    font-size: 32px; color: #ffffff; 
+    font-size: 35px; color: #ffffff; 
     font-family: 'Luckiest Guy', cursive; 
     letter-spacing: 2px; margin: 0; font-weight: normal; 
 }
