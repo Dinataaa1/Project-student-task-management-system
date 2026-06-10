@@ -47,7 +47,7 @@ include '../../components/header.php';
 
                         <div>
                             <span class="badge-orange-figma">
-                                <?= $pengumpulan ? htmlspecialchars($pengumpulan['file_tugas']) : 'Belum ada lampiran' ?>
+                                <?= $pengumpulan ? htmlspecialchars(basename($pengumpulan['file_tugas'])) : 'Belum ada lampiran' ?>
                             </span>
                         </div>
 
