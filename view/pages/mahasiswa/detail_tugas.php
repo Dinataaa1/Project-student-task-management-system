@@ -33,11 +33,11 @@ $delay2 = -rand(0, 10);
 
                     <div class="card-content-wrapper d-flex flex-column h-100" style="position: relative; z-index: 2;">
                         <h3 class="fw-bold mb-3" style="color: #1E293B;">
-                            <?= htmlspecialchars($tugas['judul_tugas']) ?>
+                            <?= htmlspecialchars($detail_tugas['judul_tugas']) ?>
                         </h3>
 
                         <p class="text-dark mb-4" style="line-height: 1.6; font-size: 0.95rem; width: 85%;">
-                            <?= nl2br(htmlspecialchars($tugas['deskripsi'])) ?>
+                            <?= nl2br(htmlspecialchars($detail_tugas['deskripsi'])) ?>
                         </p>
 
                         <div class="mt-auto">

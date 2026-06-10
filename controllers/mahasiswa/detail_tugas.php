@@ -18,9 +18,9 @@ if ($id_tugas == 0) {
 $stmt = mysqli_prepare($conn, "SELECT * FROM tugas WHERE id = ?");
 mysqli_stmt_bind_param($stmt, "i", $id_tugas);
 mysqli_stmt_execute($stmt);
-$tugas = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+$detail_tugas = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 
-if (!$tugas) { 
+if (!$detail_tugas) { 
     header("Location: daftar_tugas.php"); 
     exit(); 
 } 
@@ -32,9 +32,9 @@ mysqli_stmt_execute($stmt2);
 $pengumpulan = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt2));
 
 // 3. Logika Status (Teks & Warna)
-$deadline_format = date('d M Y, H:i', strtotime($tugas['deadline']));
+$deadline_format = date('d M Y, H:i', strtotime($detail_tugas['deadline']));
 $sekarang = date('Y-m-d H:i:s');
-$tenggat_waktu = strtotime($tugas['deadline']);
+$tenggat_waktu = strtotime($detail_tugas['deadline']);
 
 $status_color = "text-danger"; // Default
 $teks_status = "Belum Mengumpulkan";
