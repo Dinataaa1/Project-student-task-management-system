@@ -17,6 +17,12 @@ CREATE TABLE dosen (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE kelas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_kelas VARCHAR(50) NOT NULL
+);
+
+
 CREATE TABLE mahasiswa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -78,9 +84,4 @@ CREATE TABLE pengumpulan_tugas (
     nilai INT NULL,
     FOREIGN KEY (tugas_id) REFERENCES tugas(id) ON DELETE CASCADE,
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id) ON DELETE CASCADE
-);
-
-CREATE TABLE kelas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nama_kelas VARCHAR(50) NOT NULL
 );
