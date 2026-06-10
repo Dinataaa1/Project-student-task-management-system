@@ -60,7 +60,7 @@ include '../../components/header.php';
             </div>
 
             <!-- KALENDER -->
-            <div class="calendar-widget" style="margin-top: 50px;">
+            <div class="calendar-widget" style="margin-top: 10px;">
 
                 <?php
                 // Logika Random Gradasi untuk Kalender
