@@ -10,7 +10,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Hubungkan ke koneksi database menggunakan __DIR__
-require_once __DIR__ . '/koneksi.php';
+require_once __DIR__ . '../config/koneksi.php';
 
 echo "<pre><h3>=== SYSTEM AUTOMATION SEEDER v3 ===</h3>";
 
