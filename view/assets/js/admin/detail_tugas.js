@@ -14,11 +14,15 @@ async function simpanNilai(inputElement) {
     }
 
     try {
-        // Kirim data ke backend menggunakan Fetch API (Mundur 3 tingkat dari posisi halaman PHP)
+       
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Kirim data ke backend menggunakan Fetch API
         const response = await fetch('../../../../controllers/admin/nilai_process.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken 
             },
             body: JSON.stringify({
                 pengumpulan_id: pengumpulanId,

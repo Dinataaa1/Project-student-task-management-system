@@ -1,21 +1,13 @@
 <?php
-// 1. Inisialisasi Sesi & Error Handling
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// 2. Koneksi & Data Mahasiswa
-require_once '../../../config/koneksi.php';
-// Pastikan ID mahasiswa diambil dari sesi saat login
-$mahasiswa_id = $_SESSION['mahasiswa_id'] ?? null;
-$nama_user = $_SESSION['nama_user'] ?? ($_SESSION['nama'] ?? 'Mahasiswa');
+require_once '../../../controllers/auth/session_check.php';
 
-if (!$mahasiswa_id) {
-    header("Location: ../auth/login.php"); // Redirect jika belum login
-    exit;
-}
+checkRoleMahasiswa();
+
+$mahasiswa_id = (int) $_SESSION['mahasiswa_id'];
+$nama_user    = $_SESSION['nama'] ?? 'Mahasiswa';
 
 $active_page = 'tugas';
 $jalur_css = "../../assets/css/index.css";
