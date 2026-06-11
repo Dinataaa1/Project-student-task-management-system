@@ -8,6 +8,8 @@ require_once '../../../../controllers/admin/detail_tugas_controler.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Tugas & Penilaian</title>
+
+    <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

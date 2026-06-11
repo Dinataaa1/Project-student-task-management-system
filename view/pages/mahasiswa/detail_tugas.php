@@ -110,6 +110,8 @@ $delay2 = -rand(0, 10);
             <div class="modal-body text-center">
                 <form method="POST" action="../../../controllers/mahasiswa/proses_upload.php" enctype="multipart/form-data">
 
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+
                     <div class="d-flex flex-column align-items-center gap-2 mb-4 mt-2">
 
                         <label class="btn-file-figma mb-0" style="cursor: pointer;">
