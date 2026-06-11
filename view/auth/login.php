@@ -43,6 +43,8 @@ include '../components/header.php';
         <?php endif; ?>
 
         <form action="../../controllers/auth/auth_process.php" method="POST">
+
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
             
             <div class="mb-3">
                 <label class="form-label fw-semibold teks-kecil">E-mail</label>

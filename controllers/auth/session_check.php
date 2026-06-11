@@ -18,15 +18,27 @@ if (empty($_SESSION['csrf_token'])) {
 
 function validasiCSRFToken() {
     $headers = getallheaders();
-    $client_token = isset($headers['X-CSRF-TOKEN']) ? $headers['X-CSRF-TOKEN'] : '';
+    $client_token = '';
 
-    if (!$client_token || !isset($_SESSION['csrf_token']) || $client_token !== $_SESSION['csrf_token']) {
+    if (isset($headers['X-CSRF-TOKEN'])) {
+        $client_token = $headers['X-CSRF-TOKEN'];
+    }
+    elseif (isset($_POST['csrf_token'])) {
+        $client_token = $_POST['csrf_token'];
+    }
+
+    if (empty($client_token)|| !isset($_SESSION['csrf_token']) || $client_token !== $_SESSION['csrf_token']) {
+
         http_response_code(403);
-        header('Content-Type: application/json');
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Akses ditolak: Validasi token CSRF gagal.'
-        ]);
+        if (isset($headers['X-CSRF-TOKEN'])) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Akses ditolak: Validasi token CSRF gagal.'
+            ]);
+        } else {
+            die("<h3>Akses Ditolak: Validasi Keamanan CSRF Gagal!</h3><p>Silakan kembali ke halaman login, segarkan (refresh) browser Anda, dan coba masuk kembali.</p>");
+        }
         exit();
     }
 }

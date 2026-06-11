@@ -5,8 +5,6 @@ include_once __DIR__ . '/../../config/koneksi.php';
 
 checkRoleDosen();
 
-validasiCSRFToken();
-
 $dosen_id = $_SESSION['dosen_id'];
 $nama_dosen = $_SESSION['nama'] ?? 'Dosen';
 
@@ -43,6 +41,7 @@ function prosesUploadFile() {
 
 // 1. CREATE TUGAS
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'create_tugas') {
+    validasiCSRFToken();
     $matkul_id = trim($_POST['matkul_id'] ?? ''); $judul_tugas = trim($_POST['judul_tugas'] ?? '');
     $deskripsi = trim($_POST['deskripsi'] ?? ''); $deadline = trim($_POST['deadline'] ?? '');
     $file_lampiran = prosesUploadFile();
@@ -60,6 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
 
 // 2. UPDATE TUGAS
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_tugas') {
+
+    validasiCSRFToken();
     $tugas_id = (int)($_POST['tugas_id'] ?? 0); $matkul_id = trim($_POST['matkul_id'] ?? '');
     $judul_tugas = trim($_POST['judul_tugas'] ?? ''); $deskripsi = trim($_POST['deskripsi'] ?? '');
     $deadline = trim($_POST['deadline'] ?? '');
@@ -81,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_
 
 // 3. DELETE TUGAS
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && ($_GET['action'] ?? '') === 'delete_tugas') {
+    validasiCSRFToken();
     $tugas_id = (int)($_GET['id'] ?? 0);
     if ($tugas_id > 0) {
         $stmt_delete = $conn->prepare("DELETE FROM tugas WHERE id = ?");

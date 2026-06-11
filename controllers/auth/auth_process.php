@@ -1,8 +1,11 @@
 <?php
-session_start();
-require_once '../../config/koneksi.php';
+require_once __DIR__ . '/session_check.php';
+require_once __DIR__ . '/../../config/koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    validasiCSRFToken();
+
     $email    = trim($_POST['email']);
     $password = $_POST['password'];
 
