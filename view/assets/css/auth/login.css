@@ -1,8 +1,12 @@
-/* batasi ukuran dan posisi form login agar ada di tengah */
+/* batasi ukuran dan posisi form login agar ada di tengah beserta bentuk card-nya */
 .kotak-login {
     width: 100%;
-    max-width: 420px;
-    padding: 20px;
+    max-width: 460px;
+    background-color: #ffffff; 
+    border: 1px solid #e5e7eb; 
+    border-radius: 16px; 
+    padding: 40px 75px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 /* gaya teks untuk judul/logo utama */
@@ -11,6 +15,7 @@
     font-weight: 800;
     letter-spacing: 1px;
     font-size: 2.5rem;
+    font-family: 'Luckiest Guy', cursive !important;
 }
 
 /* standar ukuran font teks kecil */

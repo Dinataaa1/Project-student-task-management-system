@@ -4,6 +4,7 @@
 @import 'components/modal.css';
 @import 'auth/login.css';
 @import 'components/topbar.css';
+@import 'components/sidebar.css';
 /* import css spesifik halaman mahasiswa */
 @import 'pages/mahasiswa/dashboard.css';
 @import 'pages/mahasiswa/daftar_matkul.css';

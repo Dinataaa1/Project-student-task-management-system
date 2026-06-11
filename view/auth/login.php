@@ -27,7 +27,7 @@ include '../components/header.php';
         
         <div class="text-center mb-4">
             <h1 class="teks-logo">LOL</h1>
-            <p class="text-muted teks-kecil">Student Information System</p>
+            <p class="text-muted teks-kecil">Logbook Online Learning</p>
         </div>
 
         <div class="d-flex align-items-center mb-4">
@@ -43,6 +43,8 @@ include '../components/header.php';
         <?php endif; ?>
 
         <form action="../../controllers/auth/auth_process.php" method="POST">
+
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
             
             <div class="mb-3">
                 <label class="form-label fw-semibold teks-kecil">E-mail</label>

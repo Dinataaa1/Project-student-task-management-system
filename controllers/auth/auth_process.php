@@ -1,8 +1,11 @@
 <?php
-session_start();
-require_once '../../config/koneksi.php';
+require_once __DIR__ . '/session_check.php';
+require_once __DIR__ . '/../../config/koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    validasiCSRFToken();
+
     $email    = trim($_POST['email']);
     $password = $_POST['password'];
 
@@ -14,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user   = mysqli_fetch_assoc($result);
 
     if ($user && password_verify($password, $user['password'])) {
+        
+        session_regenerate_id(true);
+
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['nama']    = $user['nama'];
         $_SESSION['role']    = $user['role'];

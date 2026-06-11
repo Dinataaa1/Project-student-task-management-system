@@ -1,42 +1,43 @@
 <?php
-// ==========================================================================
-// 1. OTENTIKASI & KONEKSI BASIS DATA (CONTROLLER)
-// ==========================================================================
-// session_start();
-// if (!isset($_SESSION['mahasiswa_id'])) {
-//     header("Location: ../../view/auth/login.php"); 
-//     exit();
-// }
-
-// Menyesuaikan jalur path dari folder controllers ke folder config
-include_once '../../../config/koneksi.php';
+// controllers/mahasiswa/daftar_matkul.php
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
 require_once __DIR__ . '/../auth/session_check.php';
-checkRoleMahasiswa(); 
+checkRoleMahasiswa();
+require_once '../../../config/koneksi.php';
 
-// Sekarang kamu bisa langsung pakai ini tanpa perlu query ulang!
 $mahasiswa_id = $_SESSION['mahasiswa_id'];
-$nama_user = $_SESSION['nama'] ?? '';
 
-// ==========================================================================
-// 2. LOGIKA PENGAMBILAN DATA (QUERY)
-// ==========================================================================
-// Menarik data seluruh mata kuliah yang ditempuh oleh pengguna
-$query_matkul = mysqli_query($conn, "
-    SELECT mk.id, mk.nama_matkul 
-    FROM mata_kuliah mk
+// A. Tarik data Matkul & Hitung tugas yang BELUM DIKUMPULKAN
+// Gunakan tanda '?' untuk variabel $mahasiswa_id
+$sql = "
+    SELECT mk.*, d.nama_dosen, 
+           (SELECT COUNT(*) 
+            FROM tugas t 
+            WHERE t.matkul_id = mk.id 
+            AND t.id NOT IN (
+                SELECT tugas_id 
+                FROM pengumpulan_tugas pt 
+                WHERE pt.mahasiswa_id = k.mahasiswa_id
+            )
+           ) as total_tugas 
+    FROM mata_kuliah mk 
+    JOIN dosen d ON mk.dosen_id = d.id
     JOIN krs k ON mk.id = k.mata_kuliah_id
-    WHERE k.mahasiswa_id = $mahasiswa_id
-");
+    WHERE k.mahasiswa_id = ?
+";
 
-// Memasukkan hasil query ke dalam Array agar lebih mudah dibaca oleh Frontend
-$data_matkul = [];
-if ($query_matkul && mysqli_num_rows($query_matkul) > 0) {
-    while($row = mysqli_fetch_assoc($query_matkul)) {
-        $data_matkul[] = $row;
+// B. Eksekusi menggunakan Prepared Statement
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $mahasiswa_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+// C. Masukkan ke array untuk dipakai di View
+$daftar_matkul = [];
+if ($result) {
+    while($row = mysqli_fetch_assoc($result)) {
+        $daftar_matkul[] = $row;
     }
 }
-
-// Menyiapkan urutan gaya presentasi blob
-$pilihan_warna = ["blob-orange", "blob-blue"];
 ?>
