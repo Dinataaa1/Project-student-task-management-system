@@ -1,5 +1,11 @@
 <?php
 // config/seeder.php
+
+if (php_sapi_name() !== 'cli') {
+    http_response_code(403);
+    die("Akses ditolak: File ini hanya dapat dijalankan melalui terminal/SSH.");
+}
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
