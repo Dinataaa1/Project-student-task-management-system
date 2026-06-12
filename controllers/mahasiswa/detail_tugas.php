@@ -1,54 +1,74 @@
 <?php
-// controllers/mahasiswa/detail_tugas.php
-require_once '../../../config/koneksi.php';
-require_once __DIR__ . '/../auth/session_check.php';
+// ==========================================================================
+// 1. OTENTIKASI & KONEKSI BASIS DATA (CONTROLLER)
+// ==========================================================================
+// session_start();
+// if (!isset($_SESSION['mahasiswa_id'])) {
+//     header("Location: ../../view/auth/login.php"); 
+//     exit();
+// }
 
-checkRoleMahasiswa();
+// Mengatur zona waktu agar perhitungan deadline akurat (WIB)
+
+date_default_timezone_set('Asia/Jakarta');
+
+// Path disesuaikan dari controllers ke config
+include_once '../../../config/koneksi.php'; 
+
+require_once __DIR__ . '/../auth/session_check.php';
+checkRoleMahasiswa(); 
 
 $mahasiswa_id = $_SESSION['mahasiswa_id'];
-$id_tugas = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+$id_tugas = isset($_GET['id']) ? $_GET['id'] : 0;
+
+// Karena file ini akan di-require di dalam view, relative path header tetap mengarah ke daftar_tugas.php
 if ($id_tugas == 0) { 
     header("Location: daftar_tugas.php"); 
     exit(); 
 }
 
-// 1. Ambil Detail Tugas
-// Memastikan semua kolom (termasuk file_lampiran) terambil
-$stmt = mysqli_prepare($conn, "SELECT * FROM tugas WHERE id = ?");
-mysqli_stmt_bind_param($stmt, "i", $id_tugas);
-mysqli_stmt_execute($stmt);
-$detail_tugas = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+// ==========================================================================
+// 2. LOGIKA PENGAMBILAN DATA (QUERY)
+// ==========================================================================
+$stmt_tugas = $conn->prepare("SELECT judul_tugas, deskripsi, deadline FROM tugas WHERE id = ?");
+$stmt_tugas->bind_param("i", $id_tugas);
+$stmt_tugas->execute();
+$tugas = $stmt_tugas->get_result()->fetch_assoc();
 
-if (!$detail_tugas) { 
+if (!$tugas) { 
     header("Location: daftar_tugas.php"); 
     exit(); 
 } 
 
-// 2. Ambil Data Pengumpulan Mahasiswa
-$stmt2 = mysqli_prepare($conn, "SELECT * FROM pengumpulan_tugas WHERE tugas_id = ? AND mahasiswa_id = ?");
-mysqli_stmt_bind_param($stmt2, "ii", $id_tugas, $mahasiswa_id);
-mysqli_stmt_execute($stmt2);
-$pengumpulan = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt2));
+$stmt_kumpul = $conn->prepare("SELECT nilai, file_tugas, waktu_kumpul FROM pengumpulan_tugas WHERE tugas_id = ? AND mahasiswa_id = ?");
+$stmt_kumpul->bind_param("ii", $id_tugas, $mahasiswa_id);
+$stmt_kumpul->execute();
+$result_kumpul = $stmt_kumpul->get_result();
 
-// 3. Logika Status (Teks & Warna)
-$deadline_format = date('d M Y, H:i', strtotime($detail_tugas['deadline']));
-$sekarang = date('Y-m-d H:i:s');
-$tenggat_waktu = strtotime($detail_tugas['deadline']);
-
-$status_color = "text-danger"; // Default
+$pengumpulan = null;
+$status_color = "text-danger"; 
 $teks_status = "Belum Mengumpulkan";
 
-if ($pengumpulan) {
-    $waktu_kumpul = strtotime($pengumpulan['waktu_kumpul']);
+if ($result_kumpul->num_rows > 0) {
+    $data_db = $result_kumpul->fetch_assoc();
+    $tenggat_waktu = strtotime($tugas['deadline']);
+    $waktu_kumpul = strtotime($data_db['waktu_kumpul']);
     
     if ($waktu_kumpul > $tenggat_waktu) {
-        $status_color = "text-warning"; 
         $teks_status = "Diserahkan Terlambat";
+        $status_color = "text-warning"; 
     } else {
-        // Mengikuti class 'text-status-figma' yang ada di View kamu
-        $status_color = "text-success"; 
         $teks_status = "Dikumpulkan";
+        $status_color = "text-status-figma"; 
     }
+    
+    $pengumpulan = [
+        'nilai' => $data_db['nilai'],
+        'status' => $teks_status,
+        'berkas' => basename($data_db['file_tugas']) 
+    ];
 }
+
+$deadline_format = date('d-m-Y', strtotime($tugas['deadline']));
 ?>

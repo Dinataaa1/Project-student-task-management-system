@@ -1,65 +1,56 @@
-/* ==========================================================================
-   LAYOUT.CSS (Mengatur Konten Utama & Topbar)
-   ========================================================================== */
-html, body {
-    margin: 0 !important; padding: 0 !important; width: 100%; 
-    background-color: #f8f9fa !important; overflow-x: hidden;
+/* bungkus layar penuh untuk tata letak menu kiri dan konten kanan sejajar */
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
 }
 
+/* atur kotak menu navigasi kiri agar menempel dari atas ke bawah */
+
+.sidebar {
+    width: 80px;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 10;
+}
+
+.sidebar-item {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    color: #6c757d;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* penanda visual khusus warna biru untuk menu yang sedang dibuka */
+.sidebar-item.active {
+    background-color: #00a0e3;
+    color: white;
+}
+
+/* palang atas untuk menempatkan logo dan ikon notifikasi */
+.topbar {
+    background-color: #c4c4c4;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+/* area utama agar mengisi seluruh sisa ruang layar di sebelah menu navigasi */
 .main-content {
-    margin-left: 80px !important; /* Mendorong konten ke kanan untuk memberi ruang sidebar */
-    width: calc(100% - 80px) !important;
-    min-height: 100vh !important;
-    display: block !important;
-    background-color: #f8f9fa !important;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.topbar, .header {
-    width: 100% !important; height: 70px !important;
-    display: flex !important; justify-content: space-between !important; 
-    align-items: center !important; padding: 0 40px !important; 
-    background-color: #EAEBEE !important;
-    position: relative !important; z-index: 10 !important;
-}
-
-.content-area { padding: 30px 40px !important; }
-
-/* Keyframes & Animasi (Tetap di sini agar global) */
-@keyframes slideInUp { 0% { transform: translateY(40px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-@keyframes slideInDown { 0% { transform: translateY(-40px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-.anim-slide-in-up { animation: slideInUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
-.anim-slide-in-down { animation: slideInDown 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
-.page-slide-out { animation: slideOutToLeft 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important; }
-
-/* ==========================================================================
-   TOMBOL BACK (FIXED POSITION - ANTI BUGGY)
-   ========================================================================== */
-.btn-back {
-    /* POSISI TETAP (FIXED) */
-    position: fixed !important; 
-    bottom: 30px !important; 
-    left: 140px !important; /* 100px (lebar sidebar) + 40px (jarak aman) */
-    
-    /* STYLING */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 50px !important;
-    height: 50px !important;
-    background-color: #3e4c59 !important; 
-    color: #ffffff !important;
-    border-radius: 50% !important;
-    text-decoration: none !important;
-    
-    /* Z-INDEX TERTINGGI AGAR TIDAK TERTUTUP APAPUN */
-    z-index: 9999 !important; 
-    
-    /* EFEK VISUAL */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-}
-
-.btn-back:hover {
-    background-color: #2b3640 !important;
-    transform: scale(1.1) !important; /* Efek membesar saat disentuh */
+/* beri jarak aman (padding) untuk semua isi konten layar */
+.content-area {
+    padding: 30px;
 }

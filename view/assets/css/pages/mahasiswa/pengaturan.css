@@ -1,86 +1,72 @@
-/* ==========================================================================
-   KARTU PROFIL PENGGUNA
-   Menampilkan informasi akun user dengan tata letak padat (compact).
-   ========================================================================== */
-.profile-card {
-    background-color: #ffffff;
-    border-radius: 25px;
-    box-shadow: 0 4px 25px rgba(0,0,0,0.04);
-    width: 100%;
-    max-width: 480px;
-    padding: 30px 50px; 
-    text-align: center;
+/* Mengatur agar kartu profil berada tepat di tengah sisa layar */
+.pengaturan-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 75vh;
 }
 
+/* Bentuk dasar kartu profil ala Figma (Abu-abu sangat muda/putih) */
+.profile-card {
+    background-color: #f8f9fc;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+}
+
+/* Bingkai bulat untuk foto profil */
 .profile-img-container {
-    width: 75px; 
-    height: 75px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto 10px auto; 
-    border: 3px solid #f0f0f0; 
+    margin: 0 auto 15px auto;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.profile-img-container img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
+.profile-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* ==========================================================================
-   DETAIL DATA PROFIL
-   Pengaturan font untuk nama, email, dan jarak antar list detail.
-   ========================================================================== */
-.profile-name { 
-    font-size: 1.15rem; 
-    font-weight: 900; 
-    color: #000000; 
-    margin-bottom: 0; 
+/* Teks nama dan email di bawah foto */
+.profile-name { font-size: 1.2rem; font-weight: 800; color: #333; margin-bottom: 2px; }
+.profile-email { font-size: 0.9rem; color: #666; margin-bottom: 40px; }
+
+/* Pembungkus barisan data (Nama Lengkap, Kelas, dll) */
+.profile-details {
+    text-align: left;
+    margin-bottom: 40px;
 }
 
-.profile-email { 
-    font-size: 0.85rem; 
-    color: #777777; 
-    margin-bottom: 20px; 
+/* Mengatur agar label dan isi data sejajar ke samping */
+.detail-row {
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    color: #333;
+    display: flex;
 }
+.detail-label { width: 140px; font-weight: 500; }
+.detail-value { flex-grow: 1; font-weight: 400; opacity: 0.9; }
 
-.profile-details { 
-    text-align: left; 
-    margin-bottom: 25px; 
-}
-
-.detail-item { 
-    margin-bottom: 12px; 
-}
-
-.detail-label { 
-    font-size: 0.8rem; 
-    font-weight: 700; 
-    color: #888888; 
-    margin-bottom: 2px; 
-}
-
-.detail-value { 
-    font-size: 0.95rem; 
-    font-weight: 500; 
-    color: #222222; 
-}
-
-/* ==========================================================================
-   TOMBOL AKSI PROFIL
-   ========================================================================== */
-.btn-edit-profil {
-    background-color: #c92a2a;
-    color: #ffffff;
+/* Tombol Log Out teks merah */
+.btn-logout {
+    color: #dc3545;
     font-weight: 700;
-    font-size: 0.9rem;
+    background: none;
     border: none;
-    border-radius: 30px;
-    padding: 10px 35px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.2s;
 }
 
-.btn-edit-profil:hover {
-    background-color: #a82020;
+.btn-logout:hover {
+    color: #b02a37;
+    text-decoration: underline;
 }

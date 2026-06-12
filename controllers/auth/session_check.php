@@ -3,44 +3,7 @@
 require_once __DIR__ . '/../../config/koneksi.php';
 
 if (session_status() === PHP_SESSION_NONE) {
-    // Menyatukan parameter konfigurasi kuki dalam satu array terstruktur
-    session_start([
-        'cookie_httponly' => true,
-        'cookie_secure'   => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'),
-        'cookie_samesite' => 'Strict', // Memastikan kuki tidak bocor pada request lintas situs
-        'use_only_cookies' => true      # Tambahan: Memaksa sesi hanya pakai kuki, bukan lewat URL (SID)
-    ]);
-}
-
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-function validasiCSRFToken() {
-    $headers = getallheaders();
-    $client_token = '';
-
-    if (isset($headers['X-CSRF-TOKEN'])) {
-        $client_token = $headers['X-CSRF-TOKEN'];
-    }
-    elseif (isset($_POST['csrf_token'])) {
-        $client_token = $_POST['csrf_token'];
-    }
-
-    if (empty($client_token)|| !isset($_SESSION['csrf_token']) || $client_token !== $_SESSION['csrf_token']) {
-
-        http_response_code(403);
-        if (isset($headers['X-CSRF-TOKEN'])) {
-            header('Content-Type: application/json');
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Akses ditolak: Validasi token CSRF gagal.'
-            ]);
-        } else {
-            die("<h3>Akses Ditolak: Validasi Keamanan CSRF Gagal!</h3><p>Silakan kembali ke halaman login, segarkan (refresh) browser Anda, dan coba masuk kembali.</p>");
-        }
-        exit();
-    }
+    session_start();
 }
 
 function larangJikaSudahLogin() {

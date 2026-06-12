@@ -39,78 +39,30 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .profile-area img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 .profile-area p { font-size: 11px; font-weight: bold; margin-top: 5px; text-transform: uppercase; color: #000; }
 
-/* STANDARISASI MENU SIDEBAR */
-.nav-menu { 
-    display: flex; 
-    flex-direction: column; 
-    width: 100%; 
-    flex: 1; 
-}
-
+.nav-menu { display: flex; flex-direction: column; width: 100%; }
 .nav-item { 
-    width: 100%; 
-    height: 60px; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    text-decoration: none; 
-    color: #64748b; 
-    font-size: 22px; 
+    width: 100%; height: 60px; 
+    display: flex; justify-content: center; align-items: center; 
+    text-decoration: none; color: #009ef7; font-size: 22px; 
     transition: 0.2s; 
 }
-
-/* 1. Animasi membal (pop) untuk kotak background biru */
-@keyframes popActiveMenu {
-    0% { transform: scale(0.8); opacity: 0; }
-    70% { transform: scale(1.05); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* 2. Ganti class .nav-item.active lama Anda dengan ini */
-.nav-item.active { 
-    background-color: var(--color-blue, #4F46E5); 
-    color: #fff; 
-    /* Menerapkan animasi membal saat halaman dimuat */
-    animation: popActiveMenu 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-/* 3. Animasi ayunan kecil (swing) khusus untuk ikon di dalam menu aktif */
-@keyframes swingIcon {
-    0% { transform: rotate(-30deg) scale(0.5); opacity: 0; }
-    50% { transform: rotate(15deg) scale(1.2); opacity: 1; }
-    100% { transform: rotate(0deg) scale(1); opacity: 1; }
-}
-
-.nav-item.active i {
-    display: inline-block; /* Wajib agar ikon bisa berotasi */
-    animation: swingIcon 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.nav-item:hover:not(.active) { 
-    background-color: #e0e7ff; 
-    color: var(--color-blue, #4F46E5); 
-}
+/* Sidebar Item yang Aktif */
+.nav-item.active { background-color: var(--color-blue); color: #fff; }
+.nav-item:hover:not(.active) { background-color: #e0e7ff; }
 
 /* Area Konten Utama */
 .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
 
 /* Header Atas */
 .header { 
-    height: 80px; 
-    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); 
+    height: 60px; 
+    background-color: #d8d8d8; 
     display: flex; align-items: center; 
     padding: 0 30px; 
 }
+.header h1 { font-size: 22px; color: #444; font-weight: 800; letter-spacing: 1px; margin: 0; }
 
-.header h1 { 
-    font-size: 35px; 
-    color: #ffffff; 
-    font-family: 'Luckiest Guy', cursive; 
-    letter-spacing: 2px; 
-    margin: 0; 
-    font-weight: normal; 
-}
-
+/* Area Scroll Konten */
 /* Area Scroll Konten */
 .content-area { padding: 40px; flex: 1; overflow-y: auto; position: relative; }
 
@@ -127,11 +79,11 @@ h1, h2, h3, .card-title, .page-title, .greeting {
     font-size: 18px; 
     font-weight: 700; 
     color: #333; 
-    margin: 0; 
+    margin: 0; /* Margin bawah dihapus, diatur oleh content-header */
 }
 
 .greeting span {
-    color: #009ef7; 
+    color: #009ef7; /* Highlight warna biru */
 }
 
 .matkul-dropdown {
@@ -180,12 +132,10 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 .blob { 
     position: absolute; 
     top: 0; right: 0; 
-    width: 110px; height: 100px; 
+    width: 110px; height: 110px; 
     border-bottom-left-radius: 100%; 
-    z-index: 0;
+    background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-purple) 100%);
 }
-.blob.orange { background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); }
-.blob.blue { background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-purple) 100%); }
 
 /* Tombol Tambah Mengambang */
 .fab { 
@@ -372,13 +322,11 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 
 /* Efek Hover Tombol Logout */
 .logout-btn {
-    margin-top: auto !important; /* Trik Flexbox untuk mendorong elemen ke paling bawah */
     transition: 0.3s ease;
 }
-
 .logout-btn:hover {
     background-color: #ffe8e8 !important; 
-    color: #c62828 !important;
+    color: #c62828 !important; 
 }
 
 /* Animasi Masuk */
@@ -438,147 +386,4 @@ h1, h2, h3, .card-title, .page-title, .greeting {
 }
 .menu-icon:hover {
     transform: rotate(90deg);
-}
-
-/* Angkat teks judul tugas dan tanggal ke layer depan */
-.task-title, 
-.card-title, 
-.task-date,
-.deadline-text {
-    position: relative;
-    z-index: 1;
-}
-
-/* Pastikan menu titik tiga juga tetap di atas */
-.menu-container {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    z-index: 2;
-}
-
-/* Pengaturan transisi untuk pergerakan blob dan perubahan warna teks */
-.card .blob {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; 
-    transform-origin: top right; 
-}
-
-/* Class tambahan khusus untuk blob berukuran kecil (misal di halaman detail) */
-.blob.small {
-    width: 80px;
-    height: 80px;
-}
-
-/* 1. Pengaturan transisi untuk perubahan warna teks */
-.task-card-title, 
-.task-card-deadline, 
-.menu-icon-custom {
-    transition: color 0.3s ease !important;
-}
-
-/* 2. Saat Kartu di-hover: Blob membesar menutupi seluruh kartu */
-.card:hover .blob {
-    transform: scale(12) !important; 
-    border-bottom-left-radius: 0 !important; 
-    opacity: 1 !important; 
-}
-
-/* 3. Saat Kartu di-hover: Judul, Deadline, dan Ikon berubah menjadi putih */
-.card:hover .task-card-title,
-.card:hover .task-card-deadline,
-.card:hover .menu-icon-custom {
-    color: #ffffff !important; 
-}
-
-/* Teks Highlight */
-.text-highlight-blue {
-    color: var(--color-blue);
-}
-
-/* Modifikasi Dropdown Menu pada Card Tugas */
-.menu-icon-custom {
-    padding: 5px 15px; 
-    cursor: pointer; 
-    font-size: 18px;
-    transition: color 0.3s ease !important;
-}
-.dropdown-menu-custom {
-    top: 100% !important; 
-    min-width: 130px !important; 
-    text-align: left;
-}
-.dropdown-item-bordered {
-    border-bottom: 1px solid #f1f1f1;
-}
-.dropdown-item-danger {
-    color: #e11d48 !important;
-}
-
-/* Tipografi Card Tugas */
-.task-card-title {
-    position: relative; 
-    z-index: 1; 
-    padding-right: 60px; 
-    font-weight: 700; 
-    margin-bottom: 20px; 
-    font-size: 16px; 
-    line-height: 1.4;
-}
-.task-card-deadline {
-    position: relative; 
-    z-index: 1; 
-    font-size: 12px; 
-    color: #e11d48;
-}
-
-/* Form & Modal Elements */
-.modal-title-center {
-    margin-bottom: 20px; 
-    font-family: var(--font-heading); 
-    text-align: center;
-}
-.form-group-spaced {
-    margin-bottom: 15px; 
-    width: 100%;
-}
-.form-group-large {
-    margin-bottom: 20px; 
-    width: 100%;
-}
-.form-label-small {
-    display: block; 
-    font-size: 12px; 
-    font-weight: 600; 
-    margin-bottom: 5px;
-    color: #000;
-}
-.form-input-inline, .form-select-inline {
-    width: 100%; 
-    padding: 8px 0; 
-    border: none; 
-    border-bottom: 1px solid #333; 
-    outline: none; 
-    background: transparent; 
-    font-family: var(--font-body);
-}
-.form-textarea-custom {
-    width: 100%; 
-    padding: 10px; 
-    border: 1px solid #ccc; 
-    border-radius: 8px; 
-    outline: none; 
-    font-family: var(--font-body); 
-    resize: vertical;
-}
-.submit-container {
-    width: 100%; 
-    text-align: center;
-}
-
-/* Ikon Dropdown */
-.dropdown-icon {
-    margin-right: 8px;
-}
-.icon-blue {
-    color: var(--color-blue);
 }

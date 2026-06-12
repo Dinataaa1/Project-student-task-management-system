@@ -1,21 +1,3 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-require_once '../../../../controllers/admin/tugas_controler.php';
-
-$current_matkul_name = "Semua Mata Kuliah"; 
-$selected_matkul_id = isset($_GET['matkul']) ? (int)$_GET['matkul'] : 0;
-
-if ($selected_matkul_id > 0) {
-    foreach ($data_matkul as $mk) {
-        if ($mk['id'] == $selected_matkul_id) {
-            $current_matkul_name = $mk['nama_matkul'];
-            break;
-        }
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -25,21 +7,14 @@ if ($selected_matkul_id > 0) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../../assets/css/pages/admin/detail.css?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="sidebar">
         <div class="profile-area">
-            <?php
-                $nama_parts = explode(' ', $nama_dosen);
-                $nama_depan = $nama_parts[0];
-         
-                $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($nama_dosen) . "&background=4F46E5&color=fff&bold=true";
-            ?>
-            <img src="<?= $avatar_url ?>" alt="Profile">
-            <p><?= htmlspecialchars($nama_depan) ?></p>
+            <img src="https://ui-avatars.com/api/?name=Lulu&background=random&color=fff" alt="Profile">
+            <p>Nama</p>
         </div>
         <div class="nav-menu">
             <a href="../dashboard.php" class="nav-item"><i class="fa-solid fa-house"></i></a>
@@ -58,118 +33,68 @@ if ($selected_matkul_id > 0) {
 
         <div class="content-area">
             <div class="content-header">
-                <h2 class="greeting">
-                    Hai, <?= htmlspecialchars(explode(' ', $nama_dosen)[0]) ?>! 
-                    Ini adalah tugas mata kuliah 
-                    <span class="text-highlight-blue"><?= htmlspecialchars($current_matkul_name) ?></span>
-                </h2>
+                <h2 class="greeting">Hai, Lulu! Ini adalah tugas mata kuliah <span id="namaMatkulText">Semua Mata Kuliah</span></h2>
                 
                 <div class="filter-container">
-                    <select id="matkulFilter" class="matkul-dropdown" onchange="window.location.href='?matkul=' + this.value">
-                    <option value="0" <?= ($selected_matkul_id == 0) ? 'selected' : '' ?>>Semua Mata Kuliah</option>
-                    <?php foreach ($data_matkul as $mk): ?>
-                        <option value="<?= $mk['id'] ?>" <?= ($selected_matkul_id == $mk['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($mk['nama_matkul']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                    <select id="matkulFilter" class="matkul-dropdown">
+                        <option value="semua">Semua Mata Kuliah</option>
+                        <option value="prak_web">Praktikum Pemrograman Web</option>
+                        <option value="basis_data">Basis Data Lanjut</option>
+                        <option value="pbo">Pemrograman Berorientasi Objek</option>
+                        <option value="ai">Kecerdasan Buatan (AI)</option>
+                        <option value="so">Sistem Operasi</option>
+                    </select>
                 </div>
             </div>
             
             <div class="grid-container">
-                <?php 
-                $data_tugas = $data_tugas ?? [];
-                foreach ($data_tugas as $index => $tugas):
-                    $warna_blob = ($index % 2 == 0) ? 'orange' : 'blue'; 
-                ?>
-                    <div class="card" 
-                    onclick="window.location.href='detail_tugas.php?id=<?= $tugas['id'] ?>'"
-                    data-id="<?= $tugas['id'] ?>"
-                    data-matkul-id="<?= $tugas['matkul_id'] ?>"
-                    data-judul="<?= htmlspecialchars($tugas['judul_tugas'], ENT_QUOTES) ?>"
-                    data-deskripsi="<?= htmlspecialchars($tugas['deskripsi'], ENT_QUOTES) ?>"
-                    data-deadline="<?= $tugas['deadline'] ?>">
-                        
-                        <div class="blob <?= $warna_blob ?> small"></div>
-                        
-                       <div class="menu-container">
-                            <i class="fa-solid fa-ellipsis-vertical menu-icon menu-icon-custom"
-                            onclick="event.stopPropagation(); let menu = this.nextElementSibling; menu.style.display = menu.style.display === 'block' ? 'none' : 'block';">
-                            </i>
-                            
-                            <div class="dropdown-menu dropdown-menu-custom">
-                                <a href="#" onclick="editTugas(event, this)" class="dropdown-item-bordered">
-                                    <i class="fa-solid fa-pen dropdown-icon icon-blue"></i> Edit
-                                </a>
-                                <a href="?action=delete_tugas&id=<?= $tugas['id'] ?>" onclick="event.stopPropagation(); return confirm('Hapus tugas ini?');" class="dropdown-item-danger">
-                                    <i class="fa-solid fa-trash dropdown-icon"></i> Hapus
-                                </a>
-                            </div>
+                <div class="card" onclick="window.location.href='detail_tugas.php'" style="cursor: pointer;">
+                    <div class="blob"></div>
+                    <div class="menu-container">
+                        <i class="fa-solid fa-ellipsis-vertical menu-icon" onclick="toggleMenu(event, this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="#" onclick="editCard(event, this)">Edit</a>
+                            <a href="#" onclick="hapusCard(event, this)" class="text-danger">Hapus</a>
                         </div>
-
-                        <div class="task-card-title">
-                            <?= htmlspecialchars($tugas['judul_tugas']) ?>
-                        </div>
-
-                        <div class="task-card-deadline">
-                            <?= htmlspecialchars($tugas['deadline_format'] ?? date('d M Y, H:i', strtotime($tugas['deadline']))) ?>
-                        </div>
-
                     </div>
-                <?php endforeach; ?>
+                    <div class="card-title tugas-text">Tugas 1</div>
+                </div>
             </div>
+
+            <a href="../dashboard.php" class="btn-back">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+
             <button class="fab" onclick="bukaModalTugas()">
                 <i class="fa-solid fa-plus"></i>
             </button>
         </div>
     </div>
 
-    <div id="modalTugas" class="modal-overlay" style="display: none;">
+    <div id="modalTugas" class="modal-overlay">
         <div class="modal-content">
-            <h2 id="modalTitleTugas" class="modal-title-center">TAMBAH TUGAS</h2>
-            <form id="formTugas" action="../../../controllers/admin/tugas_controler.php" method="POST" enctype="multipart/form-data">
+            <form id="formTugas" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <label class="btn-lampiran">
+                    <i class="fa-solid fa-chevron-up"></i> Lampiran
+                    <input type="file" id="inputFile" style="display: none;" onchange="tampilkanNamaFile(this)">
+                </label>
+                <span id="fileNameDisplay" class="file-name-display">Belum ada file dipilih</span>
 
-                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-                <input type="hidden" name="action" id="formActionTugas" value="create_tugas">
-                <input type="hidden" name="tugas_id" id="tugasId" value="">
-                
-                <div class="form-group-spaced">
-                    <label for="inputMatkulId" class="form-label-small">MATA KULIAH</label>
-                    <select name="matkul_id" id="inputMatkulId" required class="form-select-inline">
-                        <option value="">Pilih Mata Kuliah...</option>
-                        <?php foreach ($data_matkul as $mk): ?>
-                            <option value="<?= $mk['id'] ?>"><?= htmlspecialchars($mk['nama_matkul']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                <div class="input-row">
+                    <input type="text" id="inputJudulTugas" placeholder="Judul Tugas" required autocomplete="off">
+                    <div class="date-wrapper" title="Pilih Deadline">
+                        <i class="fa-regular fa-calendar"></i>
+                        <input type="date" id="inputDeadline" required>
+                    </div>
                 </div>
 
-                <div class="form-group-spaced">
-                    <label for="inputJudulTugas" class="form-label-small">JUDUL TUGAS</label>
-                    <input type="text" id="inputJudulTugas" name="judul_tugas" required autocomplete="off" class="form-input-inline">
-                </div>
+                <textarea id="inputDeskripsi" class="input-desc" rows="3" placeholder="Deskripsi" required></textarea>
 
-                <div class="form-group-spaced">
-                    <label for="inputDeadline" class="form-label-small">DEADLINE</label>
-                    <input type="datetime-local" id="inputDeadline" name="deadline" required class="form-input-inline">
-                </div>
-
-                <div class="form-group-large">
-                    <label for="inputDeskripsi" class="form-label-small">DESKRIPSI</label>
-                    <textarea name="deskripsi" id="inputDeskripsi" rows="3" required class="form-textarea-custom"></textarea>
-                </div>
-
-                <div class="form-group-large">
-                    <label for="inputFileLampiran" class="form-label-small">LAMPIRAN FILE (Opsional)</label>
-                    <input type="file" id="inputFileLampiran" name="file_lampiran" class="form-input-inline">
-                </div>
-                
-                <div class="submit-container">
-                    <button type="submit" class="btn-submit">SUBMIT</button>
-                </div>
+                <button type="submit" class="btn-submit">SUBMIT</button>
             </form>
         </div>
     </div>
-    
-    <script src="../../../assets/js/admin/detail.js?v=<?= time(); ?>"></script>
+
+    <script src="../../../assets/js/admin/detail.js?v=1"></script>
 </body>
 </html>

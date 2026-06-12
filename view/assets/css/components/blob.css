@@ -1,9 +1,9 @@
-/* warna gradasi Pink (menggantikan oranye lama) untuk hiasan melengkung di sudut kartu */
+/* warna gradasi oranye untuk hiasan melengkung di sudut kartu */
 .blob-orange {
-    background: linear-gradient(135deg, #EC4899 0%, #ff85c0 100%) !important;
+    background: linear-gradient(135deg, #ffcf9e 0%, #ffe0b2 100%) !important;
 }
 
-/* warna gradasi Indigo ke Purple (menggantikan biru/ungu lama) untuk hiasan melengkung */
+/* warna gradasi biru untuk hiasan melengkung di sudut kartu */
 .blob-blue {
-    background: linear-gradient(135deg, #4F46E5 0%, #7E52E8 100%) !important;
+    background: linear-gradient(135deg, #99ddff 0%, #e6f7ff 100%) !important;
 }

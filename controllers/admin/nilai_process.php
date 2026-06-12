@@ -3,16 +3,22 @@
 // controllers/admin/nilai_process.php
 // Handle pemberian nilai tugas mahasiswa oleh dosen.
 // Di-connect lewat fetch() JavaScript di: view/pages/admin/form_nilai.php
+// Mengembalikan JSON (bukan HTML).
 // ==========================================================================
 
-require_once __DIR__ . '/../auth/session_check.php';
-
-checkRoleDosen();
-
-validasiCSRFToken();
-
-// --- 4. FORMAT RESPON JSON & VALIDASI METODE ---
+// --- 1. HEADER JSON ---
 header('Content-Type: application/json');
+
+// --- 2. AUTENTIKASI ---
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'dosen') {
+    http_response_code(401);
+    echo json_encode(['success' => false, 'message' => 'Unauthorized. Silakan login terlebih dahulu.']);
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -20,7 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// --- 5. AMBIL INPUT ---
+include_once __DIR__ . '/../../config/koneksi.php';
+
+// --- 3. AMBIL INPUT ---
 // Support JSON body (fetch JS) maupun form POST biasa
 $content_type = $_SERVER['CONTENT_TYPE'] ?? '';
 if (str_contains($content_type, 'application/json')) {
@@ -32,50 +40,64 @@ if (str_contains($content_type, 'application/json')) {
     $nilai_input    = $_POST['nilai'] ?? null;
 }
 
-// --- 6. VALIDASI INPUT FORMAT ---
+// --- 4. VALIDASI INPUT ---
 if ($pengumpulan_id <= 0) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'ID Pengumpulan tidak valid.']);
+    echo json_encode(['success' => false, 'message' => 'ID pengumpulan tidak valid.']);
     exit();
 }
-if ($nilai_input === null || $nilai_input === '') {
+
+if (is_null($nilai_input) || !is_numeric($nilai_input)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Nilai tidak boleh kosong.']);
+    echo json_encode(['success' => false, 'message' => 'Nilai harus berupa angka.']);
     exit();
 }
+
 $nilai = (int)$nilai_input;
+
 if ($nilai < 0 || $nilai > 100) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Nilai harus berada antara 0 - 100.']);
+    echo json_encode(['success' => false, 'message' => 'Nilai harus antara 0 sampai 100.']);
     exit();
 }
 
-// Ambil ID Dosen dari session cache yang sudah di-set oleh checkRoleDosen()
-$dosen_id = (int)$_SESSION['dosen_id'];
+// --- 5. AMBIL DOSEN_ID ---
+$user_id = $_SESSION['user_id'];
 
-// --- 7. PROSES DATABASE (TRANSAKSI) ---
+$stmt_dosen = $conn->prepare("SELECT id FROM dosen WHERE user_id = ?");
+$stmt_dosen->bind_param("i", $user_id);
+$stmt_dosen->execute();
+$data_dosen = $stmt_dosen->get_result()->fetch_assoc();
+$stmt_dosen->close();
+
+if (!$data_dosen) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Data dosen tidak ditemukan.']);
+    exit();
+}
+
+$dosen_id = $data_dosen['id'];
+
+// --- 6. TRANSAKSI DATABASE ---
+$conn->begin_transaction();
+
 try {
-    // STEP 1: Mulai Transaksi Database (Pessimistic Locking)
-    $conn->begin_transaction();
-
-    // Query untuk memastikan tugas ini benar-benar milik mata kuliah yang diajar dosen tersebut
-    $query_cek = "
-        SELECT p.id, p.nilai AS nilai_lama, t.judul_tugas, m.nama_mahasiswa 
-        FROM pengumpulan_tugas p
-        JOIN tugas t ON p.tugas_id = t.id
-        JOIN mata_kuliah mk ON t.matkul_id = mk.id
-        JOIN mahasiswa m ON p.mahasiswa_id = m.id
-        WHERE p.id = ? AND mk.dosen_id = ?
+    // STEP 1: Verifikasi kepemilikan + kunci baris (FOR UPDATE)
+    $stmt_cek = $conn->prepare("
+        SELECT pt.id, pt.nilai AS nilai_lama,
+               t.judul_tugas, m.nama_mahasiswa
+        FROM pengumpulan_tugas pt
+        JOIN tugas t        ON pt.tugas_id     = t.id
+        JOIN mata_kuliah mk ON t.matkul_id     = mk.id
+        JOIN mahasiswa m    ON pt.mahasiswa_id = m.id
+        WHERE pt.id = ? AND mk.dosen_id = ?
         FOR UPDATE
-    ";
-    
-    $stmt_cek = $conn->prepare($query_cek);
+    ");
     $stmt_cek->bind_param("ii", $pengumpulan_id, $dosen_id);
     $stmt_cek->execute();
     $data_pengumpulan = $stmt_cek->get_result()->fetch_assoc();
     $stmt_cek->close();
 
-    // Proteksi IDOR (Mencegah dosen lain menilai tugas yang bukan kelasnya)
     if (!$data_pengumpulan) {
         $conn->rollback();
         http_response_code(403);
@@ -104,14 +126,13 @@ try {
             'nama_mahasiswa' => $data_pengumpulan['nama_mahasiswa'],
             'judul_tugas'    => $data_pengumpulan['judul_tugas'],
             'nilai_lama'     => $data_pengumpulan['nilai_lama'] !== null ? (int)$data_pengumpulan['nilai_lama'] : null,
-            'nilai_baru'     => $nilai
+            'nilai_baru'     => $nilai,
         ]
     ]);
 
 } catch (Exception $e) {
-    // Batalkan seluruh perubahan jika terjadi error di tengah jalan
     $conn->rollback();
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
 }
 ?>

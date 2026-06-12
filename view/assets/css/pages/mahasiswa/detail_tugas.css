@@ -1,13 +1,12 @@
-/* ==========================================================================
-   LAYOUT DETAIL TUGAS
-   ========================================================================== */
+/* bungkus ruang konten khusus halaman detail agar lebih lebar dan lega */
 .content-area-detail {
     padding: 40px;
     position: relative;
     flex-grow: 1;
-    background-color: #fdfdfd;
+    background-color: #f8f9fa;
 }
 
+/* susun dua kartu besar agar duduk sejajar kiri-kanan dan menyamakan tinggi */
 .card-container {
     display: flex;
     gap: 30px;
@@ -15,10 +14,11 @@
     width: 100%;
 }
 
+/* bentuk dasar kartu putih detail dengan sudut lengkung sempurna ala figma */
 .custom-card {
-    background-color: #ffffff !important;
+    background-color: #ffffff;
     border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(30, 41, 59, 0.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     padding: 35px;
     position: relative;
     overflow: hidden;
@@ -27,178 +27,88 @@
     border: none;
 }
 
-.card-left { flex: 1.5; }
-.card-right { flex: 1; }
-
-.card-content-wrapper { 
-    position: relative; 
-    z-index: 2; 
-    display: flex; 
-    flex-direction: column; 
-    flex-grow: 1; 
+/* atur kartu sebelah kiri (deskripsi tugas) agar memakan porsi rasio lebar 60% */
+.card-left {
+    flex: 1.5;
 }
 
-/* Hiasan blob dengan gradasi Pink memudar */
-.blob-hiasan-detail-large { 
-    position: absolute; 
-    top: -100px; 
-    right: -100px; 
-    width: 350px; 
-    height: 350px; 
-    border-radius: 50%; 
-    background: linear-gradient(135deg, #EC4899 0%, rgba(236, 72, 153, 0) 70%); 
-    z-index: 1; 
+/* atur kartu sebelah kanan (status nilai) agar memakan sisa porsi rasio 40% */
+.card-right {
+    flex: 1;
 }
 
-/* ==========================================================================
-   BADGES & TIPOGRAFI STATUS
-   ========================================================================== */
-.badge-pink-figma { 
-    background-color: #fdf2f8; 
-    color: #EC4899; 
-    padding: 8px 24px; 
-    border-radius: 20px; 
-    font-weight: 800; 
-    font-size: 0.95rem; 
-    display: inline-block; 
-}
-
-.badge-orange-figma { 
-    background-color: #f4f0ff; 
-    color: #7E52E8; 
-    padding: 8px 24px; 
-    border-radius: 20px; 
-    font-weight: 800; 
-    font-size: 0.95rem; 
-    display: inline-block; 
-}
-
-.text-deadline-figma { 
-    color: #EC4899; 
-    font-weight: 800; 
-    font-size: 0.95rem; 
-}
-
-.text-nilai-figma { 
-    color: #10b981; /* Hijau Emerald */
-    font-weight: 800; 
-    font-size: 2rem; 
-}
-
-.btn-edit-figma { 
-    background-color: #f1f5f9; 
-    color: #1E293B; 
-    font-weight: 800; 
-    border-radius: 20px; 
-    padding: 8px 24px; 
-    border: none; 
-    font-size: 0.95rem; 
-    cursor: pointer; 
-    transition: 0.2s ease;
-}
-
-.btn-edit-figma:hover { background-color: #e2e8f0; }
-
-/* ==========================================================================
-   MODAL POP-UP UPLOAD TUGAS
-   ========================================================================== */
-.custom-modal-figma {
-    border-radius: 28px;
-    border: none;
-    box-shadow: 0 15px 40px rgba(30, 41, 59, 0.15);
-}
-
-.btn-file-figma {
-    background-color: #f4f0ff; 
-    color: #7E52E8; 
-    padding: 12px 30px;
-    border-radius: 30px;
-    font-weight: 800;
-    cursor: pointer;
-    display: inline-block;
-    transition: 0.2s ease;
-}
-
-.btn-file-figma:hover { background-color: #eaddff; }
-
-.modal-desc-figma {
-    font-size: 0.85rem;
-    color: #64748b; 
-    line-height: 1.6;
-    max-width: 85%;
-    margin: 0 auto;
-}
-
-.file-name-line {
-    border-bottom: 2px solid #cbd5e1;
-    min-height: 25px;
-    font-weight: 700;
-    color: #1E293B;
-    font-size: 0.95rem;
-    width: 80%;
-    margin: 0 auto;
-    padding-bottom: 5px;
-    word-break: break-all;
-}
-
-.btn-submit-figma {
-    background: linear-gradient(135deg, #EC4899 0%, #ff85c0 100%);
-    color: white;
-    border: none;
-    padding: 12px 45px;
-    border-radius: 30px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    transition: 0.3s ease;
-    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
-    cursor: pointer;
-}
-
-.btn-submit-figma:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.45);
-}
-
-/* Pastikan parent card memiliki position relative dan overflow hidden */
-.custom-card {
-    position: relative;
-    overflow: hidden;
-    /* ... properti background putih, padding, box-shadow kamu biarkan saja ... */
-}
-
-/* Pastikan konten tetap di atas blob */
-.card-content-wrapper {
-    position: relative;
-    z-index: 2;
-}
-
-/* Styling Blob Animasi */
+/* hiasan warna pelan-pelan transparan berukuran raksasa di pojok kanan kartu */
 .blob-hiasan-detail-large {
     position: absolute;
     top: -100px;
     right: -100px;
-    width: 350px; /* Sesuaikan besarnya agar menutupi sisi kanan card */
+    width: 350px;
     height: 350px;
-    border-radius: 50%; /* Agar bentuk dasar melingkar */
-    
-    /* Menerapkan gradasi dan animasi */
-    background: var(--bg-gradasi);
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease-in-out infinite, liquidLava 8s ease-in-out infinite;
-    
-    z-index: 0;
-    opacity: 0.75;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fcdcb1 0%, rgba(255,255,255,0) 70%);
+    z-index: 1;
 }
 
-/* Animasi Pergerakan Warna */
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* penampung agar seluruh isi teks dan tombol tidak tertutup oleh hiasan blob */
+.card-content-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
-/* Animasi Perubahan Bentuk (Lava Lamp Effect) */
-@keyframes liquidLava {
-    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+/* kapsul penanda info berwarna merah muda keputihan */
+.badge-pink-figma {
+    background-color: #f2e1e1;
+    color: #000;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: inline-block;
+}
+
+/* kapsul penanda info berisi nama file berwarna oranye */
+.badge-orange-figma {
+    background-color: #f7b787;
+    color: #000;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: inline-block;
+}
+
+/* peringatan tebal berwarna merah untuk tulisan tanggal deadline */
+.text-deadline-figma {
+    color: #f23d4e;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+/* ukuran jumbo tebal berwarna hijau terang untuk mencetak angka nilai */
+.text-nilai-figma {
+    color: #3eb55c;
+    font-weight: 800;
+    font-size: 2rem;
+}
+
+/* penanda teks di bawah kalau file sudah berhasil terkumpul */
+.text-status-figma {
+    color: #3eb55c;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+/* tombol berwarna abu-abu mati khusus untuk menimpa/edit file lama */
+.btn-edit-figma {
+    background-color: #d2cddc;
+    color: #000;
+    font-weight: 800;
+    border-radius: 20px;
+    padding: 8px 24px;
+    border: none;
+    font-size: 0.95rem;
+    cursor: pointer;
 }

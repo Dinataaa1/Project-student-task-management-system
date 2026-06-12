@@ -1,232 +1,64 @@
 /* ==========================================================================
-   BAGIAN 2: KOMPONEN TOPBAR & NOTIFIKASI
+   KOMPONEN: TOPBAR & REMINDERS OFFCANVAS
    ========================================================================== */
+
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px 40px;
+    background-color: #e4e6e9; /* Warna abu-abu background topbar */
     width: 100%;
-    height: 70px;
-    padding: 0 40px;
-    background-color: #EAEBEE; 
 }
 
-/* --- PANEL SLIDING NOTIFIKASI --- */
-.notif-overlay {
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh;
-    background: rgba(0,0,0,0.4); 
-    z-index: 1040;
-    opacity: 0; 
-    visibility: hidden; 
-    transition: all 0.3s ease-in-out;
+/* Mengatur lebar panel yang meluncur dari kanan */
+.custom-offcanvas {
+    width: 400px !important;
+    border-left: none;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.05);
 }
 
-.notif-overlay.show {
-    opacity: 1; 
-    visibility: visible;
-}
-
-.notif-panel {
-    position: fixed; 
-    top: 0; 
-    right: -400px; 
-    width: 350px; 
-    height: 100vh; 
-    background-color: #f8f9fa;
-    z-index: 1050; 
-    transition: right 0.3s ease-in-out;
-    box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-    display: flex; 
-    flex-direction: column;
-}
-
-.notif-panel.show {
-    right: 0; 
-}
-
-.notif-header {
-    padding: 20px; 
-    background: white; 
-    border-bottom: 1px solid #eee;
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center;
-}
-
-.notif-body {
-    padding: 20px; 
-    overflow-y: auto; 
-    flex: 1;
-}
-
-.notif-card {
-    background: white; 
-    border-radius: 12px; 
-    padding: 16px; 
-    margin-bottom: 15px;
-    border-left: 5px solid #ff4d4f; 
-    transition: transform 0.2s;
-}
-
-.notif-card:hover {
-    transform: translateY(-3px);
-}
-
-/* --- WADAH LONCENG --- */
-.bell-container {
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-    cursor: pointer;
-}
-
-.bell-container:hover {
-    background-color: rgba(0, 0, 0, 0.08); 
-}
-
-/* --- ANIMASI LONCENG NOTIFIKASI --- */
-.bell {
-    position: relative;
-    width: 50px;
-    height: 60px;
-}
-
-/* Mengubah warna lonceng jadi putih */
-.bell-top { 
-    width: 50px; height: 50px; 
-    background: #FFFFFF !important; /* Jadi Putih */
-    border-radius: 50% 50% 0 0; position: relative; 
-}
-.bell-top:before { 
-    content: ''; position: absolute; width: 15px; height: 15px; 
-    background: #FFFFFF !important; /* Jadi Putih */
-    top: -10px; left: 50%; transform: translateX(-50%); border-radius: 50%; 
-}
-.bell-top:after { 
-    content: ''; 
-    border-bottom: 10px solid #FFFFFF !important; /* Jadi Putih */
-    border-left: 8px solid transparent; border-right: 8px solid transparent; 
-    height: 0; width: 50px; position: absolute; left: -8px; bottom: -10px; box-sizing: content-box; 
-}
-.bell-bot { 
-    width: 16px; height: 10px; 
-    background: #FFFFFF !important; /* Jadi Putih */
-    position: absolute; left: 50%; transform: translateX(-50%); bottom: -8px; border-radius: 0 0 16px 16px; 
-}
-
-.bell-notification {
-    background: #00a0e3; 
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    position: absolute;
-    right: -15px;
-    top: -15px;
-    color: #fff;
-    font-weight: 800;
-    font-size: 20px; 
-    line-height: 35px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 160, 227, 0.4); 
-}
-
-/* Class Trigger Animasi */
-.bell-top-anim { animation: abanico 1000ms ease-in-out; transform-origin: top; }
-.bell-bot-anim { animation: badalo 1000ms ease-in-out; }
-.new-not { animation: popup 500ms forwards; }
-
-/* ==========================================================================
-   TOPBAR / HEADER (DIPERBAIKI AGAR TIDAK ADA GAP PUTIH)
-   ========================================================================== */
-/* Update latar belakang topbar jadi ungu */
-.topbar, .header {
-    width: 100% !important; 
-    height: 70px !important;
-    display: flex !important; 
-    justify-content: flex-start !important; 
-    align-items: center !important;
-    padding: 0 25px !important; 
-    margin: 0 !important;
-    
-    background-color: #7E52E8 !important; /* Warna ungu baru */
-    
-    position: relative !important;
-    z-index: 10 !important;
-}
-
-/* Update teks LOL jadi putih */
-.topbar h1, .header h1 { 
-    font-family: 'Luckiest Guy', cursive !important;
-    color: #FFFFFF !important;                  /* Teks Putih */
-    /*-webkit-text-stroke: 1px #4b2fa3 !important; /* Outline sedikit lebih gelap biar kontras */
-    font-size: 2.2rem !important; 
-    margin: 0 !important;
-    letter-spacing: 2px;
-}
-
-.content-area { padding: 30px 40px !important; }
-
-
-/* Keyframes */
-@keyframes abanico {
-    0% { transform: rotate(0deg); }
-    7.5% { transform: rotate(25deg); }
-    30% { transform: rotate(-25deg); }
-    45% { transform: rotate(15deg); }
-    58% { transform: rotate(-10deg); }
-    70% { transform: rotate(5deg); }
-    87.5% { transform: rotate(-2deg); }
-    100% { transform: rotate(0deg); }
-}
-
-@keyframes badalo {
-    15% { transform: translateX(-25px) rotate(7deg); }
-    32.5% { transform: translateX(10px) rotate(-7deg); }
-    50% { transform: translateX(-15px) rotate(7deg); }
-    65% { transform: translateX(5px) rotate(-7deg); }
-    80% { transform: translateX(-15px) rotate(7deg); }
-    90% { transform: translateX(0px) rotate(-7deg); }
-}
-
-@keyframes popup {
-    0% { transform: scale(0.3); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* 1. Backdrop (Layar Gelap) */
-.overlay-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
+.reminders-divider {
+    border-top: 3px solid #7dd3fc;
+    opacity: 1;
+    margin-top: 5px;
+    margin-bottom: 25px;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Warna abu-abu transparan */
-    z-index: 1040; /* Di bawah panel notif, di atas konten */
-    display: none;
 }
 
-/* 2. Panel Notifikasi */
-.notif-panel {
-    position: fixed;
-    top: 0;
-    right: -400px; /* Sembunyi di kanan */
-    width: 400px;
-    height: 100%;
-    background: white;
-    z-index: 1050; /* Paling atas */
-    transition: right 0.3s ease;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+/* Kerangka dasar kartu reminder */
+.rem-card {
+    background-color: #ffffff;
+    border-radius: 16px;
     padding: 20px;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 120px;
+    border: none;
 }
 
-/* Class untuk mengaktifkan */
-.notif-panel.active { right: 0; }
-.overlay-backdrop.active { display: block; }
+.rem-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    color: #333;
+}
+
+/* Hiasan blob menggunakan ukuran yang disesuaikan */
+.rem-blob {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.rem-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; }
+.rem-subtitle { font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; }
+.rem-info { font-size: 0.75rem; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; opacity: 0.8; }

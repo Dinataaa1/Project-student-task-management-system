@@ -17,40 +17,30 @@ CREATE TABLE dosen (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE kelas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nama_kelas VARCHAR(50) NOT NULL
-);
-
-
 CREATE TABLE mahasiswa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     nrp VARCHAR(20) NOT NULL UNIQUE,
     nama_mahasiswa VARCHAR(100) NOT NULL,
-    kelas_id INT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (kelas_id) REFERENCES kelas(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE mata_kuliah (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nama_matkul VARCHAR(100) NOT NULL,
     dosen_id INT NOT NULL,
-    kelas_id INT NULL,
     ruangan VARCHAR(10),
     jadwal VARCHAR(20),
-    FOREIGN KEY (dosen_id) REFERENCES dosen(id) ON DELETE CASCADE,
-    FOREIGN KEY (kelas_id) REFERENCES kelas(id) ON DELETE CASCADE
+    FOREIGN KEY (dosen_id) REFERENCES dosen(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tugas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     matkul_id INT NOT NULL,
     judul_tugas VARCHAR(150) NOT NULL,
-    deskripsi TEXT, 
+    deskripsi TEXT,
+    file_lampiran VARCHAR(255) NULL, 
     deadline DATETIME NOT NULL,
-    file_lampiran VARCHAR(255) NULL,
     FOREIGN KEY (matkul_id) REFERENCES mata_kuliah(id) ON DELETE CASCADE
 );
 
