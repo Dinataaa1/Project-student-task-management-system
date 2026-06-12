@@ -16,7 +16,6 @@ include '../../components/header.php';
         <div class="content-area">
             <h4 class="fw-bold mb-4">Hai, <?= htmlspecialchars($nama_user ?? 'Mahasiswa') ?></h4>
 
-            <!-- DAFTAR MATA KULIAH (HORIZONTAL SCROLL) -->
             <div class="scroll-container" id="matkulSlider">
                 <?php if (!empty($data_matkul)) :
                     foreach ($data_matkul as $matkul) :
@@ -32,7 +31,6 @@ include '../../components/header.php';
 
                             <div class="matkul-content" style="padding: 15px; display: flex; flex-direction: column; height: 100%;">
 
-                                <!-- Bagian atas kartu (Judul & Info) -->
                                 <div style="flex: 1;">
                                     <h3 class="judul-matkul mb-3" style="font-size: 1.1rem; font-weight: 700;">
                                         <?= htmlspecialchars($matkul['nama_matkul']) ?>
@@ -45,7 +43,6 @@ include '../../components/header.php';
                                     </div>
                                 </div>
 
-                                <!-- Badge (Ini akan selalu menempel di bawah karena margin-top: auto) -->
                                 <div class="mt-3" style="margin-top: auto;">
                                     <span class="badge bg-primary" style="font-size: 0.7rem;">
                                         <?= $matkul['total_tugas'] ?> Tugas Aktif
@@ -59,7 +56,6 @@ include '../../components/header.php';
                 <?php endif; ?>
             </div>
 
-            <!-- KALENDER -->
             <div class="calendar-widget" style="margin-top: 10px;">
 
                 <?php
@@ -95,7 +91,8 @@ include '../../components/header.php';
                         <span id="displayBulanTahun"></span>
                         <span id="btnNext">&gt;</span>
                     </div>
-                    <div class="cal-grid" style="border-bottom: none; border-left: none;">
+                    
+                    <div class="cal-grid">
                         <div class="cal-cell-header text-sun">SUN</div>
                         <div class="cal-cell-header text-dark">MON</div>
                         <div class="cal-cell-header text-dark">TUE</div>
@@ -104,6 +101,7 @@ include '../../components/header.php';
                         <div class="cal-cell-header text-dark">FRI</div>
                         <div class="cal-cell-header text-sat">SAT</div>
                     </div>
+                    
                     <div class="cal-grid" id="wadahTanggal"></div>
                 </div>
             </div>

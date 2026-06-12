@@ -97,6 +97,10 @@
     position: relative;
     width: 50px;
     height: 60px;
+    
+    /* INI KUNCI UNTUK MENGECILKANNYA */
+    transform: scale(0.8); /* 1.0 = ukuran asli, 0.5 = setengah ukuran */
+    transform-origin: center right; /* Memastikan saat mengecil, posisinya tetap mepet ke kanan */
 }
 
 /* Mengubah warna lonceng jadi putih */
@@ -124,16 +128,16 @@
 
 .bell-notification {
     background: #00a0e3; 
-    width: 35px;
-    height: 35px;
+    width: 25px; /* Dikecilkan dari 35px */
+    height: 25px; /* Dikecilkan dari 35px */
     border-radius: 50%;
     position: absolute;
-    right: -15px;
-    top: -15px;
+    right: -5px; /* Disesuaikan posisinya */
+    top: -5px;   /* Disesuaikan posisinya */
     color: #fff;
-    font-weight: 800;
-    font-size: 20px; 
-    line-height: 35px;
+    font-weight: bold;
+    font-size: 14px; /* Dikecilkan dari 20px */
+    line-height: 25px; /* Disesuaikan dengan tinggi kotak baru */
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 160, 227, 0.4); 
 }

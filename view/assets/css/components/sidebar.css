@@ -86,7 +86,7 @@
     display: flex !important; 
     justify-content: center !important; 
     align-items: center !important; 
-    color: #00a0e3 !important; 
+    color: #64748b !important; 
     font-size: 1.4rem !important; 
     text-decoration: none !important;
 }
@@ -102,6 +102,6 @@
     justify-content: center !important;
 }
 
-.logout-icon { color: #00a0e3 !important; font-size: 1.4rem !important; transition: all 0.2s ease; text-decoration: none !important; }
+.logout-icon { color: #64748b !important; font-size: 1.4rem !important; transition: all 0.2s ease; text-decoration: none !important; }
 .logout-icon:hover { color: #ff4d4f !important; }
 

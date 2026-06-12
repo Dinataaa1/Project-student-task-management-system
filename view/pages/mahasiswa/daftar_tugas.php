@@ -17,6 +17,16 @@ include '../../components/header.php';
 $selected_matkul = isset($_GET['matkul_id']) ? (int)$_GET['matkul_id'] : 0;
 $nama_matkul_aktif = "Semua Mata Kuliah";
 
+// Ambil nama matkul jika ada filter yang dipilih
+if ($selected_matkul > 0) {
+    $query_nama = "SELECT nama_matkul FROM mata_kuliah WHERE id = '$selected_matkul'";
+    $result_nama = mysqli_query($conn, $query_nama);
+    if ($result_nama && mysqli_num_rows($result_nama) > 0) {
+        $row_nama = mysqli_fetch_assoc($result_nama);
+        $nama_matkul_aktif = $row_nama['nama_matkul'];
+    }
+}
+
 // Ganti query $query_tugas menjadi ini:
 $query_tugas = "
     SELECT t.*, 
@@ -51,21 +61,47 @@ $daftar_tugas = mysqli_fetch_all($result_tugas, MYSQLI_ASSOC);
                     Tugas: <b><?= htmlspecialchars($nama_matkul_aktif) ?></b>
                 </h5>
 
-                <div style="width: 250px;">
-                    <select name="filter_matkul" class="form-select" onchange="window.location.href='daftar_tugas.php?matkul_id='+this.value">
-                        <option value="0">Semua Mata Kuliah</option>
-                        <?php
-                        // Ambil daftar matkul yang HANYA diambil mahasiswa tersebut
-                        $query_matkul_user = "SELECT mk.id, mk.nama_matkul FROM mata_kuliah mk 
-                                              JOIN krs k ON mk.id = k.mata_kuliah_id 
-                                              WHERE k.mahasiswa_id = '$mahasiswa_id'";
-                        $result_matkul = mysqli_query($conn, $query_matkul_user);
-                        while ($row = mysqli_fetch_assoc($result_matkul)) {
-                            $selected = ($selected_matkul == $row['id']) ? 'selected' : '';
-                            echo "<option value='{$row['id']}' $selected>{$row['nama_matkul']}</option>";
-                        }
-                        ?>
-                    </select>
+                <div style="width: 280px; position: relative; z-index: 50;">
+                    <div class="custom-dropdown" id="matkulDropdown">
+
+                        <div class="dropdown-header" onclick="toggleDropdown()">
+                            <span id="dropdownSelectedText" style="opacity: 0.7;"><?= htmlspecialchars($nama_matkul_aktif) ?></span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+
+                        <ul class="dropdown-list">
+                            <?php
+                            // Acak warna untuk opsi "Semua Mata Kuliah"
+                            $c_semua = ['#4F46E5', '#7E52E8', '#EC4899'];
+                            shuffle($c_semua);
+                            $grad_semua = "linear-gradient(135deg, " . implode(", ", $c_semua) . ")";
+                            ?>
+                            <li style="--i: 1; --bg-gradasi: <?= $grad_semua ?>;" onclick="selectOption(0)" class="<?= $selected_matkul == 0 ? 'active' : '' ?>">
+                                Semua Mata Kuliah
+                            </li>
+
+                            <?php
+                            $index = 2;
+                            $query_matkul_user = "SELECT mk.id, mk.nama_matkul FROM mata_kuliah mk 
+                                  JOIN krs k ON mk.id = k.mata_kuliah_id 
+                                  WHERE k.mahasiswa_id = '$mahasiswa_id'";
+                            $result_matkul = mysqli_query($conn, $query_matkul_user);
+
+                            while ($row = mysqli_fetch_assoc($result_matkul)) {
+                                $isActive = ($selected_matkul == $row['id']) ? 'active' : '';
+
+                                // Acak warna untuk setiap mata kuliah
+                                $c_loop = ['#4F46E5', '#7E52E8', '#EC4899'];
+                                shuffle($c_loop);
+                                $grad_loop = "linear-gradient(135deg, " . implode(", ", $c_loop) . ")";
+
+                                // Print <li> dengan gradasi acak
+                                echo "<li style='--i: {$index}; --bg-gradasi: {$grad_loop};' onclick='selectOption({$row['id']})' class='{$isActive}'>{$row['nama_matkul']}</li>";
+                                $index++;
+                            }
+                            ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Pemanggilan CSS Absolut berbasis BASE_URL -->
-    <link href="<?= BASE_URL ?>view/assets/css/index.css" rel="stylesheet">
+    <link href="<?= BASE_URL ?>view/assets/css/index.css?v=<?= time() ?>" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>view/assets/images/logo.svg">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

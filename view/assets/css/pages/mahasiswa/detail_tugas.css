@@ -202,3 +202,105 @@
     0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
     50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
 }
+
+/* Container Utama */
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+    font-family: inherit;
+    user-select: none;
+}
+
+/* Tombol Header (Gaya mirip gambar: rounded, shadow halus) */
+.dropdown-header {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(168, 127, 251, 0.1);
+    font-weight: 600;
+    color: #7C3AED; /* Ungu khas di gambar */
+    transition: all 0.3s ease;
+}
+
+.dropdown-header:hover {
+    box-shadow: 0 6px 20px rgba(168, 127, 251, 0.2);
+}
+
+/* Animasi Panah (Ke bawah saat tutup, ke atas saat buka) */
+.dropdown-arrow {
+    color: #7C3AED;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.custom-dropdown.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Kotak List Dropdown (Animasi Wadah) */
+.dropdown-list {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    overflow: hidden;
+    
+    /* Kondisi Tertutup */
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, visibility 0.4s;
+}
+
+/* Saat Dibuka (Wadah membesar) */
+.custom-dropdown.open .dropdown-list {
+    visibility: visible;
+    opacity: 1;
+    max-height: 400px; /* Cukup besar untuk nampung isinya */
+}
+
+/* Animasi Baris / Item (Efek Cascade) */
+.dropdown-list li {
+    padding: 10px 16px; /* Padding dalam sedikit dirapatkan biar pas */
+    color: #4b5563; 
+    font-weight: 500;
+    cursor: pointer;
+    background-color: transparent;
+    
+    /* INI KUNCI UNTUK EFEK "KOTAK KECIL DI DALAM KOTAK" */
+    border-radius: 10px; /* Membuat ujung sorotan melengkung/rounded */
+    margin: 4px 10px; /* Memberi jarak 4px atas-bawah, dan 10px kiri-kanan agar tidak nempel dinding */
+    
+    /* Kondisi Tertutup (Biarkan seperti aslinya) */
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: background-color 0.2s, color 0.2s, opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0s; 
+}
+
+/* Kondisi Terbuka: Item meluncur ke bawah satu per satu */
+.custom-dropdown.open .dropdown-list li {
+    opacity: 1;
+    transform: translateY(0);
+    /* INI KUNCINYA: Delay dikalikan index (--i) dari PHP */
+    transition-delay: calc(0.06s * var(--i)); 
+}
+
+/* Efek Sorot (Hover / Aktif) ala Gambar (Ungu Solid) */
+/* Efek Sorot (Hover / Aktif) dengan Gradasi Acak yang Bergerak */
+.dropdown-list li:hover, 
+.dropdown-list li.active {
+    background: var(--bg-gradasi);
+    background-size: 300% 300%;
+    animation: gradientMove 8s ease infinite; /* Memanggil animasi pergerakan warna */
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Tambahan bayangan tipis agar lebih pop-out */
+}
