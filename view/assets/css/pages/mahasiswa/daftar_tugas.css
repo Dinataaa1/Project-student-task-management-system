@@ -1,25 +1,153 @@
-/* kotak persegi panjang untuk mendaftar tugas-tugas suatu matkul spesifik */
+/* ==========================================================================
+   KARTU DAFTAR TUGAS
+   ========================================================================== */
 .tugas-card {
     width: 280px;
     height: 180px;
     background-color: #ffffff;
     border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    position: relative;
-    overflow: hidden;
-    padding: 20px;
+    box-shadow: 0 4px 15px rgba(30, 41, 59, 0.05);
+    position: relative; /* WAJIB agar blob tidak keluar dari kartu */
+    overflow: hidden; /* WAJIB untuk memotong blob yang luber */
+    padding: 30px 25px;
     display: flex;
     align-items: center;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: #333;
-    border: none;
     text-decoration: none;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tugas-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.2); /* Bayangan ikut jadi pinkist saat di-hover */
+}
+
+/* ==========================================================================
+   TEKS DALAM KARTU (Dengan efek transisi warna)
+   ========================================================================== */
+.tugas-content {
+    position: relative;
+    z-index: 2; 
+    transition: color 0.5s ease; /* Transisi halus saat warna berubah */
+}
+
+.judul-tugas {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.4;
+    color: #0f172a; 
+    transition: color 0.5s ease; /* Transisi halus saat warna berubah */
+}
+
+/* KUNCI: Mengubah teks jadi PUTIH saat kartu disorot mouse */
+.tugas-card:hover .tugas-content,
+.tugas-card:hover .judul-tugas {
+    color: #ffffff !important;
+}
+
+/* ==========================================================================
+   EFEK LAVA LAMP & HOVER EXPAND (BLOB)
+   ========================================================================== */
+/* ==========================================================================
+   EFEK BLOB (LAVA LAMP + MOVING GRADIENT)
+   ========================================================================== */
+.blob-hiasan-tugas {
+    position: absolute; 
+    top: -40px;
+    right: -40px;
+    width: 140px;
+    height: 140px;
+    z-index: 1; 
+    overflow: hidden; /* Penting untuk memotong gradien */
+    
+    /* Animasi goyang lava */
+    animation: liquidLava 6s ease-in-out infinite; 
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.6s ease;
+}
+
+/* Layer gradien bergerak menggunakan ::before */
+.blob-hiasan-tugas::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: block;
+    background: var(--bg-gradasi);
+    background-size: 300% 300%;
+    animation: gradientMove 8s ease infinite;
+}
+
+/* Hover: Blob membesar menutupi kartu */
+.tugas-card:hover .blob-hiasan-tugas {
+    transform: scale(8);
+    border-radius: 16px; 
+}
+
+/* ANIMASI KUNCI */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes liquidLava {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 70% 70% 40% / 50% 60% 30% 60%; }
+}
+
+/* Card Wrapper */
+.tugas-card {
+    width: 280px;
+    min-height: 160px;
+    background: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     transition: transform 0.2s;
 }
 
-/* efek kartu melayang ke atas saat pointer mouse menyentuhnya */
 .tugas-card:hover {
     transform: translateY(-5px);
-    color: #333;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+/* Blob Dekorasi (Lava Lamp Style) */
+.blob-hiasan-tugas {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    z-index: 0;
+    opacity: 0.7;
+    animation: liquidLava 6s ease-in-out infinite;
+}
+
+.blob-hiasan-tugas::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-gradasi);
+    background-size: 300% 300%;
+    animation: gradientMove 8s ease infinite;
+}
+
+/* Konten */
+.tugas-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.judul-tugas { 
+    font-size: 1rem; 
+    font-weight: 700; 
+    color: #1e293b; 
+    margin-bottom: auto; /* Mendorong badge ke bawah */
 }

@@ -1,46 +1,107 @@
-/* kotak mata kuliah berukuran besar, disetel agar muat 3 kolom di layar */
+/* ==========================================================================
+   KARTU MATA KULIAH (Liquid & Animated)
+   ========================================================================== */
 .matkul-card-lg {
     width: calc(33.333% - 1.5rem);
     min-width: 260px;
     height: 180px;
-    background-color: #ffffff;
+    background-color: #ffffff !important;
     border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 15px rgba(30, 41, 59, 0.05);
     position: relative;
     overflow: hidden;
-    padding: 20px;
+    padding: 25px;
     display: flex;
     align-items: flex-end;
     text-decoration: none;
-    color: #333;
-    transition: transform 0.2s;
+    color: #1E293B !important;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1;
 }
 
-/* efek terangkat saat kotak mata kuliah disorot mouse */
 .matkul-card-lg:hover {
-    transform: translateY(-5px);
-    color: #333;
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(79, 70, 229, 0.2);
 }
 
-/* ornamen lengkungan raksasa untuk sudut kanan atas kartu besar */
+.matkul-content { position: relative; z-index: 2; transition: color 0.5s ease; }
+
+.judul-matkul { 
+    font-size: 1.3rem; font-weight: 800; margin: 0; 
+    transition: color 0.5s ease; color: #0f172a; 
+}
+
+.see-detail { 
+    font-size: 0.9rem; font-weight: 600; color: #475569; margin: 0; 
+    transition: color 0.5s ease; 
+}
+
+.matkul-card-lg:hover .judul-matkul,
+.matkul-card-lg:hover .see-detail {
+    color: #ffffff !important;
+}
+
+/* BLOB UTAMA (ANIMASI GOYANG) */
 .blob-hiasan-lg {
     position: absolute;
-    top: -30px;
-    right: -30px;
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    z-index: 0;
+    overflow: hidden;
+    animation: liquidLava 6s ease-in-out infinite;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-origin: center center;
 }
 
-/* pengaturan gaya dan ukuran teks judul nama mata kuliah */
-.judul-matkul {
-    font-size: 1.3rem;
-    font-weight: 800;
+/* GRADIENT BERGERAK (MENGGUNAKAN PSEUDO ELEMENT) */
+.blob-hiasan-lg::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: block;
+    background: var(--bg-gradasi);
+    background-size: 300% 300%;
+    animation: gradientMove 8s ease infinite;
 }
 
-/* pengaturan teks link kecil "see detail" di pojok kanan kartu */
-.see-detail {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #333;
+/* KETIKA HOVER: MEMBESAR */
+.matkul-card-lg:hover .blob-hiasan-lg {
+    transform: scale(8);
+    border-radius: 16px;
+}
+
+/* KEYFRAMES */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes liquidLava {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 70% 70% 40% / 50% 60% 30% 60%; }
+}
+
+
+/* Transisi dasar agar perubahan warnanya mulus (tidak kaku) */
+.matkul-card-lg .info-details p,
+.matkul-card-lg .info-details i,
+.matkul-card-lg .badge {
+    transition: all 0.3s ease-in-out;
+}
+
+/* 1. Mengubah teks dosen, ruang, hari menjadi putih saat card di-hover */
+.matkul-card-lg:hover .info-details p,
+.matkul-card-lg:hover .info-details i {
+    color: #ffffff !important;
+}
+
+/* 2. Mengubah badge Tugas Aktif menjadi background putih & teks warna tema */
+.matkul-card-lg:hover .badge {
+    background-color: #ffffff !important;
+    /* Menggunakan warna ungu/biru dari blob agar seolah "transparan" menembus background putih */
+    color: #7E52E8 !important; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Tambahan bayangan tipis agar badge menonjol */
 }

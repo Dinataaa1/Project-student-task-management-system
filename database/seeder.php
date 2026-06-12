@@ -12,10 +12,11 @@ ini_set('display_errors', 1);
 // Hubungkan ke koneksi database menggunakan __DIR__
 require_once __DIR__ . '../config/koneksi.php';
 
-echo "<pre><h3>=== SYSTEM AUTOMATION SEEDER v2 ===</h3>";
+echo "<pre><h3>=== SYSTEM AUTOMATION SEEDER v3 ===</h3>";
 
 // 1. Bersihkan seluruh tabel dengan memperhatikan integritas Foreign Key
 mysqli_query($conn, "SET FOREIGN_KEY_CHECKS = 0;");
+mysqli_query($conn, "TRUNCATE TABLE kelas;");
 mysqli_query($conn, "TRUNCATE TABLE pengumpulan_tugas;");
 mysqli_query($conn, "TRUNCATE TABLE krs;");
 mysqli_query($conn, "TRUNCATE TABLE tugas;");
@@ -26,25 +27,46 @@ mysqli_query($conn, "TRUNCATE TABLE users;");
 mysqli_query($conn, "SET FOREIGN_KEY_CHECKS = 1;");
 echo "✓ Database berhasil dikosongkan secara aman.<br>";
 
-// 2. Definisi Data Master Akun Penguji
+// 2. Injeksi Data Master Kelas
+echo "<br><b>--- INJEKSI DATA KELAS ---</b><br>";
+$data_kelas = [
+    'D4 IT A',
+    'D4 IT B',
+    'D4 IT C',
+    'D4 IT D'
+];
+
+$map_kelas_id = [];
+foreach ($data_kelas as $nama_kelas) {
+    $stmt_kelas = mysqli_prepare($conn, "INSERT INTO kelas (nama_kelas) VALUES (?)");
+    mysqli_stmt_bind_param($stmt_kelas, "s", $nama_kelas);
+    mysqli_stmt_execute($stmt_kelas);
+    $map_kelas_id[] = mysqli_insert_id($conn);
+    echo "✓ Kelas berhasil dibuat: {$nama_kelas}<br>";
+}
+
+// 3. Definisi Data Master Akun Penguji beserta Index Kelasnya
 $data_dummy = [
     [
         'nama' => 'Ganis Ahmad',
         'email' => 'ganis@mhs.pens.ac.id',
         'role' => 'mahasiswa',
-        'identitas' => '3125600099'
+        'identitas' => '3125600099',
+        'kelas_index' => 2 
     ],
     [
         'nama' => 'Luthfi Bahrur R.',
         'email' => 'luthfi@mhs.pens.ac.id',
         'role' => 'mahasiswa',
-        'identitas' => '3125600001'
+        'identitas' => '3125600001',
+        'kelas_index' => 2 
     ],
     [
         'nama' => 'Luluatul Mahfudoh',
         'email' => 'lulu@mhs.pens.ac.id',
         'role' => 'mahasiswa',
-        'identitas' => '3125600075'
+        'identitas' => '3125600075',
+        'kelas_index' => 1 
     ],
     [
         'nama' => 'Dio Achmad',
@@ -58,7 +80,8 @@ $password_default = 'password123'; // Kata sandi seragam untuk testing
 $map_mahasiswa_id = []; // Menyimpan ID Auto-Increment entitas mahasiswa
 $dosen_db_id = null;    // Menyimpan ID Auto-Increment entitas dosen
 
-// 3. Proses Injeksi Akun Penguji
+// 4. Proses Injeksi Akun Penguji
+echo "<br><b>--- INJEKSI DATA AKUN PENGUJI ---</b><br>";
 foreach ($data_dummy as $data) {
     $hash_password = password_hash($password_default, PASSWORD_BCRYPT);
     
@@ -68,11 +91,12 @@ foreach ($data_dummy as $data) {
     $user_id = mysqli_insert_id($conn);
     
     if ($data['role'] === 'mahasiswa') {
-        $stmt_mhs = mysqli_prepare($conn, "INSERT INTO mahasiswa (user_id, nrp, nama_mahasiswa) VALUES (?, ?, ?)");
-        mysqli_stmt_bind_param($stmt_mhs, "iss", $user_id, $data['identitas'], $data['nama']);
+        $target_kelas_id = $map_kelas_id[$data['kelas_index']];
+        $stmt_mhs = mysqli_prepare($conn, "INSERT INTO mahasiswa (user_id, nrp, nama_mahasiswa, kelas_id) VALUES (?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt_mhs, "issi", $user_id, $data['identitas'], $data['nama'], $target_kelas_id);
         mysqli_stmt_execute($stmt_mhs);
         $map_mahasiswa_id[] = mysqli_insert_id($conn); // Simpan ID mahasiswa untuk pembagian KRS
-        echo "✓ Akun Mahasiswa berhasil dibuat: {$data['nama']}<br>";
+        echo "✓ Akun Mahasiswa berhasil dibuat: {$data['nama']} ({$data_kelas[$data['kelas_index']]})<br>";
     } else if ($data['role'] === 'dosen') {
         $stmt_dsn = mysqli_prepare($conn, "INSERT INTO dosen (user_id, nip, nama_dosen) VALUES (?, ?, ?)");
         mysqli_stmt_bind_param($stmt_dsn, "iss", $user_id, $data['identitas'], $data['nama']);
@@ -82,24 +106,25 @@ foreach ($data_dummy as $data) {
     }
 }
 
-// 4. Injeksi Data Mata Kuliah (Dimiliki oleh Dosen Pak Dio)
+// 5. Injeksi Data Mata Kuliah beserta Mapping Kelasnya (Dimiliki oleh Dosen Pak Dio)
 echo "<br><b>--- INJEKSI DATA MATA KULIAH ---</b><br>";
 $data_matkul = [
-    ['nama' => 'Workshop Frontend Web', 'ruang' => 'AJ-201', 'jadwal' => 'Senin, 08:00'],
-    ['nama' => 'Basis Data Lanjut', 'ruang' => 'AJ-302', 'jadwal' => 'Selasa, 10:00'],
-    ['nama' => 'Pemrograman Berorientasi Objek', 'ruang' => 'D-203', 'jadwal' => 'Kamis, 13:00']
+    ['nama' => 'Workshop Frontend Web', 'ruang' => 'AJ-201', 'jadwal' => 'Senin, 08:00', 'kelas_index' => 2],
+    ['nama' => 'Basis Data Lanjut', 'ruang' => 'AJ-302', 'jadwal' => 'Selasa, 10:00', 'kelas_index' => 2],
+    ['nama' => 'Pemrograman Berorientasi Objek', 'ruang' => 'D-203', 'jadwal' => 'Kamis, 13:00', 'kelas_index' => 1]
 ];
 
 $map_matkul_id = [];
 foreach ($data_matkul as $mk) {
-    $stmt_mk = mysqli_prepare($conn, "INSERT INTO mata_kuliah (nama_matkul, dosen_id, ruangan, jadwal) VALUES (?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt_mk, "siss", $mk['nama'], $dosen_db_id, $mk['ruang'], $mk['jadwal']);
+    $target_kelas_id = $map_kelas_id[$mk['kelas_index']];
+    $stmt_mk = mysqli_prepare($conn, "INSERT INTO mata_kuliah (nama_matkul, dosen_id, kelas_id, ruangan, jadwal) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt_mk, "siiss", $mk['nama'], $dosen_db_id, $target_kelas_id, $mk['ruang'], $mk['jadwal']);
     mysqli_stmt_execute($stmt_mk);
     $map_matkul_id[] = mysqli_insert_id($conn);
-    echo "✓ Mata Kuliah Berhasil Diinjeksi: {$mk['nama']}<br>";
+    echo "✓ Mata Kuliah Berhasil Diinjeksi: {$mk['nama']} ({$data_kelas[$mk['kelas_index']]})<br>";
 }
 
-// 5. Injeksi Data Transaksi KRS (Mendaftarkan Semua Mahasiswa ke Semua Matkul di atas)
+// 6. Injeksi Data Transaksi KRS (Mendaftarkan Semua Mahasiswa ke Semua Matkul di atas)
 echo "<br><b>--- INJEKSI DATA KRS MAHASISWA ---</b><br>";
 foreach ($map_mahasiswa_id as $mhs_id) {
     foreach ($map_matkul_id as $mk_id) {
@@ -111,7 +136,7 @@ foreach ($map_mahasiswa_id as $mhs_id) {
     echo "✓ Anggota Mahasiswa ID {$mhs_id} otomatis mengambil seluruh Mata Kuliah (KRS aktif).<br>";
 }
 
-// 6. Injeksi Data Tugas Kuliah (Menghubungkan ke ID Mata Kuliah yang eksis)
+// 7. Injeksi Data Tugas Kuliah (Menghubungkan ke ID Mata Kuliah yang eksis)
 echo "<br><b>--- INJEKSI DATA TUGAS ---</b><br>";
 $data_tugas = [
     [
@@ -142,6 +167,6 @@ foreach ($data_tugas as $tg) {
     echo "✓ Tugas Berhasil Disuntikkan: {$tg['judul']} (Matkul ID: {$target_matkul_id})<br>";
 }
 
-echo "<br><b>🚀 OTOMATISASI BERHASIL! Seluruh data akun, KRS, mata kuliah, dan tugas siap diuji.</b>";
+echo "<br><b>🚀 OTOMATISASI BERHASIL! Seluruh data akun, kelas, KRS, mata kuliah, dan tugas siap diuji.</b>";
 echo "</pre>";
 ?>
