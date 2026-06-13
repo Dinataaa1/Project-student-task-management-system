@@ -1,0 +1,48 @@
+/* ==========================================================================
+   DROPDOWN MENU COMPONENT (STANDARDIZED)
+   ========================================================================== */
+.menu-container { 
+    position: absolute; 
+    top: 16px; 
+    right: 16px; 
+    z-index: 10; 
+}
+
+.menu-icon {
+    font-size: 20px; 
+    color: #333; 
+    cursor: pointer; 
+    padding: 5px 15px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.menu-icon:hover { 
+    color: #000; 
+    transform: rotate(90deg); 
+}
+
+.dropdown-menu {
+    display: none; 
+    position: absolute; 
+    right: 0; 
+    top: 100%;
+    background: #fff; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    border-radius: 8px; 
+    width: 130px; 
+    padding: 8px 0; 
+    z-index: 20; 
+    text-align: left;
+}
+
+.dropdown-menu.show { display: block; }
+
+.dropdown-item {
+    display: block; padding: 10px 15px; text-decoration: none;
+    color: #333; font-size: 13px; font-weight: bold;
+}
+
+.dropdown-item:hover { background: #f4f5f7; }
+.dropdown-item.bordered { border-bottom: 1px solid #f1f1f1; }
+.dropdown-item.danger { color: #e11d48 !important; }
+.dropdown-icon { margin-right: 8px; }

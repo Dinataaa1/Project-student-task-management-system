@@ -1,0 +1,138 @@
+/* ==========================================================================
+   CARD COMPONENTS CATALOG (Katalog Semua Jenis Kartu)
+   Berisi kumpulan varian kartu untuk Admin dan Mahasiswa
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   VARIAN 1: KARTU ADMIN (Efek Blob Membesar & Staggered Slide Up)
+   -------------------------------------------------------------------------- */
+.card { 
+    background: #fff; 
+    border-radius: 20px; 
+    padding: 25px; 
+    position: relative; 
+    overflow: hidden; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06); 
+    min-height: 160px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+.card-info p { font-size: 13px; color: #333; margin-bottom: 5px; }
+.card-title { font-size: 24px; font-weight: bold; color: #000; margin-top: 15px; position: relative; z-index: 1; transition: color 0.3s ease !important; }
+.card-info { position: relative; z-index: 1; }
+
+/* Admin Blob Dekorasi */
+.blob { 
+    position: absolute; top: 0; right: 0; 
+    width: 110px; height: 100px; 
+    border-bottom-left-radius: 100%; z-index: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important; 
+    transform-origin: top right; 
+}
+.blob.orange { background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 100%); }
+.blob.blue { background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-purple) 100%); }
+
+/* Admin Card Hover Effects */
+.card:hover .blob {
+    transform: scale(9) !important; 
+    border-bottom-left-radius: 0 !important; 
+    opacity: 1 !important; 
+}
+.card:hover .card-title { color: #ffffff !important; }
+
+/* Admin Animasi Masuk (Fade Slide Up) */
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.card { animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+
+
+/* --------------------------------------------------------------------------
+   VARIAN 2: KARTU MAHASISWA MINI (Rata Kanan)
+   -------------------------------------------------------------------------- */
+.matkul-card {
+    flex: 1; min-width: 240px; height: 150px; 
+    background-color: #ffffff; border-radius: 20px; 
+    box-shadow: 0 4px 15px rgba(30, 41, 59, 0.05);
+    position: relative; overflow: hidden; padding: 25px;
+    display: flex; flex-direction: column;
+    justify-content: flex-end; align-items: flex-end; 
+    text-align: right; font-size: 1.4rem; font-weight: 900;
+    color: #0f172a; border: none; cursor: pointer; text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.matkul-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(30, 41, 59, 0.1); }
+.matkul-card * { position: relative; z-index: 2; }
+
+
+/* --------------------------------------------------------------------------
+   VARIAN 3: KARTU MAHASISWA LG (Efek Lava Lamp & Gradasi)
+   -------------------------------------------------------------------------- */
+.matkul-card-lg {
+    flex: 1 1 300px; max-width: 350px; min-height: 220px;
+    background: white; border-radius: 15px; display: flex;
+    flex-direction: column; overflow: hidden; border: 1px solid #e2e8f0;
+    position: relative; transition: transform 0.2s; text-decoration: none;
+}
+.matkul-card-lg:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+
+/* Konten Kartu LG */
+.matkul-content { 
+    position: relative; z-index: 2; padding: 20px;
+    display: flex; flex-direction: column; align-items: flex-end; 
+    text-align: right; height: 100%;
+}
+.judul-matkul { font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
+.see-detail { font-size: 0.9rem; font-weight: 600; color: #475569; margin: 0; }
+.info-details { font-size: 0.8rem; color: #64748b; line-height: 1.8; }
+.info-details p { display: flex; flex-direction: row-reverse; gap: 8px; margin: 0; }
+.matkul-content .mt-3 { margin-top: auto !important; }
+.badge { display: inline-block; padding: 0.5em 0.75em; font-size: 0.7rem; }
+
+/* Lava Blob Animasi (Mahasiswa LG) */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes liquidLava {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 70% 70% 40% / 50% 60% 30% 60%; }
+}
+.blob-hiasan-lg {
+    position: absolute; top: -50px; right: -50px;
+    width: 150px; height: 150px; z-index: 0; overflow: hidden;
+    animation: liquidLava 6s ease-in-out infinite;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-origin: center center;
+}
+.blob-hiasan-lg::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: block; background: var(--bg-gradasi); background-size: 300% 300%;
+    animation: gradientMove 8s ease infinite;
+}
+.matkul-card-lg:hover .blob-hiasan-lg { transform: scale(8); border-radius: 16px; }
+
+/* LG Card Hover Teks Effect */
+.matkul-card-lg .info-details p, .matkul-card-lg .info-details i, .matkul-card-lg .badge {
+    transition: all 0.3s ease-in-out;
+}
+.matkul-card-lg:hover .info-details p, .matkul-card-lg:hover .info-details i { color: #ffffff !important; }
+.matkul-card-lg:hover .badge {
+    background-color: #ffffff !important; color: #7E52E8 !important; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+}

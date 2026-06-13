@@ -1,0 +1,54 @@
+/* ==========================================================================
+   BUTTON COMPONENT
+   ========================================================================== */
+.btn-submit {
+    background-color: var(--color-pink, #EC4899);
+    color: #fff; border: none; padding: 10px 40px; border-radius: 20px;
+    font-size: 14px; font-weight: bold; cursor: pointer;
+    display: block; margin: 35px auto 0; transition: 0.2s;
+}
+.btn-submit:hover { background-color: #be185d; }
+
+/* Floating Action Button (Tombol Plus Melayang) */
+.fab { 
+    position: fixed; bottom: 40px; right: 40px; 
+    width: 55px; height: 55px; color: white; border-radius: 12px; 
+    display: flex; justify-content: center; align-items: center; 
+    font-size: 24px; box-shadow: 0 4px 10px rgba(0, 136, 255, 0.4); 
+    cursor: pointer; border: none; transition: 0.2s;
+    background-color: var(--color-blue, #4F46E5); 
+}
+.fab:hover { background-color: #3730a3; transform: translateY(-3px); }
+
+/* ==========================================================================
+   TOMBOL BACK (FIXED POSITION - ANTI BUGGY)
+   ========================================================================== */
+.btn-back {
+    /* POSISI TETAP (FIXED) */
+    position: fixed !important; 
+    bottom: 30px !important; 
+    left: 140px !important; /* 100px (lebar sidebar) + 40px (jarak aman) */
+    
+    /* STYLING */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 50px !important;
+    height: 50px !important;
+    background-color: #3e4c59 !important; 
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    text-decoration: none !important;
+    
+    /* Z-INDEX TERTINGGI AGAR TIDAK TERTUTUP APAPUN */
+    z-index: 9999 !important; 
+    
+    /* EFEK VISUAL */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.btn-back:hover {
+    background-color: #2b3640 !important;
+    transform: scale(1.1) !important; /* Efek membesar saat disentuh */
+}

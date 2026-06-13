@@ -1,29 +1,3 @@
-:root {
-    --color-blue: #4F46E5;    /* Biru Indigo */
-    --color-purple: #8B5CF6;  /* Ungu */
-    --color-pink: #EC4899;    /* Merah Muda */
-    --color-light: #F8FAFC;   /* Putih Abu-abu (Background) */
-    --color-dark: #1E293B;    /* Navy Gelap (Teks & Sidebar) */
-    
-    --font-heading: 'Poppins', sans-serif;
-    --font-body: 'Inter', sans-serif;
-}
-
-/* Reset Dasar */
-* { 
-    margin: 0; padding: 0; box-sizing: border-box; 
-    font-family: var(--font-body); 
-}
-body { 
-    display: flex; height: 100vh; 
-    background-color: var(--color-light); 
-    color: var(--color-dark);
-    overflow: hidden; 
-}
-h1, h2, h3, .card-title, .page-title, .greeting {
-    font-family: var(--font-heading);
-}
-
 /* Sidebar Kiri */
 .sidebar { 
     width: 80px; 
