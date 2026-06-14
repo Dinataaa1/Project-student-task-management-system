@@ -1,50 +1,18 @@
 <?php
 require_once '../../../../controllers/admin/detail_tugas_controler.php';
+
+$active_page = 'tugas_detail';
+$jalur_css   = "../../../assets/css/index.css";
+include '../../../components/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Tugas & Penilaian</title>
+<link rel="stylesheet" href="../../../assets/css/pages/admin/detail_tugas.css">
 
-    <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
+<div class="dashboard-wrapper">
+    <?php include '../../../components/sidebar.php'; ?>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../../assets/css/pages/admin/detail_tugas.css?v=3">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-
-<body>
-    <div class="sidebar">
-        <div class="profile-area">
-            <?php
-                $nama_parts = explode(' ', $nama_dosen);
-                $nama_depan = $nama_parts[0];
-
-                $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($nama_dosen) . "&background=4F46E5&color=fff&bold=true";
-            ?>
-            <img src="<?= $avatar_url ?>" alt="Profile">
-            <p><?= htmlspecialchars($nama_depan) ?></p>
-        </div>
-        <div class="nav-menu">
-            <a href="../dashboard.php" class="nav-item"><i class="fa-solid fa-house"></i></a>
-            <a href="detail.php" class="nav-item active"><i class="fa-solid fa-address-card"></i></a>
-            <a href="../setting.php" class="nav-item"><i class="fa-solid fa-gear"></i></a>
-            
-            <a href="../../../../controllers/logout.php" class="nav-item logout-btn" onclick="return confirm('Apakah Anda yakin ingin keluar dari aplikasi?');">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            </a>
-        </div>
-    </div>
     <div class="main-content">
-        <div class="header">
-            <h1>LOL</h1>
-        </div>
+        <?php include '../../../components/topbar.php'; ?>
 
         <div class="content-area">
             <?php if (!empty($pesan_error)): ?>

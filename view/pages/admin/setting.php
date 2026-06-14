@@ -1,48 +1,19 @@
 <?php
 require_once '../../../controllers/admin/setting_controler.php';
+
+$active_page = 'setting';
+$jalur_css   = "../../assets/css/index.css";
+include '../../components/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengaturan Profil Dosen</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/pages/admin/setting.css?v=2">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+<link rel="stylesheet" href="../../assets/css/pages/admin/setting.css">
 
 <body>
-    <div class="sidebar">
-        <div class="profile-area">
-            <?php
-                $nama_sidebar = $nama_dosen ?? $profil['nama_dosen'] ?? 'Dosen';
-                $nama_parts = explode(' ', $nama_sidebar);
-                $nama_depan = $nama_parts[0];
-                $avatar_url = "https://ui-avatars.com/api/?name=" . urlencode($nama_sidebar) . "&background=4F46E5&color=fff&bold=true";
-            ?>
-            <img src="<?= $avatar_url ?>" alt="Profile">
-            <p><?= htmlspecialchars($nama_depan) ?></p>
-        </div>
-        
-        <div class="nav-menu">
-            <a href="dashboard.php" class="nav-item"><i class="fa-solid fa-house"></i></a>
-            <a href="tugas/detail.php" class="nav-item"><i class="fa-solid fa-address-card"></i></a>
-            <a href="setting.php" class="nav-item active"><i class="fa-solid fa-gear"></i></a>
-            <a href="../../../controllers/logout.php" class="nav-item logout-btn" onclick="return confirm('Apakah Anda yakin ingin keluar dari aplikasi?');">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            </a>
-        </div>
-    </div>
-
+    <div class="dashboard-wrapper">
+    <?php include '../../components/sidebar.php'; ?>
+    
     <div class="main-content">
-        <div class="header">
-            <h1>LOL</h1>
-        </div>
+        <?php include '../../components/topbar.php'; ?>
 
         <div class="content-area">
             <?php if (!empty($pesan_error)): ?>
