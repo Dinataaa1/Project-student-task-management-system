@@ -13,6 +13,9 @@ $active_page = 'tugas';
 $jalur_css = "../../assets/css/index.css";
 include '../../components/header.php';
 
+?>
+<link rel="stylesheet" href="../../assets/css/pages/mahasiswa/daftar_tugas.css">
+<?php
 // 3. Logika Filter Matkul
 $selected_matkul = isset($_GET['matkul_id']) ? (int)$_GET['matkul_id'] : 0;
 $nama_matkul_aktif = "Semua Mata Kuliah";
@@ -55,7 +58,7 @@ $daftar_tugas = mysqli_fetch_all($result_tugas, MYSQLI_ASSOC);
                     <select name="filter_matkul" class="form-select" onchange="window.location.href='daftar_tugas.php?matkul_id='+this.value">
                         <option value="0">Semua Mata Kuliah</option>
                         <?php
-                        // Ambil daftar matkul yang HANYA diambil mahasiswa tersebut
+                        // Ambil daftar matkul flex: 1 1 300px; max-width: 350px; min-height: 220px;yang HANYA diambil mahasiswa tersebut
                         $query_matkul_user = "SELECT mk.id, mk.nama_matkul FROM mata_kuliah mk 
                                               JOIN krs k ON mk.id = k.mata_kuliah_id 
                                               WHERE k.mahasiswa_id = '$mahasiswa_id'";

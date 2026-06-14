@@ -1,15 +1,9 @@
-/* ==========================================================================
-   INDEX.CSS - PUSAT KOMANDO CSS
-   Urutan impor ini krusial agar gaya CSS tidak saling menimpa secara keliru.
-   ========================================================================== */
-
-/* 1. LAYER BASE (Variabel & Reset) */
 @import 'components/base.css';
 
-/* 2. LAYER LAYOUT (Struktur Utama) */
+/* 2. LAYER LAYOUT (Struktur Inti Layar) */
 @import 'components/layout.css';
 
-/* 3. LAYER COMPONENTS (Elemen yang digunakan berulang) */
+/* 3. LAYER COMPONENTS (Elemen UI yang Digunakan Berulang) */
 @import 'components/sidebar.css';
 @import 'components/topbar.css';
 @import 'components/button.css';
@@ -20,16 +14,5 @@
 @import 'components/blob.css';
 @import 'components/profile.css';
 
-/* 4. LAYER PAGES (Styling spesifik per halaman) */
-/* Admin */
-@import 'pages/admin/dashboard.css';
-@import 'pages/admin/detail.css';
-@import 'pages/admin/detail_tugas.css';
-@import 'pages/admin/setting.css';
-
-/* Mahasiswa */
-@import 'pages/mahasiswa/dashboard.css';
-@import 'pages/mahasiswa/daftar_matkul.css';
-@import 'pages/mahasiswa/daftar_tugas.css';
-@import 'pages/mahasiswa/detail_tugas.css';
-@import 'pages/mahasiswa/pengaturan.css';
+/* 4. LAYER AUTHENTICATION */
+@import 'auth/login.css';

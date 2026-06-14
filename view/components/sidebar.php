@@ -7,7 +7,7 @@ $pecah_nama = explode(' ', trim($nama_lengkap));
 $nama_depan = $pecah_nama[0];
 ?>
 
-<div class="sidebar">
+<div class="sidebar sidebar-mini">
 
     <div class="sidebar-menu-top">
         <img src="https://ui-avatars.com/api/?name=<?= urlencode($nama_lengkap) ?>&background=random&rounded=true" alt="Profile">

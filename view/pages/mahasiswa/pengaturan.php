@@ -6,6 +6,8 @@ $active_page = 'pengaturan';
 include '../../components/header.php';
 ?>
 
+<link rel="stylesheet" href="../../assets/css/pages/mahasiswa/pengaturan.css">
+
 <div class="dashboard-wrapper">
     
     <!-- Panggil Sidebar -->

@@ -83,7 +83,9 @@
    VARIAN 3: KARTU MAHASISWA LG (Efek Lava Lamp & Gradasi)
    -------------------------------------------------------------------------- */
 .matkul-card-lg {
-    flex: 1 1 300px; max-width: 350px; min-height: 220px;
+    min-width: 320px; 
+    max-width: 350px; 
+    min-height: 220px;
     background: white; border-radius: 15px; display: flex;
     flex-direction: column; overflow: hidden; border: 1px solid #e2e8f0;
     position: relative; transition: transform 0.2s; text-decoration: none;

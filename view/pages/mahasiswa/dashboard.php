@@ -7,16 +7,20 @@ $active_page = 'dashboard';
 include '../../components/header.php';
 ?>
 
+<link rel="stylesheet" href="../../assets/css/pages/mahasiswa/dashboard.css">
+
 <div class="dashboard-wrapper">
+
     <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+    
     <?php include '../../components/sidebar.php'; ?>
+    
     <div class="main-content">
         <?php include '../../components/topbar.php'; ?>
 
         <div class="content-area">
             <h4 class="fw-bold mb-4">Hai, <?= htmlspecialchars($nama_user ?? 'Mahasiswa') ?></h4>
 
-            <!-- DAFTAR MATA KULIAH (HORIZONTAL SCROLL) -->
             <div class="scroll-container" id="matkulSlider">
                 <?php if (!empty($data_matkul)) :
                     foreach ($data_matkul as $matkul) :
@@ -27,27 +31,24 @@ include '../../components/header.php';
                         // Randomisasi Animasi Blob
                         $delay = -rand(0, 10);
                 ?>
-                        <a href="daftar_tugas.php?matkul_id=<?= htmlspecialchars($matkul['id']) ?>" class="matkul-card-lg" style="margin-bottom: 10px;">
+                        <a href="daftar_tugas.php?matkul_id=<?= htmlspecialchars($matkul['id']) ?>" class="matkul-card-lg">
                             <div class="blob-hiasan-lg" style="--bg-gradasi: <?= $gradient ?>; animation-delay: <?= $delay ?>s;"></div>
 
-                            <div class="matkul-content" style="padding: 15px; display: flex; flex-direction: column; height: 100%;">
-
-                                <!-- Bagian atas kartu (Judul & Info) -->
-                                <div style="flex: 1;">
-                                    <h3 class="judul-matkul mb-3" style="font-size: 1.1rem; font-weight: 700;">
+                            <div class="matkul-content">
+                                <div>
+                                    <h3 class="judul-matkul mb-3">
                                         <?= htmlspecialchars($matkul['nama_matkul']) ?>
                                     </h3>
 
-                                    <div class="info-details" style="font-size: 0.75rem; color: #475569; line-height: 1.6;">
+                                    <div class="info-details">
                                         <p class="mb-1"><i class="fas fa-chalkboard-teacher"></i> <?= htmlspecialchars($matkul['nama_dosen']) ?></p>
                                         <p class="mb-1"><i class="fas fa-door-open"></i> Ruang: <?= htmlspecialchars($matkul['ruangan']) ?></p>
                                         <p class="mb-1"><i class="fas fa-calendar-alt"></i> <?= htmlspecialchars($matkul['jadwal']) ?></p>
                                     </div>
                                 </div>
 
-                                <!-- Badge (Ini akan selalu menempel di bawah karena margin-top: auto) -->
-                                <div class="mt-3" style="margin-top: auto;">
-                                    <span class="badge bg-primary" style="font-size: 0.7rem;">
+                                <div class="mt-3">
+                                    <span class="badge bg-primary">
                                         <?= $matkul['total_tugas'] ?> Tugas Aktif
                                     </span>
                                 </div>
@@ -59,8 +60,7 @@ include '../../components/header.php';
                 <?php endif; ?>
             </div>
 
-            <!-- KALENDER -->
-            <div class="calendar-widget" style="margin-top: 10px;">
+            <div class="calendar-widget">
 
                 <?php
                 // Logika Random Gradasi untuk Kalender
@@ -70,10 +70,10 @@ include '../../components/header.php';
                 $cal_delay = -rand(0, 10);
                 ?>
 
-                <div class="cal-left" style="position: relative; overflow: hidden;">
+                <div class="cal-left">
                     <div class="blob-hiasan-cal" style="--bg-gradasi: <?= $cal_gradient ?>; animation-delay: <?= $cal_delay ?>s;"></div>
 
-                    <div class="cal-left-content" style="position: relative; z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column;">
+                    <div class="cal-left-content">
                         <svg class="cal-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
                             <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                         </svg>
@@ -95,7 +95,7 @@ include '../../components/header.php';
                         <span id="displayBulanTahun"></span>
                         <span id="btnNext">&gt;</span>
                     </div>
-                    <div class="cal-grid" style="border-bottom: none; border-left: none;">
+                    <div class="cal-grid">
                         <div class="cal-cell-header text-sun">SUN</div>
                         <div class="cal-cell-header text-dark">MON</div>
                         <div class="cal-cell-header text-dark">TUE</div>

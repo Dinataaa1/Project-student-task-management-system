@@ -1,55 +1,50 @@
-/* ==========================================================================
+/* ==============================================================
    LAYOUT.CSS (Kerangka Utama Aplikasi)
-   Tugas: Mengatur pembagian area layar (Grid/Flex Global)
-   ========================================================================== */
+   Tugas: Mengatur pembagian area layar (Kiri & Rokan).
+   ============================================================== */
 
-/* 1. Pengaturan Dasar Halaman */
+/* 1. Pengaturan Dasar Halaman (Agar tinggi penuh layar) */
 html, body {
-    margin: 0; 
-    padding: 0; 
-    width: 100%; 
-    height: 100vh;
-    background-color: #f8f9fa; 
-    overflow-x: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-/* 2. Pembungkus Utama (Wajib ada agar Sidebar dan Konten bersebelahan rapi) */
+/* 2. Pembungkus Utama (The Flex Container)
+   Ini adalah KUNCI agar sidebar dan main-content bersebelahan.
+   Pastikan Anda menggunakannya di HTML: <div class="dashboard-wrapper">
+*/
 .dashboard-wrapper {
-    display: flex;
+    display: flex; /* Mengubah tata letak menjadi baris (horizontal) */
     width: 100%;
-    min-height: 100vh;
+    min-height: 100vh; /* Tinggi minimal satu layar penuh */
 }
 
-/* 3. Area Konten Sebelah Kanan (Menyesuaikan lebar sidebar) */
+/* 3. Definisi Sidebar (Kolom Kiri)
+   Di layout.css kita HANYA mengatur tata letak dan lebarnya saja.
+   Warna/Desain diatur di sidebar.css.
+*/
+.sidebar {
+    width: 260px; /* Lebar Sidebar fixed */
+    flex-shrink: 0; /* Jangan biarkan mengecil jika konten utama lebar */
+    min-height: 100vh; /* Tinggi penuh */
+}
+
+.sidebar.sidebar-mini {
+    width: 80px; 
+}
+
+/* 4. Definisi Area Konten Utama (Kolom Kanan) */
 .main-content {
-    margin-left: 80px; 
-    width: calc(100% - 80px);
-    min-height: 100vh;
-    display: flex; 
-    flex-direction: column;
-    background-color: #f8f9fa;
+    flex: 1; /* Mengisi sisa ruang horizontal yang ada di wrapper */
+    display: flex;
+    flex-direction: column; /* Stacking vertikal internal: Topbar atas, Konten bawah */
+    background-color: #f8f9fa; /* Warna background default */
+    min-width: 0; /* Mencegah overflow jika ada konten lebar */
 }
 
-/* 4. Area Dalam Konten (Memberi ruang nafas/padding) */
-.content-area { 
-    padding: 30px 40px; 
+/* 5. Area Dalam Konten (Memberi ruang nafas/padding) */
+.content-area {
+    padding: 30px 40px; /* Jarak antara konten dan tepi layar */
     flex-grow: 1; /* Mendorong footer ke bawah jika konten sedikit */
 }
-
-/* 5. Transisi & Animasi Halaman Global */
-@keyframes slideInUp { 
-    0% { transform: translateY(40px); opacity: 0; } 
-    100% { transform: translateY(0); opacity: 1; } 
-}
-@keyframes slideInDown { 
-    0% { transform: translateY(-40px); opacity: 0; } 
-    100% { transform: translateY(0); opacity: 1; } 
-}
-@keyframes slideOutToLeft {
-    0% { transform: translateX(0); opacity: 1; }
-    100% { transform: translateX(-100%); opacity: 0; }
-}
-
-.anim-slide-in-up { animation: slideInUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
-.anim-slide-in-down { animation: slideInDown 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
-.page-slide-out { animation: slideOutToLeft 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
